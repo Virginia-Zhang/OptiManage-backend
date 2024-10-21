@@ -36,38 +36,38 @@ public class LoginServiceImpl implements LoginService {
         UsernamePasswordAuthenticationToken authenticationToken = UsernamePasswordAuthenticationToken.unauthenticated(loginAct, loginPwd);
 
         try {
-            // 调用AuthenticationManager的authenticate方法，开始认证
+            // Call the authenticate method of authentication manager to start authentication.
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             if (authentication.isAuthenticated()) {
-                // 认证成功，返回成功数据，并把authentication对象保存到安全上下文对象中，以供后面的过滤器使用
+                // If the authentication is successful, success data is returned, and the authentication object is saved in the security context object for use by subsequent filters.
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 /**
-                 * 完善认证成功之后的逻辑
-                 * 获取认证用户信息，封装到token中，返回给前端
-                 * 把认证用户信息保存到redis
+                 *Add the logic after successful authentication
+                 *Obtain the authenticated user information, put it into a token, and return it to the front end
+                 *Save authenticated user information to redis
                  */
-                // 获取认证用户信息
+                // Get authenticated user information
                 Object principal = authentication.getPrincipal();
                 MyUserDetails userDetails = (MyUserDetails) principal;
-                // 从userDetails中拿到userId，等会放到redis的key中
+                // Get the user id from user details and put it into the redis key later.
                 Integer userId = userDetails.getUser().getId();
-                // 创建HashMap对象，存入userDetails对象，再把Map对象存入到token中
+                // Create a hash map object, store it in the user details object, and then store the map object in the token.
                 Map<String, Object> payload = new HashMap<>();
                 payload.put("user", userDetails);
-                // 生成token，传入payload。如果选择了记住我，过期时间是7天，否则是30分钟
+                // Generate token and pass in payload. If Remember Me is selected, the expiration time is 7 days, otherwise it is 30 minutes
                 String token = JWTUtils.generateToken(payload, rememberMe ? Constants.EXPIRE_TIME : Constants.DEFAULT_EXPIRE_TIME);
-                // 把token存入redis，key是crm:user:login:userId，value是token
+                // Store the token in redis, the key is crm:user:login:user id, and the value is token
                 RedisUtils.setValue(Constants.REDIS_JWT_KEY + userId, token);
-                // 给redis设置过期时间
+                // Set expiration time for redis
                 RedisUtils.expire(Constants.REDIS_JWT_KEY + userId, rememberMe ? Constants.EXPIRE_TIME : Constants.DEFAULT_EXPIRE_TIME, TimeUnit.MILLISECONDS);
 
-                // 向前端返回数据，包含token
+                // Return data to the front end, including token
                 return R.SUCCESS(token);
             }
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("authentication failed");
         }
-        // 认证失败，返回失败数据
+        // Authentication failed, failure data returned
         return R.FAIL("Login failed!");
     }
 }

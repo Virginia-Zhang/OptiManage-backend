@@ -4,51 +4,51 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
-    * 交易跟踪记录表
+    *Transaction tracking record sheet
     */
 public class TranRemark implements Serializable {
     /**
-    * 主键，自动增长，交易备注ID
+    *Primary key, automatic growth, transaction note ID
     */
     private Integer id;
 
     /**
-    * 交易ID
+    *Transaction ID
     */
     private Integer tranId;
 
     /**
-    * 跟踪方式
+    *Tracking method
     */
     private Integer noteWay;
 
     /**
-    * 跟踪内容
+    *Track content
     */
     private String noteContent;
 
     /**
-    * 跟踪时间
+    *Track time
     */
     private Date createTime;
 
     /**
-    * 跟踪人
+    *Stalking people
     */
     private Integer createBy;
 
     /**
-    * 编辑时间
+    *Editing time
     */
     private Date editTime;
 
     /**
-    * 编辑人
+    *Editor
     */
     private Integer editBy;
 
     /**
-    * 删除状态（0正常，1删除）
+    *Deletion status (0 normal, 1 deleted)
     */
     private Integer deleted;
 

@@ -26,7 +26,7 @@ public class JWTUtils {
     public static Claims parseToken(String token) {
         try {
             return Jwts.parserBuilder()
-                    .setSigningKey(SECRET_KEY)  // 设置签名密钥
+                    .setSigningKey(SECRET_KEY)
                     .build()
                     .parseClaimsJws(token)
                     .getBody();

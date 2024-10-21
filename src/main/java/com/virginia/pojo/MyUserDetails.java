@@ -18,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 // overwrite UserDetails
+
 public class MyUserDetails implements UserDetails {
     private User user;
 
@@ -26,6 +27,7 @@ public class MyUserDetails implements UserDetails {
     private List<String> permissionList;
 
     // merge roleList and permissionList and then return
+
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {

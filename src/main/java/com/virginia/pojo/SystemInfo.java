@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
-    * 系统信息表
+    *System information table
     */
 public class SystemInfo implements Serializable {
     private Integer id;

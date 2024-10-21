@@ -4,46 +4,46 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
-    * 市场活动备注表
+    *Marketing Activity Remarks Form
     */
 public class ActivityRemark implements Serializable {
     /**
-    * 主键，自动增长，活动备注ID
+    *Primary key, automatic growth, activity note ID
     */
     private Integer id;
 
     /**
-    * 活动ID
+    *Activity ID
     */
     private Integer activityId;
 
     /**
-    * 备注内容
+    *Remarks
     */
     private String noteContent;
 
     /**
-    * 备注创建时间
+    *Note creation time
     */
     private Date createTime;
 
     /**
-    * 备注创建人
+    *Note creator
     */
     private Integer createBy;
 
     /**
-    * 备注编辑时间
+    *Note editing time
     */
     private Date editTime;
 
     /**
-    * 备注编辑人
+    *Notes editor
     */
     private Integer editBy;
 
     /**
-    * 删除状态（0正常，1删除）
+    *Deletion status (0 normal, 1 deleted)
     */
     private Integer deleted;
 

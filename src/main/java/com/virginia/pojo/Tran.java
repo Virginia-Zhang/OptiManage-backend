@@ -5,66 +5,66 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
-    * 交易表
+    *Transaction table
     */
 public class Tran implements Serializable {
     /**
-    * 主键，自动增长，交易ID
+    *Primary key, automatic growth, transaction ID
     */
     private Integer id;
 
     /**
-    * 交易流水号
+    *Transaction serial number
     */
     private String tranNo;
 
     /**
-    * 客户ID
+    *Customer ID
     */
     private Integer customerId;
 
     /**
-    * 交易金额
+    *Transaction amount
     */
     private BigDecimal money;
 
     /**
-    * 预计成交日期
+    *Estimated transaction date
     */
     private Date expectedDate;
 
     /**
-    * 交易所处阶段
+    *Exchange stage
     */
     private Integer stage;
 
     /**
-    * 交易描述
+    *Transaction description
     */
     private String description;
 
     /**
-    * 下次联系时间
+    *Next contact time
     */
     private Date nextContactTime;
 
     /**
-    * 创建时间
+    *Creation time
     */
     private Date createTime;
 
     /**
-    * 创建人
+    *Creator
     */
     private Integer createBy;
 
     /**
-    * 编辑时间
+    *Editing time
     */
     private Date editTime;
 
     /**
-    * 编辑人
+    *Editor
     */
     private Integer editBy;
 

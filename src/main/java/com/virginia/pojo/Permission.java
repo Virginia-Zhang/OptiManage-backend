@@ -3,7 +3,7 @@ package com.virginia.pojo;
 import java.io.Serializable;
 
 /**
-    * 权限表
+    *Permission table
     */
 public class Permission implements Serializable {
     private Integer id;

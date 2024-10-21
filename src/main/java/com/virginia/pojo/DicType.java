@@ -3,26 +3,26 @@ package com.virginia.pojo;
 import java.io.Serializable;
 
 /**
-    * 字典类型表
+    *Dictionary type table
     */
 public class DicType implements Serializable {
     /**
-    * 主键，自动增长，字典类型ID
+    *Primary key, automatic growth, dictionary type ID
     */
     private Integer id;
 
     /**
-    * 字典类型代码
+    *Dictionary type code
     */
     private String typeCode;
 
     /**
-    * 字典类型名称
+    *Dictionary type name
     */
     private String typeName;
 
     /**
-    * 备注
+    *Remark
     */
     private String remark;
 

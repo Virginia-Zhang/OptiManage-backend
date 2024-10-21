@@ -4,81 +4,81 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
-    * 用户表
+    *User table
     */
 public class User implements Serializable {
     /**
-    * 主键，自动增长，用户ID
+    *Primary key, automatic growth, user ID
     */
     private Integer id;
 
     /**
-    * 登录账号
+    *Login account
     */
     private String loginAct;
 
     /**
-    * 登录密码
+    *Login password
     */
     private String loginPwd;
 
     /**
-    * 用户姓名
+    *User name
     */
     private String name;
 
     /**
-    * 用户手机
+    *User mobile phone
     */
     private String phone;
 
     /**
-    * 用户邮箱
+    *User email
     */
     private String email;
 
     /**
-    * 账户是否没有过期，0已过期 1正常
+    *Whether the account has not expired, 0 has expired, 1 is normal
     */
     private Integer accountNoExpired;
 
     /**
-    * 密码是否没有过期，0已过期 1正常
+    *Whether the password has not expired, 0 has expired, 1 is normal
     */
     private Integer credentialsNoExpired;
 
     /**
-    * 账号是否没有锁定，0已锁定 1正常
+    *Whether the account is not locked, 0 is locked, 1 is normal
     */
     private Integer accountNoLocked;
 
     /**
-    * 账号是否启用，0禁用 1启用
+    *Whether the account is enabled, 0 is disabled, 1 is enabled
     */
     private Integer accountEnabled;
 
     /**
-    * 创建时间
+    *Creation time
     */
     private Date createTime;
 
     /**
-    * 创建人
+    *Creator
     */
     private Integer createBy;
 
     /**
-    * 编辑时间
+    *Editing time
     */
     private Date editTime;
 
     /**
-    * 编辑人
+    *Editor
     */
     private Integer editBy;
 
     /**
-    * 最近登录时间
+    *Last login time
     */
     private Date lastLoginTime;
 

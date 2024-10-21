@@ -4,51 +4,51 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
-    * 客户表
+    *Customer table
     */
 public class Customer implements Serializable {
     /**
-    * 主键，自动增长，客户ID
+    *Primary key, automatic growth, customer ID
     */
     private Integer id;
 
     /**
-    * 线索ID
+    *Lead ID
     */
     private Integer clueId;
 
     /**
-    * 选购产品
+    *Shop products
     */
     private Integer product;
 
     /**
-    * 客户描述
+    *Customer description
     */
     private String description;
 
     /**
-    * 下次联系时间
+    *Next contact time
     */
     private Date nextContactTime;
 
     /**
-    * 创建时间
+    *Creation time
     */
     private Date createTime;
 
     /**
-    * 创建人
+    *Creator
     */
     private Integer createBy;
 
     /**
-    * 编辑时间
+    *Editing time
     */
     private Date editTime;
 
     /**
-    * 编辑人
+    *Editor
     */
     private Integer editBy;
 

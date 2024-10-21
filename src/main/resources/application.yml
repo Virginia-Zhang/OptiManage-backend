@@ -28,7 +28,6 @@ spring:
 
 mybatis:
   configuration:
-    #??????sql??
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 #project:

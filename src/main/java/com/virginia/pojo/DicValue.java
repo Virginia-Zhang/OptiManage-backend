@@ -3,31 +3,31 @@ package com.virginia.pojo;
 import java.io.Serializable;
 
 /**
-    * 字典值表
+    *Dictionary value table
     */
 public class DicValue implements Serializable {
     /**
-    * 主键，自动增长，字典值ID
+    *Primary key, automatic growth, dictionary value ID
     */
     private Integer id;
 
     /**
-    * 字典类型代码
+    *Dictionary type code
     */
     private String typeCode;
 
     /**
-    * 字典值
+    *Dictionary value
     */
     private String typeValue;
 
     /**
-    * 字典值排序
+    *Dictionary value sorting
     */
     private Integer order;
 
     /**
-    * 备注
+    *Remark
     */
     private String remark;
 

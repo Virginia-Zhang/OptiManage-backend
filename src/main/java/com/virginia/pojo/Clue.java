@@ -5,126 +5,126 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
-    * 线索表
+    *Clue sheet
     */
 public class Clue implements Serializable {
     /**
-    * 主键，自动增长，线索ID
+    *Primary key, automatic growth, lead ID
     */
     private Integer id;
 
     /**
-    * 线索所属人ID
+    *ID of the clue owner
     */
     private Integer ownerId;
 
     /**
-    * 活动ID
+    *Activity ID
     */
     private Integer activityId;
 
     /**
-    * 姓名
+    *Name
     */
     private String fullName;
 
     /**
-    * 称呼
+    *title
     */
     private Integer appellation;
 
     /**
-    * 手机号
+    *Phone number
     */
     private String phone;
 
     /**
-    * 微信号
+    *WeChat ID
     */
     private String weixin;
 
     /**
-    * QQ号
+    *QQ number
     */
     private String qq;
 
     /**
-    * 邮箱
+    *Mail
     */
     private String email;
 
     /**
-    * 年龄
+    *age
     */
     private Integer age;
 
     /**
-    * 职业
+    *Profession
     */
     private String job;
 
     /**
-    * 年收入
+    *Annual income
     */
     private BigDecimal yearIncome;
 
     /**
-    * 地址
+    *address
     */
     private String address;
 
     /**
-    * 是否需要贷款（0不需要，1需要）
+    *Whether you need a loan (0 not required, 1 required)
     */
     private Integer needLoan;
 
     /**
-    * 意向状态
+    *Intentional state
     */
     private Integer intentionState;
 
     /**
-    * 意向产品
+    *Intentional product
     */
     private Integer intentionProduct;
 
     /**
-    * 线索状态
+    *Lead status
     */
     private Integer state;
 
     /**
-    * 线索来源
+    *Source of clues
     */
     private Integer source;
 
     /**
-    * 线索描述
+    *Clue description
     */
     private String description;
 
     /**
-    * 下次联系时间
+    *Next contact time
     */
     private Date nextContactTime;
 
     /**
-    * 创建时间
+    *Creation time
     */
     private Date createTime;
 
     /**
-    * 创建人
+    *Creator
     */
     private Integer createBy;
 
     /**
-    * 编辑时间
+    *Editing time
     */
     private Date editTime;
 
     /**
-    * 编辑人
+    *Editor
     */
     private Integer editBy;
 

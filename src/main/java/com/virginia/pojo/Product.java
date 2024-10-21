@@ -5,56 +5,56 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
-    * 产品表
+    *Product list
     */
 public class Product implements Serializable {
     /**
-    * 主键，自动增长，线索ID
+    *Primary key, automatic growth, lead ID
     */
     private Integer id;
 
     /**
-    * 产品名称
+    *product name
     */
     private String name;
 
     /**
-    * 官方指导起始价
+    *Official starting price
     */
     private BigDecimal guidePriceS;
 
     /**
-    * 官方指导最高价
+    *Officially guided maximum price
     */
     private BigDecimal guidePriceE;
 
     /**
-    * 经销商报价
+    *Dealer quotation
     */
     private BigDecimal quotation;
 
     /**
-    * 状态 0在售 1售罄
+    *Status 0 on sale 1 sold out
     */
     private Integer state;
 
     /**
-    * 创建时间
+    *Creation time
     */
     private Date createTime;
 
     /**
-    * 创建人
+    *Creator
     */
     private Integer createBy;
 
     /**
-    * 编辑时间
+    *Editing time
     */
     private Date editTime;
 
     /**
-    * 编辑人
+    *Editor
     */
     private Integer editBy;
 

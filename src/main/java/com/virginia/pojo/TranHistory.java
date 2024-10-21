@@ -5,41 +5,41 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
-    * 交易历史记录表
+    *Transaction history table
     */
 public class TranHistory implements Serializable {
     /**
-    * 主键，自动增长，交易记录ID
+    *Primary key, automatic growth, transaction record ID
     */
     private Integer id;
 
     /**
-    * 交易ID
+    *Transaction ID
     */
     private Integer tranId;
 
     /**
-    * 交易阶段
+    *Transaction stage
     */
     private Integer stage;
 
     /**
-    * 交易金额
+    *Transaction amount
     */
     private BigDecimal money;
 
     /**
-    * 交易预计成交时间
+    *Estimated transaction completion time
     */
     private Date expectedDate;
 
     /**
-    * 创建时间
+    *Creation time
     */
     private Date createTime;
 
     /**
-    * 创建人
+    *Creator
     */
     private Integer createBy;
 

@@ -9,15 +9,15 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 public class RedisConfig {
-    // 对redis里的key ,value, hashKey, hashValue指定序列化方式，防止乱码情况的出现
+    // Specify the serialization method for key, value, hashKey, and hashValue in redis to prevent garbled characters.
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
-        // 设置连接工厂
+        // Set up connection factory
         template.setConnectionFactory(connectionFactory);
-        // key采用StringRedisSerializer类序列化
+        // Key is serialized using StringRedisSerializer
         template.setKeySerializer(new StringRedisSerializer());
-        // value采用GenericJackson2JsonRedisSerializer类序列化
+        // Value is serialized using GenericJackson2JsonRedisSerializer
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         template.setHashKeySerializer(new StringRedisSerializer());
         template.setHashValueSerializer(new StringRedisSerializer());

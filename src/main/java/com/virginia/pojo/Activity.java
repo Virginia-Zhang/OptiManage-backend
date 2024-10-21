@@ -5,61 +5,61 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
-    * 市场活动表
+    *Market activity table
     */
 public class Activity implements Serializable {
     /**
-    * 主键，自动增长，活动ID
+    *Primary key, automatic growth, activity ID
     */
     private Integer id;
 
     /**
-    * 活动所属人ID
+    *Activity owner ID
     */
     private Integer ownerId;
 
     /**
-    * 活动名称
+    *Activity name
     */
     private String name;
 
     /**
-    * 活动开始时间
+    *Activity start time
     */
     private Date startTime;
 
     /**
-    * 活动结束时间
+    *Event end time
     */
     private Date endTime;
 
     /**
-    * 活动预算
+    *Activity budget
     */
     private BigDecimal cost;
 
     /**
-    * 活动描述
+    *Activity description
     */
     private String description;
 
     /**
-    * 活动创建时间
+    *Event creation time
     */
     private Date createTime;
 
     /**
-    * 活动创建人
+    *Event creator
     */
     private Integer createBy;
 
     /**
-    * 活动编辑时间
+    *Event editing time
     */
     private Date editTime;
 
     /**
-    * 活动编辑人
+    *Event Editor
     */
     private Integer editBy;
 

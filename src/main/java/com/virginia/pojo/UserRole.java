@@ -3,7 +3,7 @@ package com.virginia.pojo;
 import java.io.Serializable;
 
 /**
-    * 用户角色关系表
+    *User role relationship table
     */
 public class UserRole implements Serializable {
     private Integer id;
