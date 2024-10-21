@@ -1,14 +1,12 @@
 package com.virginia.result;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 // code and message enum
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 public enum CodeEnum {
     SUCCESS(200, "success"),
 

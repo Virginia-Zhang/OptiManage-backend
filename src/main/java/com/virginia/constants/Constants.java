@@ -6,7 +6,7 @@ public class Constants {
     //The naming convention of redis key: project name: module name: function name: unique business parameter (such as user id)
     public static final String REDIS_JWT_KEY = "crm:user:login:";
 
-    //The redis key the owner
+    //The redis key of the owner
     public static final String REDIS_OWNER_KEY = "crm:user:owner";
 
     //Jwt expiration time: 7 days

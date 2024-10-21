@@ -65,7 +65,7 @@ public class LoginServiceImpl implements LoginService {
                 return R.SUCCESS(token);
             }
         } catch (AuthenticationException e) {
-            throw new BadCredentialsException("authentication failed");
+            e.printStackTrace();
         }
         // Authentication failed, failure data returned
         return R.FAIL("Login failed!");

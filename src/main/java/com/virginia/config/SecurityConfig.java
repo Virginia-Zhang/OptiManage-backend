@@ -31,7 +31,7 @@ public class SecurityConfig {
         return new ProviderManager(provider);
     }
 
-    // 指定PasswordEncoder
+    // Specify PasswordEncoder
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
