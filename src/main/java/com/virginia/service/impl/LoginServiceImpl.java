@@ -30,8 +30,6 @@ public class LoginServiceImpl implements LoginService {
         String loginPwd = loginQuery.getLoginPwd();
         Boolean rememberMe = loginQuery.getRememberMe();
 
-        System.out.println("loginPwd: "+loginPwd);
-
         UsernamePasswordAuthenticationToken authenticationToken = UsernamePasswordAuthenticationToken.unauthenticated(loginAct, loginPwd);
 
         try {
@@ -39,6 +37,7 @@ public class LoginServiceImpl implements LoginService {
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             if (authentication.isAuthenticated()) {
                 // If the authentication is successful, success data is returned, and the authentication object is saved in the security context object for use by subsequent filters.
+                System.out.println("loginService authentication: " + authentication);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 /**
                  *Add the logic after successful authentication
