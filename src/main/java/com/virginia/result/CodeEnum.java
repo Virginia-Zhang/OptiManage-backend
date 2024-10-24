@@ -14,7 +14,7 @@ public enum CodeEnum {
 
     TOKEN_IS_EMPTY(901, "token is empty"),
 
-    TOKEN_IS_WRONG(902, "token error"),
+    TOKEN_IS_INVALID(902, "token is invalid"),
 
     TOKEN_IS_EXPIRED(903, "token is expired"),
 

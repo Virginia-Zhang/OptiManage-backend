@@ -18,6 +18,8 @@ public class UserController {
     @GetMapping("/info")
     public R getUserInfo() {
         MyUserDetails userDetails = userServiceImpl.getUserInfo();
+        // 删除userDetails中user.loginPwd字段再返回给前端
+        userDetails.getUser().setLoginPwd(null);
         return R.SUCCESS(userDetails);
     }
 

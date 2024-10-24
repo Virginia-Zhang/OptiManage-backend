@@ -13,7 +13,6 @@ public class UserServiceImpl implements UserService {
     public MyUserDetails getUserInfo() {
         // 从SecurityContext中获取用户信息
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("userService authentication: " + authentication);
         if (authentication != null && authentication.getPrincipal() instanceof MyUserDetails) {
             return (MyUserDetails) authentication.getPrincipal();
         }

@@ -35,32 +35,38 @@ public class MyUserDetails implements UserDetails {
         return list;
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return user.getLoginPwd();
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
         return user.getLoginAct();
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return user.getAccountNoExpired() == 1;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return user.getAccountNoLocked() == 1;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return user.getCredentialsNoExpired() == 1;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return user.getAccountEnabled() == 1;
     }

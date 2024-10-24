@@ -1,5 +1,6 @@
 package com.virginia.service.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.virginia.constants.Constants;
 import com.virginia.pojo.MyUserDetails;
 import com.virginia.query.LoginQuery;
@@ -37,7 +38,6 @@ public class LoginServiceImpl implements LoginService {
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             if (authentication.isAuthenticated()) {
                 // If the authentication is successful, success data is returned, and the authentication object is saved in the security context object for use by subsequent filters.
-                System.out.println("loginService authentication: " + authentication);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 /**
                  *Add the logic after successful authentication
@@ -49,10 +49,12 @@ public class LoginServiceImpl implements LoginService {
                 MyUserDetails userDetails = (MyUserDetails) principal;
                 // Get the user id from user details and put it into the redis key later.
                 Integer userId = userDetails.getUser().getId();
-                // Create a hash map object, store it in the user details object, and then store the map object in the token.
+                // Create a hash map object, store the user details object into it, and then store the map object into the token.
                 Map<String, Object> payload = new HashMap<>();
-                payload.put("user", userDetails);
-                // Generate token and pass in payload. If Remember Me is selected, the expiration time is 7 days, otherwise it is 30 minutes
+                // Convert userDetails into JSON format
+                String userJSON = JSON.toJSONString(userDetails);
+                payload.put("user", userJSON);
+                // Generate token and pass payload in. If RememberMe is selected, the expiration time is 7 days, otherwise it is 30 minutes
                 String token = JWTUtils.generateToken(payload, rememberMe ? Constants.EXPIRE_TIME : Constants.DEFAULT_EXPIRE_TIME);
                 // Store the token in redis, the key is crm:user:login:user id, and the value is token
                 RedisUtils.setValue(Constants.REDIS_JWT_KEY + userId, token);

@@ -45,6 +45,7 @@ public class JWTUtils {
                     .getBody();
             return true;
         } catch (JwtException | IllegalArgumentException e) {
+            e.printStackTrace();
             return false;
         }
     }

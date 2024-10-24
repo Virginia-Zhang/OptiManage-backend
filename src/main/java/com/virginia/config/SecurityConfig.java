@@ -1,5 +1,6 @@
 package com.virginia.config;
 
+import com.virginia.filter.JWTAuthenticationFilter;
 import com.virginia.service.impl.MyUserDetailsService;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -19,6 +21,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
     @Resource
     private MyUserDetailsService myUserDetailsService;
+
+    @Resource
+    private JWTAuthenticationFilter jwtAuthenticationFilter;
 
     // Custom Authentication Manager
     @Bean
@@ -43,9 +48,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/login", "/api/user/info").permitAll()
                 .anyRequest().authenticated())
                 .formLogin(form->form.disable())
+                // 把JWT认证过滤器放到最后一个过滤器AuthorizationFilter前面
+                .addFilterBefore(jwtAuthenticationFilter, AuthorizationFilter.class)
                 .sessionManagement(session->session.disable())
                 .csrf(csrf->csrf.disable())
-                .cors(cors->cors.configurationSource(corsConfigurationSource()));
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .logout(logout -> logout.disable());
         return http.build();
     }
 
