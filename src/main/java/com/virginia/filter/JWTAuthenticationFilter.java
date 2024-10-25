@@ -23,52 +23,53 @@ import java.io.IOException;
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // 放行login接口
+        // Skip login interface
         if (request.getRequestURI().equals("/api/login")) {
             filterChain.doFilter(request, response);
             return;
         }
-        // 从请求头中获取token
+        // Get token from request header
         String auth = request.getHeader("Authorization");
-        // auth字段为空，返回token为空的结果
+        // The Auth field is empty and the result is that the token is empty.
+
         if (auth == null || !auth.startsWith("Bearer ")) {
             JSONUtils.print(R.FAIL(CodeEnum.TOKEN_IS_EMPTY), response);
             ;
             return;
         }
         String token = auth.split(" ")[1];
-        // token为空，返回token为空的结果
+        // If Token is empty, return the result.TOKEN_IS_EMPTY
         if (token == null || token.isEmpty()) {
             JSONUtils.print(R.FAIL(CodeEnum.TOKEN_IS_EMPTY), response);
             return;
         }
-        // token无效，返回token无效的结果
+        // Token is invalid, and the result of invalid token is returned.
         if (!JWTUtils.validateToken(token)) {
             JSONUtils.print(R.FAIL(CodeEnum.TOKEN_IS_INVALID), response);
             return;
         }
-        // 从token中解析出用户信息，拿到userId
+        // Parse the user information from the token and get the user id
         String userJSON = (String) JWTUtils.getClaimFromToken(token, "user");
-        // 把userJSON转为MyUSerDetails类型的对象
+        // Convert user json to MyUserDetails object
         MyUserDetails userDetails = JSON.parseObject(userJSON, MyUserDetails.class);
         Integer userId = userDetails.getUser().getId();
-        // 从redis中获取token
+        // Get token from redis
         String redisToken = (String) RedisUtils.getValue(Constants.REDIS_JWT_KEY + userId);
-        // redisToken不存在，返回token过期的结果
+        // Redis token does not exist, and the result of token expiration is returned.
         if (redisToken == null) {
             JSONUtils.print(R.FAIL(CodeEnum.TOKEN_IS_EXPIRED), response);
             return;
         }
-        // redisToken与token不一致，返回token不匹配的结果
+        // Redis token is inconsistent with token, and the result of token mismatch is returned.
         if (!redisToken.equals(token)) {
             JSONUtils.print(R.FAIL(CodeEnum.TOKEN_NOT_MATCH), response);
             return;
         }
-        // 校验通过，把用户信息放入SecurityContext中
+        // After the verification is passed, the user information is put into the security context.
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getUser().getLoginPwd(), userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-        // 放行
+        // release
         filterChain.doFilter(request, response);
     }
 }

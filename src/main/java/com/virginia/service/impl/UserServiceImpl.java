@@ -11,7 +11,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public MyUserDetails getUserInfo() {
-        // 从SecurityContext中获取用户信息
+        // Get user information from security context and return
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof MyUserDetails) {
             return (MyUserDetails) authentication.getPrincipal();

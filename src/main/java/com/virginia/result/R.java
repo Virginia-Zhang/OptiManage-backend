@@ -1,7 +1,6 @@
 package com.virginia.result;
 
 // encapsulating the result data returned to frontend
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

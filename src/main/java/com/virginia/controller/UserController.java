@@ -14,11 +14,12 @@ public class UserController {
     @Resource
     private UserServiceImpl userServiceImpl;
 
-    // 获取用户信息
+    // Get user information
+
     @GetMapping("/info")
     public R getUserInfo() {
         MyUserDetails userDetails = userServiceImpl.getUserInfo();
-        // 删除userDetails中user.loginPwd字段再返回给前端
+        // Delete the user.login pwd field in user details and return it to the front end
         userDetails.getUser().setLoginPwd(null);
         return R.SUCCESS(userDetails);
     }
