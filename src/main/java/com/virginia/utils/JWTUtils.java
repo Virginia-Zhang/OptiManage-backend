@@ -1,19 +1,23 @@
 package com.virginia.utils;
 
+import com.virginia.constants.Constants;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
+import java.security.Key;
 import java.util.Date;
 import java.util.Map;
 
 @Component
 public class JWTUtils {
-    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    // Generate jwt key
+    static String keyStr = Constants.SECRET_KEY;
+    private static final Key SECRET_KEY = Keys.hmacShaKeyFor(keyStr.getBytes());
 
+    // Generate token
     public static String generateToken(Map<String, Object> payload, long expirationTime) {
         return Jwts.builder()
                 .setClaims(payload)
@@ -23,6 +27,7 @@ public class JWTUtils {
                 .compact();
     }
 
+    // parse token
     public static Claims parseToken(String token) {
         try {
             return Jwts.parserBuilder()
@@ -36,6 +41,7 @@ public class JWTUtils {
         }
     }
 
+    // Verify token
     public static boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
@@ -50,6 +56,7 @@ public class JWTUtils {
         }
     }
 
+    // Obtain claim from token based on key
     public static Object getClaimFromToken(String token, String claimKey) {
         Claims claims = parseToken(token);
         return claims.get(claimKey);

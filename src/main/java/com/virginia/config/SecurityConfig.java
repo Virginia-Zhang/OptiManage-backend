@@ -26,17 +26,21 @@ public class SecurityConfig {
     private JWTAuthenticationFilter jwtAuthenticationFilter;
 
     // Custom Authentication Manager
+
     @Bean
     public AuthenticationManager authenticationManager() {
         // Create a new DaoAuthenticationProvider object, specifying userDetailsService and passwordEncoder
+
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(myUserDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
         // Create a new ProviderManager object, passing in the provider.
+
         return new ProviderManager(provider);
     }
 
     // Specify PasswordEncoder
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -45,10 +49,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth->auth
-                        .requestMatchers("/api/login", "/api/user/info").permitAll()
+                        .requestMatchers("/api/login").permitAll()
                 .anyRequest().authenticated())
                 .formLogin(form->form.disable())
-                // 把JWT认证过滤器放到最后一个过滤器AuthorizationFilter前面
+                // Put the jwt authentication filter before the last filter, authorization filter.
                 .addFilterBefore(jwtAuthenticationFilter, AuthorizationFilter.class)
                 .sessionManagement(session->session.disable())
                 .csrf(csrf->csrf.disable())
@@ -58,13 +62,15 @@ public class SecurityConfig {
     }
 
     // Global cors config source
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOrigin("http://localhost:5173");
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
-//        config.addExposedHeader("Authorization");
+//        Config.add exposed header("authorization");
+
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

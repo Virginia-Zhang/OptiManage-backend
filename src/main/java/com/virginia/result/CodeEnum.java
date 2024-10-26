@@ -6,7 +6,6 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public enum CodeEnum {
     SUCCESS(200, "success"),
 
@@ -31,6 +30,5 @@ public enum CodeEnum {
     private int code;
 
     // result message
-    @NonNull
     private String msg;
 }
