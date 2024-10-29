@@ -54,8 +54,8 @@ public class LoginServiceImpl implements LoginService {
                 // Convert userDetails into JSON format
                 String userJSON = JSON.toJSONString(userDetails);
                 payload.put("user", userJSON);
-                // Generate token and pass payload in. If RememberMe is selected, the expiration time is 7 days, otherwise it is 30 minutes
-                String token = JWTUtils.generateToken(payload, rememberMe ? Constants.EXPIRE_TIME : Constants.DEFAULT_EXPIRE_TIME);
+                // Generate token and pass payload in
+                String token = JWTUtils.generateToken(payload);
                 // Store the token in redis, the key is crm:user:login:user id, and the value is token
                 RedisUtils.setValue(Constants.REDIS_JWT_KEY + userId, token);
                 // Set expiration time for redis

@@ -8,19 +8,25 @@ import com.virginia.result.R;
 import com.virginia.utils.JSONUtils;
 import com.virginia.utils.JWTUtils;
 import com.virginia.utils.RedisUtils;
+import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
+    @Resource
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // Skip login interface
@@ -34,7 +40,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
         if (auth == null || !auth.startsWith("Bearer ")) {
             JSONUtils.print(R.FAIL(CodeEnum.TOKEN_IS_EMPTY), response);
-            ;
             return;
         }
         String token = auth.split(" ")[1];
@@ -68,6 +73,14 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         // After the verification is passed, the user information is put into the security context.
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getUser().getLoginPwd(), userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+        // refresh token
+        threadPoolTaskExecutor.execute(() -> {
+           // Get rememberMe from the request header
+           Boolean rememberMe = Boolean.valueOf(request.getHeader("rememberMe"));
+           // If rememberMe is true, extend the expire time of token in redis to 7 days, otherwise extend to 30 minutes
+            RedisUtils.expire(Constants.REDIS_JWT_KEY + userId, rememberMe ? Constants.EXPIRE_TIME : Constants.DEFAULT_EXPIRE_TIME, TimeUnit.MILLISECONDS);
+        });
 
         // release
         filterChain.doFilter(request, response);

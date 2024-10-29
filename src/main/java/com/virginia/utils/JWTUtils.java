@@ -18,11 +18,10 @@ public class JWTUtils {
     private static final Key SECRET_KEY = Keys.hmacShaKeyFor(keyStr.getBytes());
 
     // Generate token
-    public static String generateToken(Map<String, Object> payload, long expirationTime) {
+    public static String generateToken(Map<String, Object> payload) {
         return Jwts.builder()
                 .setClaims(payload)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SECRET_KEY)
                 .compact();
     }
