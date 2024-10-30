@@ -1,11 +1,15 @@
 package com.virginia.pojo;
 
+import lombok.Data;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
     *User table
     */
+@Data
 public class User implements Serializable {
     /**
     *Primary key, automatic growth, user ID
@@ -82,127 +86,17 @@ public class User implements Serializable {
     */
     private Date lastLoginTime;
 
+    /**
+     *Non-database fields
+      */
+    // Creator name
+    private String createByName;
+    // Editor's name
+    private String editByName;
+
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getLoginAct() {
-        return loginAct;
-    }
-
-    public void setLoginAct(String loginAct) {
-        this.loginAct = loginAct == null ? null : loginAct.trim();
-    }
-
-    public String getLoginPwd() {
-        return loginPwd;
-    }
-
-    public void setLoginPwd(String loginPwd) {
-        this.loginPwd = loginPwd == null ? null : loginPwd.trim();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
-
-    public Integer getAccountNoExpired() {
-        return accountNoExpired;
-    }
-
-    public void setAccountNoExpired(Integer accountNoExpired) {
-        this.accountNoExpired = accountNoExpired;
-    }
-
-    public Integer getCredentialsNoExpired() {
-        return credentialsNoExpired;
-    }
-
-    public void setCredentialsNoExpired(Integer credentialsNoExpired) {
-        this.credentialsNoExpired = credentialsNoExpired;
-    }
-
-    public Integer getAccountNoLocked() {
-        return accountNoLocked;
-    }
-
-    public void setAccountNoLocked(Integer accountNoLocked) {
-        this.accountNoLocked = accountNoLocked;
-    }
-
-    public Integer getAccountEnabled() {
-        return accountEnabled;
-    }
-
-    public void setAccountEnabled(Integer accountEnabled) {
-        this.accountEnabled = accountEnabled;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(Integer createBy) {
-        this.createBy = createBy;
-    }
-
-    public Date getEditTime() {
-        return editTime;
-    }
-
-    public void setEditTime(Date editTime) {
-        this.editTime = editTime;
-    }
-
-    public Integer getEditBy() {
-        return editBy;
-    }
-
-    public void setEditBy(Integer editBy) {
-        this.editBy = editBy;
-    }
-
-    public Date getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
 
     @Override
     public String toString() {

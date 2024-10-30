@@ -20,11 +20,33 @@
     <result column="edit_by" jdbcType="INTEGER" property="editBy" />
     <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
   </resultMap>
+
+  <resultMap id="UserDetailsResultMap" type="com.virginia.pojo.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="login_act" jdbcType="VARCHAR" property="loginAct" />
+    <result column="login_pwd" jdbcType="VARCHAR" property="loginPwd" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="account_no_expired" jdbcType="INTEGER" property="accountNoExpired" />
+    <result column="credentials_no_expired" jdbcType="INTEGER" property="credentialsNoExpired" />
+    <result column="account_no_locked" jdbcType="INTEGER" property="accountNoLocked" />
+    <result column="account_enabled" jdbcType="INTEGER" property="accountEnabled" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
+    <result column="edit_by" jdbcType="INTEGER" property="editBy" />
+    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+    <result column="create_by_name" property="createByName" jdbcType="VARCHAR"/>
+    <result column="edit_by_name" property="editByName" jdbcType="VARCHAR"/>
+  </resultMap>
+
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, login_act, login_pwd, `name`, phone, email, account_no_expired, credentials_no_expired, 
     account_no_locked, account_enabled, create_time, create_by, edit_time, edit_by, last_login_time
   </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select 
@@ -218,5 +240,11 @@
       <include refid="Base_Column_List" />
       from t_user
       where login_act = #{username}
+  </select>
+<!--Query all user information, including name of the creator and name of the editor, two fields that are not in t_user-->
+  <select id="selectAll" resultMap="UserDetailsResultMap">
+    select tu.*, tu2.name as create_by_name, tu3.name as edit_by_name from t_user tu
+           left join t_user tu2 on tu.create_by = tu2.id
+           left join t_user tu3 on tu.edit_by = tu3.id
   </select>
 </mapper>
