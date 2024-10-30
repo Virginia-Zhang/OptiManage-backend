@@ -10,8 +10,10 @@ import com.virginia.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,10 +21,13 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
 
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public MyUserDetails getUserInfo() {
         // Get user information from security context and return
+
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof MyUserDetails) {
@@ -43,5 +48,26 @@ public class UserServiceImpl implements UserService {
         List<User> userList = userMapper.selectAll();
         Page<User> pageInfo = (Page<User>) userList;
         return new PageBean(pageInfo.getTotal(), pageInfo.getResult());
+    }
+
+    @Override
+    public Integer addUser(User user) {
+        // Encrypt the password
+        user.setLoginPwd(passwordEncoder.encode(user.getLoginPwd()));
+        // Set accountNoExpired, credentialsNoExpired, accountNoLocked, and accountEnabled to 1
+        user.setAccountNoExpired(1);
+        user.setCredentialsNoExpired(1);
+        user.setAccountNoLocked(1);
+        user.setAccountEnabled(1);
+        // Set createTime
+        user.setCreateTime(new Date());
+        // Get the current logged in user id from SecurityContextHolder and set createBy
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof MyUserDetails) {
+            MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
+            user.setCreateBy(userDetails.getUser().getId());
+        }
+        // Insert data
+        return userMapper.insertSelective(user);
     }
 }

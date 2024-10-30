@@ -2,11 +2,15 @@ package com.virginia.service;
 
 import com.virginia.pojo.MyUserDetails;
 import com.virginia.pojo.PageBean;
+import com.virginia.pojo.User;
 
 public interface UserService {
     // Get user information
     MyUserDetails getUserInfo();
 
-    // 分页查询用户数据并返回
+    // Query user data by page and return
     PageBean getAllUsers(Integer page, Integer pageSize);
+
+    // Add new user
+    Integer addUser(User user);
 }
