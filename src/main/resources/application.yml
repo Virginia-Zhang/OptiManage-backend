@@ -8,7 +8,7 @@ spring:
     url: jdbc:mysql://localhost:3306/crm?useUnicode=true&characterEncoding=utf8&useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: abc2221235
+    #    省略password，直接从环境变量中获取
     hikari:
       maximum-pool-size: 30
       minimum-idle: 30
@@ -25,6 +25,22 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+
+  # mail sending configuration for QQMail
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: zhangsakurayi@qq.com
+    password: efyeglurswpnbhac
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.qq.com
+        debug: true
 
 mybatis:
   configuration:

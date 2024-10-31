@@ -86,6 +86,7 @@ public class User implements Serializable {
     */
     private Date lastLoginTime;
 
+
     /**
      *Non-database fields
       */

@@ -7,6 +7,8 @@ import com.virginia.pojo.MyUserDetails;
 import com.virginia.pojo.PageBean;
 import com.virginia.pojo.User;
 import com.virginia.service.UserService;
+import com.virginia.utils.EmailUtils;
+import com.virginia.utils.PasswordUtils;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,11 +26,12 @@ public class UserServiceImpl implements UserService {
     @Resource
     private PasswordEncoder passwordEncoder;
 
+    @Resource
+    private EmailUtils emailUtils;
+
     @Override
     public MyUserDetails getUserInfo() {
         // Get user information from security context and return
-
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof MyUserDetails) {
             return (MyUserDetails) authentication.getPrincipal();
@@ -52,8 +55,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer addUser(User user) {
+        // Generate a random password
+        String password = PasswordUtils.generateRandomPassword(6, 16);
+        // Send loginAct and password to the user by email
+        String subject = "Welcome to OptiManage CRM system | 欢迎使用优客易CRM管理系统 | オプティマネージ CRMシステムへようこそ";
+        // 请使用中英日三种语言发送邮件，要求三种语言版本里都要包含账号和密码信息
+        String content = String.format(
+                "尊敬的用户，您好！\n\n您的账号已创建成功，详情如下：\n账号：%s\n密码：%s\n\n请及时登录并修改密码以确保账号安全。\n\n谢谢！",
+                user.getLoginAct(), password
+        );
+        emailUtils.sendSimpleEmail(user.getEmail(), subject, content);
+
         // Encrypt the password
-        user.setLoginPwd(passwordEncoder.encode(user.getLoginPwd()));
+        user.setLoginPwd(passwordEncoder.encode(password));
         // Set accountNoExpired, credentialsNoExpired, accountNoLocked, and accountEnabled to 1
         user.setAccountNoExpired(1);
         user.setCredentialsNoExpired(1);

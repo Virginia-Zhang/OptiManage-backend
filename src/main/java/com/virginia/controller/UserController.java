@@ -43,8 +43,13 @@ public class UserController {
      */
     @PutMapping("/")
     public R addUser(@RequestBody User user) {
-        Integer result = userServiceImpl.addUser(user);
-        return R.SUCCESS(result);
+        try {
+            Integer result = userServiceImpl.addUser(user);
+            return R.SUCCESS(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.FAIL("Add user failed!Please try again!");
+        }
     }
 
 }
