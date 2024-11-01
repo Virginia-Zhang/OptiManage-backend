@@ -30,7 +30,7 @@ spring:
   mail:
     host: smtp.qq.com
     port: 587
-    username: zhangsakurayi@qq.com
+    username: optimanage@foxmail.com
     password: efyeglurswpnbhac
     properties:
       mail:
@@ -41,6 +41,15 @@ spring:
           ssl:
             trust: smtp.qq.com
         debug: true
+
+  thymeleaf:
+    mode: HTML
+    encoding: UTF-8
+    cache: false
+
+  #    确保国际化使用的消息文件使用UTF-8编码
+  messages:
+    encoding: UTF-8
 
 mybatis:
   configuration:

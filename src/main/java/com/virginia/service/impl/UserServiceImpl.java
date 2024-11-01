@@ -57,14 +57,23 @@ public class UserServiceImpl implements UserService {
     public Integer addUser(User user) {
         // Generate a random password
         String password = PasswordUtils.generateRandomPassword(6, 16);
-        // Send loginAct and password to the user by email
-        String subject = "Welcome to OptiManage CRM system | 欢迎使用优客易CRM管理系统 | オプティマネージ CRMシステムへようこそ";
-        // 请使用中英日三种语言发送邮件，要求三种语言版本里都要包含账号和密码信息
-        String content = String.format(
-                "尊敬的用户，您好！\n\n您的账号已创建成功，详情如下：\n账号：%s\n密码：%s\n\n请及时登录并修改密码以确保账号安全。\n\n谢谢！",
-                user.getLoginAct(), password
-        );
-        emailUtils.sendSimpleEmail(user.getEmail(), subject, content);
+        // 根据region，设置preferredLanguage
+        String preferredLanguage;
+        // region为中国，设置preferredLanguage为中文
+        if (user.getRegion() == 1) {
+            preferredLanguage = "zh";
+            user.setPreferredLanguage(2);
+        } else if (user.getRegion() == 2) {
+            // region为日本，设置preferredLanguage为日语
+            preferredLanguage = "ja";
+            user.setPreferredLanguage(3);
+        } else {
+            // region为其他，设置preferredLanguage为英文
+            preferredLanguage = "en";
+            user.setPreferredLanguage(1);
+        }
+        // Send loginAct and password to the new user by email
+        emailUtils.sendLocalizedTemplateEmail(user.getEmail(), user.getLoginAct(), password, preferredLanguage);
 
         // Encrypt the password
         user.setLoginPwd(passwordEncoder.encode(password));

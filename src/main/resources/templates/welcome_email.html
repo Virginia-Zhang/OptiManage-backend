@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{email.subject}">Welcome Email</title>
+</head>
+<body>
+<p th:utext="#{email.body(${loginAct}, ${password})}"></p><br>
+<div>------------------------------------------------------------------------</div>
+<br>
+<p>From Virginia Zhang</p>
+<p>OptiManage / 优客易 / オプティマネージ</p>
+</body>
+</html>

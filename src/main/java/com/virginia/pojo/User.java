@@ -2,102 +2,108 @@ package com.virginia.pojo;
 
 import lombok.Data;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
-    *User table
-    */
+ * 用户表
+ */
 @Data
 public class User implements Serializable {
     /**
-    *Primary key, automatic growth, user ID
-    */
+     * 主键，自动增长，用户ID
+     */
     private Integer id;
 
     /**
-    *Login account
-    */
+     * 登录账号
+     */
     private String loginAct;
 
     /**
-    *Login password
-    */
+     * 登录密码
+     */
     private String loginPwd;
 
     /**
-    *User name
-    */
+     * 用户姓名
+     */
     private String name;
 
     /**
-    *User mobile phone
-    */
+     * 用户手机
+     */
     private String phone;
 
     /**
-    *User email
-    */
+     * 用户邮箱
+     */
     private String email;
 
     /**
-    *Whether the account has not expired, 0 has expired, 1 is normal
-    */
+     * 账户是否没有过期，0已过期 1正常
+     */
     private Integer accountNoExpired;
 
     /**
-    *Whether the password has not expired, 0 has expired, 1 is normal
-    */
+     * 密码是否没有过期，0已过期 1正常
+     */
     private Integer credentialsNoExpired;
 
     /**
-    *Whether the account is not locked, 0 is locked, 1 is normal
-    */
+     * 账号是否没有锁定，0已锁定 1正常
+     */
     private Integer accountNoLocked;
 
     /**
-    *Whether the account is enabled, 0 is disabled, 1 is enabled
-    */
+     * 账号是否启用，0禁用 1启用
+     */
     private Integer accountEnabled;
 
     /**
-    *Creation time
-    */
+     * 创建时间
+     */
     private Date createTime;
 
     /**
-    *Creator
-    */
+     * 创建人
+     */
     private Integer createBy;
 
     /**
-    *Editing time
-    */
+     * 编辑时间
+     */
     private Date editTime;
 
     /**
-    *Editor
-    */
+     * 编辑人
+     */
     private Integer editBy;
 
     /**
-    *Last login time
-    */
+     * 最近登录时间
+     */
     private Date lastLoginTime;
 
+    /**
+     * 国家地区，1 中国，2 日本，3 美国，4 英国， 5 法国，6 德国，7 新加坡，8 印度，9 澳大利亚，10 韩国，11 其他
+     */
+    private Integer region;
+
+    /**
+     * 偏好语言，1 英语，2 中文，3 日语
+     */
+    private Integer preferredLanguage;
 
     /**
      *Non-database fields
-      */
+     */
     // Creator name
     private String createByName;
     // Editor's name
     private String editByName;
 
-    @Serial
     private static final long serialVersionUID = 1L;
-
 
     @Override
     public String toString() {
@@ -120,6 +126,8 @@ public class User implements Serializable {
         sb.append(", editTime=").append(editTime);
         sb.append(", editBy=").append(editBy);
         sb.append(", lastLoginTime=").append(lastLoginTime);
+        sb.append(", region=").append(region);
+        sb.append(", preferredLanguage=").append(preferredLanguage);
         sb.append("]");
         return sb.toString();
     }
@@ -137,20 +145,22 @@ public class User implements Serializable {
         }
         User other = (User) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getLoginAct() == null ? other.getLoginAct() == null : this.getLoginAct().equals(other.getLoginAct()))
-            && (this.getLoginPwd() == null ? other.getLoginPwd() == null : this.getLoginPwd().equals(other.getLoginPwd()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getPhone() == null ? other.getPhone() == null : this.getPhone().equals(other.getPhone()))
-            && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
-            && (this.getAccountNoExpired() == null ? other.getAccountNoExpired() == null : this.getAccountNoExpired().equals(other.getAccountNoExpired()))
-            && (this.getCredentialsNoExpired() == null ? other.getCredentialsNoExpired() == null : this.getCredentialsNoExpired().equals(other.getCredentialsNoExpired()))
-            && (this.getAccountNoLocked() == null ? other.getAccountNoLocked() == null : this.getAccountNoLocked().equals(other.getAccountNoLocked()))
-            && (this.getAccountEnabled() == null ? other.getAccountEnabled() == null : this.getAccountEnabled().equals(other.getAccountEnabled()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getCreateBy() == null ? other.getCreateBy() == null : this.getCreateBy().equals(other.getCreateBy()))
-            && (this.getEditTime() == null ? other.getEditTime() == null : this.getEditTime().equals(other.getEditTime()))
-            && (this.getEditBy() == null ? other.getEditBy() == null : this.getEditBy().equals(other.getEditBy()))
-            && (this.getLastLoginTime() == null ? other.getLastLoginTime() == null : this.getLastLoginTime().equals(other.getLastLoginTime()));
+                && (this.getLoginAct() == null ? other.getLoginAct() == null : this.getLoginAct().equals(other.getLoginAct()))
+                && (this.getLoginPwd() == null ? other.getLoginPwd() == null : this.getLoginPwd().equals(other.getLoginPwd()))
+                && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+                && (this.getPhone() == null ? other.getPhone() == null : this.getPhone().equals(other.getPhone()))
+                && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
+                && (this.getAccountNoExpired() == null ? other.getAccountNoExpired() == null : this.getAccountNoExpired().equals(other.getAccountNoExpired()))
+                && (this.getCredentialsNoExpired() == null ? other.getCredentialsNoExpired() == null : this.getCredentialsNoExpired().equals(other.getCredentialsNoExpired()))
+                && (this.getAccountNoLocked() == null ? other.getAccountNoLocked() == null : this.getAccountNoLocked().equals(other.getAccountNoLocked()))
+                && (this.getAccountEnabled() == null ? other.getAccountEnabled() == null : this.getAccountEnabled().equals(other.getAccountEnabled()))
+                && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+                && (this.getCreateBy() == null ? other.getCreateBy() == null : this.getCreateBy().equals(other.getCreateBy()))
+                && (this.getEditTime() == null ? other.getEditTime() == null : this.getEditTime().equals(other.getEditTime()))
+                && (this.getEditBy() == null ? other.getEditBy() == null : this.getEditBy().equals(other.getEditBy()))
+                && (this.getLastLoginTime() == null ? other.getLastLoginTime() == null : this.getLastLoginTime().equals(other.getLastLoginTime()))
+                && (this.getRegion() == null ? other.getRegion() == null : this.getRegion().equals(other.getRegion()))
+                && (this.getPreferredLanguage() == null ? other.getPreferredLanguage() == null : this.getPreferredLanguage().equals(other.getPreferredLanguage()));
     }
 
     @Override
@@ -172,6 +182,8 @@ public class User implements Serializable {
         result = prime * result + ((getEditTime() == null) ? 0 : getEditTime().hashCode());
         result = prime * result + ((getEditBy() == null) ? 0 : getEditBy().hashCode());
         result = prime * result + ((getLastLoginTime() == null) ? 0 : getLastLoginTime().hashCode());
+        result = prime * result + ((getRegion() == null) ? 0 : getRegion().hashCode());
+        result = prime * result + ((getPreferredLanguage() == null) ? 0 : getPreferredLanguage().hashCode());
         return result;
     }
 }

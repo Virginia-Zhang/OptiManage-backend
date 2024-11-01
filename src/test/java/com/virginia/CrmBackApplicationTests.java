@@ -50,7 +50,7 @@ class CrmBackApplicationTests {
     @Test
     void sendEmail() {
         // 使用emailUtils发送邮件测试
-        emailUtils.sendSimpleEmail("469868264@qq.com", "测试邮件", "这是一封测试邮件");
+        emailUtils.sendLocalizedTemplateEmail("469868264@qq.com", "yuyan", "yuyan123", "ja");
     }
 
     @Test
