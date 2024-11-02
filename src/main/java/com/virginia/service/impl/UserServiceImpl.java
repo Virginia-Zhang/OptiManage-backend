@@ -9,6 +9,7 @@ import com.virginia.pojo.User;
 import com.virginia.service.UserService;
 import com.virginia.utils.EmailUtils;
 import com.virginia.utils.PasswordUtils;
+import com.virginia.utils.UserUtils;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -57,18 +58,18 @@ public class UserServiceImpl implements UserService {
     public Integer addUser(User user) {
         // Generate a random password
         String password = PasswordUtils.generateRandomPassword(6, 16);
-        // 根据region，设置preferredLanguage
+        // Set preferred language according to region
         String preferredLanguage;
-        // region为中国，设置preferredLanguage为中文
+        // If region is China, set preferred language to Chinese
         if (user.getRegion() == 1) {
             preferredLanguage = "zh";
             user.setPreferredLanguage(2);
         } else if (user.getRegion() == 2) {
-            // region为日本，设置preferredLanguage为日语
+            // If region is Japan, set preferred language to Japanese
             preferredLanguage = "ja";
             user.setPreferredLanguage(3);
         } else {
-            // region为其他，设置preferredLanguage为英文
+            // If region is others, set preferred language to English
             preferredLanguage = "en";
             user.setPreferredLanguage(1);
         }
@@ -84,13 +85,22 @@ public class UserServiceImpl implements UserService {
         user.setAccountEnabled(1);
         // Set createTime
         user.setCreateTime(new Date());
-        // Get the current logged in user id from SecurityContextHolder and set createBy
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof MyUserDetails) {
-            MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
-            user.setCreateBy(userDetails.getUser().getId());
-        }
+        // Get the current logged-in user id from SecurityContextHolder and set createBy
+        MyUserDetails loggedInUserInfo = UserUtils.getLoggedInUserInfo();
+        assert loggedInUserInfo != null;
+        user.setCreateBy(loggedInUserInfo.getUser().getId());
         // Insert data
         return userMapper.insertSelective(user);
+    }
+
+    @Override
+    public Integer editUser(User user) {
+        // Set editTime
+        user.setEditTime(new Date());
+        // Get the current logged-in user id from SecurityContextHolder and set editBy
+        MyUserDetails loggedInUserInfo = UserUtils.getLoggedInUserInfo();
+        assert loggedInUserInfo != null;
+        user.setEditBy(loggedInUserInfo.getUser().getId());
+        return userMapper.updateByPrimaryKeySelective(user);
     }
 }

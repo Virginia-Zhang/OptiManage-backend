@@ -14,12 +14,14 @@ public class UserController {
     @Resource
     private UserServiceImpl userServiceImpl;
 
-    // Get user information
+    /**
+     * Get logged-in user information
+     * @return user details, encapsulated into R: data
+     */
     @GetMapping("/info")
-    public R getUserInfo() {
+    public R getLoggedInUserInfo() {
         MyUserDetails userDetails = userServiceImpl.getUserInfo();
         // Delete the user.login pwd field in user details and return it to the front end
-
         userDetails.getUser().setLoginPwd(null);
         return R.SUCCESS(userDetails);
     }
@@ -41,7 +43,7 @@ public class UserController {
      * @param user User object
      * @return number of rows affected, encapsulated into R: data
      */
-    @PutMapping("/")
+    @PostMapping("/")
     public R addUser(@RequestBody User user) {
         try {
             Integer result = userServiceImpl.addUser(user);
@@ -52,4 +54,19 @@ public class UserController {
         }
     }
 
+    /**
+     * Edit user
+     * @param user User object
+     * @return number of rows affected, encapsulated into R: data
+     */
+    @PutMapping("/")
+    public R editUser(@RequestBody User user) {
+        try {
+            Integer result = userServiceImpl.editUser(user);
+            return R.SUCCESS(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.FAIL("Edit user failed!Please try again!");
+        }
+    }
 }

@@ -8,14 +8,13 @@ spring:
     url: jdbc:mysql://localhost:3306/crm?useUnicode=true&characterEncoding=utf8&useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    #    省略password，直接从环境变量中获取
+    #    Omit password and get it directly from environment variables
     hikari:
       maximum-pool-size: 30
       minimum-idle: 30
       connection-timeout: 5000
       idle-timeout: 0
       max-lifetime: 18000000
-
 
   data:
     redis:
@@ -47,14 +46,13 @@ spring:
     encoding: UTF-8
     cache: false
 
-  #    确保国际化使用的消息文件使用UTF-8编码
+  #  Ensure that message files used for internationalization use UTF-8 encoding
   messages:
     encoding: UTF-8
 
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
 #project:
 #  task:
 #    cron: '* */5 * * * *'

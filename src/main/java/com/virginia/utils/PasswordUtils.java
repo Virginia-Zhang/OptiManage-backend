@@ -5,58 +5,58 @@ import org.springframework.stereotype.Component;
 import java.security.SecureRandom;
 
 /**
- * 生成随机密码
+ *Generate random password
  *
  * @author Virginia
  */
 @Component
 public class PasswordUtils {
-    // 定义密码字符集，包括大写字母、小写字母和数字
+    // Define the password character set, including uppercase letters, lowercase letters, and numbers
     private static final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
     private static final String DIGITS = "0123456789";
     private static final String ALL_CHARS = UPPERCASE + LOWERCASE + DIGITS;
 
-    // 使用SecureRandom提高随机性和安全性
+    // Improve randomness and security with secure random
     private static final SecureRandom random = new SecureRandom();
 
     /**
-     * 生成指定长度范围内的随机密码
+     *Generate random passwords within the specified length range
      *
-     * @param minLength 最小长度（包括）
-     * @param maxLength 最大长度（包括）
-     * @return 生成的随机密码
-     * @throws IllegalArgumentException 如果minLength或maxLength无效
+     * @param minLength minimum length (inclusive)
+     * @param maxLength maximum length (inclusive)
+     * @return generated random password
+     * @throws IllegalArgumentException if minLength or maxLength is invalid
      */
     public static String generateRandomPassword(int minLength, int maxLength) {
         if (minLength < 6 || maxLength > 16 || minLength > maxLength) {
             throw new IllegalArgumentException("密码长度必须在6到16之间，且最小长度不能大于最大长度。");
         }
 
-        // 随机确定密码长度
+        // Randomly determine password length
         int length = random.nextInt(maxLength - minLength + 1) + minLength;
 
         StringBuilder password = new StringBuilder(length);
 
-        // 确保密码包含至少一个大写字母、一个小写字母和一个数字
+        // Make sure your password contains at least one uppercase letter, one lowercase letter, and one number
         password.append(getRandomChar(UPPERCASE));
         password.append(getRandomChar(LOWERCASE));
         password.append(getRandomChar(DIGITS));
 
-        // 填充剩余的字符
+        // Fill in remaining characters
         for (int i = 3; i < length; i++) {
             password.append(getRandomChar(ALL_CHARS));
         }
 
-        // 打乱字符顺序以确保随机性
+        // Shuffle character order to ensure randomness
         return shuffleString(password.toString());
     }
 
     /**
-     * 从给定的字符集中随机选择一个字符
+     *Randomly select a character from the given character set
      *
-     * @param chars 字符集
-     * @return 随机选择的字符
+     * @param chars character set
+     * @return randomly selected characters
      */
     private static char getRandomChar(String chars) {
         int index = random.nextInt(chars.length());
@@ -64,16 +64,16 @@ public class PasswordUtils {
     }
 
     /**
-     * 打乱字符串中字符的顺序
+     *Shuffle the order of characters in the string
      *
-     * @param input 原始字符串
-     * @return 打乱后的字符串
+     * @param input original string
+     * @return shuffled string
      */
     private static String shuffleString(String input) {
         char[] characters = input.toCharArray();
         for (int i = characters.length - 1; i > 0; i--) {
             int j = random.nextInt(i + 1);
-            // 交换字符
+            // swap characters
             char temp = characters[i];
             characters[i] = characters[j];
             characters[j] = temp;

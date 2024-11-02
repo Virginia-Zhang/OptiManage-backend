@@ -13,4 +13,7 @@ public interface UserService {
 
     // Add new user
     Integer addUser(User user);
+
+    // Edit user
+    Integer editUser(User user);
 }

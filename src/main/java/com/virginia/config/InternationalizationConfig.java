@@ -5,19 +5,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
-// 创建一个配置类来配置MessageSource Bean
+// Create a configuration class to configure the MessageSource Bean
 @Configuration
 public class InternationalizationConfig {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        // 设置消息资源文件的基础名称
+        // Set the base name of the message resource file
         messageSource.setBasename("classpath:messages");
-        // 设置默认编码
+        // Set default encoding
         messageSource.setDefaultEncoding("UTF-8");
-        // 设置缓存持续时间（秒）
+        // Set cache duration (seconds)
         messageSource.setCacheSeconds(3600);
-        // 禁用回退到系统语言
+        // Disable fallback to system language
         messageSource.setFallbackToSystemLocale(false);
         return messageSource;
     }

@@ -13,7 +13,8 @@ import org.thymeleaf.context.Context;
 
 import java.util.Locale;
 
-// 使用QQ邮箱发送邮件
+// Send emails using qq mailbox
+
 @Component
 public class EmailUtils {
     @Resource
@@ -26,17 +27,17 @@ public class EmailUtils {
     private MessageSource messageSource;
 
     /**
-     * 根据用户的语言偏好发送本地化HTML邮件，使用Thymeleaf模板
+     *Send localized HTML emails based on the user's language preference, using Thymeleaf templates
      *
-     * @param to                收件人邮箱
-     * @param loginAct          用户账号
-     * @param password          用户密码
-     * @param preferredLanguage 用户的语言偏好（"en", "zh", "ja"）
+     * @param to recipient email
+     * @param loginAct user account
+     * @param password user password
+     * @param preferredLanguage The user's language preference ("en", "zh", "ja")
      */
     @Async
     public void sendLocalizedTemplateEmail(String to, String loginAct, String password, String preferredLanguage) {
         try {
-            // 根据语言偏好选择Locale
+            // Select locale based on language preference
             Locale locale;
             switch (preferredLanguage.toLowerCase()) {
                 case "zh":
@@ -51,33 +52,33 @@ public class EmailUtils {
                     break;
             }
 
-            // 创建Thymeleaf上下文
+            // Create thymeleaf context
             Context context = new Context(locale);
             context.setVariable("loginAct", loginAct);
             context.setVariable("password", password);
 
-            // 处理模板
+            // Processing templates
             String htmlContent = templateEngine.process("welcome_email", context);
 
-            // 创建MimeMessage
+            // Create mime message
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
 
-            // 设置发件人邮箱
+            // Set sender email
             helper.setFrom("optimanage@foxmail.com");
-            // 设置收件人邮箱
+            // Set recipient email
             helper.setTo(to);
-            // 设置邮件主题，本地化
+            // Set email subject, localize
             helper.setSubject(messageSource.getMessage("email.subject", null, locale));
-            // 设置邮件正文，第二个参数设为true表示邮件内容包含HTML
+            // Set the email body. The second parameter is set to true to indicate that the email content contains html.
             helper.setText(htmlContent, true);
 
-            // 发送邮件
+            // Send email
             mailSender.send(mimeMessage);
-            System.out.println("本地化模板邮件发送成功");
+            System.out.println("Localized template email sent successfully");
         } catch (MessagingException e) {
             e.printStackTrace();
-            System.out.println("本地化模板邮件发送失败");
+            System.out.println("Failed to send localized template email");
         }
     }
 }
