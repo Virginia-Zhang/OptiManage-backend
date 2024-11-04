@@ -4,6 +4,8 @@ import com.virginia.pojo.MyUserDetails;
 import com.virginia.pojo.PageBean;
 import com.virginia.pojo.User;
 
+import java.util.List;
+
 public interface UserService {
     // Get user information
     MyUserDetails getUserInfo();
@@ -16,4 +18,7 @@ public interface UserService {
 
     // Edit user
     Integer editUser(User user);
+
+    // remove users by userIds
+    Integer removeUsersByIds(List<Integer> ids);
 }

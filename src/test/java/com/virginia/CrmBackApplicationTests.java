@@ -12,9 +12,6 @@ class CrmBackApplicationTests {
     @Resource
     private EmailUtils emailUtils;
 
-    @Resource
-    private PasswordUtils passwordUtils;
-
     @Test
     // 使用Bcrypt对密码加密
     void bcryptTest(){
@@ -55,7 +52,7 @@ class CrmBackApplicationTests {
 
     @Test
     void generateRandomPassword() {
-        String password = PasswordUtils.generateRandomPassword(6, 16);
-        System.out.println(password);
+        String password = PasswordUtils.generateRandomPassword();
+        System.out.println("password: " + password);
     }
 }

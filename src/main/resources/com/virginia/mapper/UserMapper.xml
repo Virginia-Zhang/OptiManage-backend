@@ -272,4 +272,13 @@
            left join t_user tu2 on tu.create_by = tu2.id
            left join t_user tu3 on tu.edit_by = tu3.id
   </select>
+
+  <!--  Delete users in batches -> set the user's account_enabled field to 0.-->
+  <update id="deleteUsersByIds">
+    update t_user set account_enabled = 0, edit_time = #{editTime}, edit_by = #{editBy}
+    where id in
+    <foreach collection="ids" item="id" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </update>
 </mapper>
