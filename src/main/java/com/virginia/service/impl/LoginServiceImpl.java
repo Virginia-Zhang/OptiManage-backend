@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.virginia.constants.Constants;
 import com.virginia.pojo.MyUserDetails;
 import com.virginia.query.LoginQuery;
+import com.virginia.result.LoginResult;
 import com.virginia.result.R;
 import com.virginia.service.LoginService;
 import com.virginia.utils.JWTUtils;
@@ -61,8 +62,8 @@ public class LoginServiceImpl implements LoginService {
                 // Set expiration time for redis
                 RedisUtils.expire(Constants.REDIS_JWT_KEY + userId, rememberMe ? Constants.EXPIRE_TIME : Constants.DEFAULT_EXPIRE_TIME, TimeUnit.MILLISECONDS);
 
-                // Return data to the front end, including token
-                return R.SUCCESS(token);
+                // Return loginResult to the front end
+                return R.SUCCESS(new LoginResult(token, userDetails.getRoleList(), userDetails.getPermissionList()));
             }
         } catch (AuthenticationException e) {
             e.printStackTrace();

@@ -65,7 +65,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             JSONUtils.print(R.FAIL(CodeEnum.TOKEN_IS_EXPIRED), response);
             return;
         }
-        // Redis token is inconsistent with token, and the result of token mismatch is returned.
+        // If Redis token is inconsistent with token, return TOKEN_NOT_MATCH message
         if (!redisToken.equals(token)) {
             JSONUtils.print(R.FAIL(CodeEnum.TOKEN_NOT_MATCH), response);
             return;

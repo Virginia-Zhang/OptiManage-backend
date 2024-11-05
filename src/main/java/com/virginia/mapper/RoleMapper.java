@@ -3,6 +3,8 @@ package com.virginia.mapper;
 import com.virginia.pojo.Role;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface RoleMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +18,7 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
+
+    // Query the user's role list according to user ID
+    List<Role> selectRoleListByUserId(Integer userId);
 }
