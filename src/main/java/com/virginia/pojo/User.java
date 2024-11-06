@@ -3,6 +3,7 @@ package com.virginia.pojo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -63,7 +64,7 @@ public class User implements Serializable {
     /**
      *Creation time
      */
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      *Creator
@@ -73,7 +74,7 @@ public class User implements Serializable {
     /**
      *Editing time
      */
-    private Date editTime;
+    private LocalDateTime editTime;
 
     /**
      *Editor
@@ -83,7 +84,7 @@ public class User implements Serializable {
     /**
      *Last login time
      */
-    private Date lastLoginTime;
+    private LocalDateTime lastLoginTime;
 
     /**
      *Country and region, 1 China, 2 Japan, 3 United States, 4 United Kingdom, 5 France, 6 Germany, 7 Singapore, 8 India, 9 Australia, 10 South Korea, 11 others

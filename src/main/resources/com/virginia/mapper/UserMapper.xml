@@ -266,11 +266,12 @@
       from t_user
       where login_act = #{username}
   </select>
-<!--Query all user information, including name of the creator and name of the editor, two fields that are not in t_user-->
+<!--Query all users with account_enabled = 1, and including name of the creator and name of the editor-->
   <select id="selectAll" resultMap="UserDetailsResultMap">
     select tu.*, tu2.name as create_by_name, tu3.name as edit_by_name from t_user tu
            left join t_user tu2 on tu.create_by = tu2.id
            left join t_user tu3 on tu.edit_by = tu3.id
+    where tu.account_enabled = 1
   </select>
 
   <!--  Delete users in batches -> set the user's account_enabled field to 0.-->

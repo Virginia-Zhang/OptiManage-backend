@@ -4,7 +4,7 @@ import com.virginia.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -23,8 +23,9 @@ public interface UserMapper {
 
     User selectByLoginAct(String username);
 
+    // Get all users with account_enabled = 1
     List<User> selectAll();
 
     // Delete users in batches
-    int deleteUsersByIds(@Param("ids") List<Integer> ids, @Param("editTime") Date editTime, @Param("editBy") Integer editBy);
+    int deleteUsersByIds(@Param("ids") List<Integer> ids, @Param("editTime") LocalDateTime editTime, @Param("editBy") Integer editBy);
 }

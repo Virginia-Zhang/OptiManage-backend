@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.virginia.mapper.OperateLogMapper">
+  <resultMap id="BaseResultMap" type="com.virginia.pojo.OperateLog">
+    <!--@mbg.generated-->
+    <!--@Table t_operate_log-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="operate_user" jdbcType="INTEGER" property="operateUser" />
+    <result column="operate_user_login_act" jdbcType="VARCHAR" property="operateUserLoginAct" />
+    <result column="operate_time" jdbcType="TIMESTAMP" property="operateTime" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+    <result column="method_name" jdbcType="VARCHAR" property="methodName" />
+    <result column="method_params" jdbcType="VARCHAR" property="methodParams" />
+    <result column="return_value" jdbcType="VARCHAR" property="returnValue" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, operate_user, operate_user_login_act, operate_time, class_name, method_name, 
+    method_params, return_value
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_operate_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from t_operate_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.virginia.pojo.OperateLog" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_operate_log (operate_user, operate_user_login_act, 
+      operate_time, class_name, method_name, 
+      method_params, return_value)
+    values (#{operateUser,jdbcType=INTEGER}, #{operateUserLoginAct,jdbcType=VARCHAR}, 
+      #{operateTime,jdbcType=TIMESTAMP}, #{className,jdbcType=VARCHAR}, #{methodName,jdbcType=VARCHAR}, 
+      #{methodParams,jdbcType=VARCHAR}, #{returnValue,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.virginia.pojo.OperateLog" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_operate_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="operateUser != null">
+        operate_user,
+      </if>
+      <if test="operateUserLoginAct != null">
+        operate_user_login_act,
+      </if>
+      <if test="operateTime != null">
+        operate_time,
+      </if>
+      <if test="className != null">
+        class_name,
+      </if>
+      <if test="methodName != null">
+        method_name,
+      </if>
+      <if test="methodParams != null">
+        method_params,
+      </if>
+      <if test="returnValue != null">
+        return_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="operateUser != null">
+        #{operateUser,jdbcType=INTEGER},
+      </if>
+      <if test="operateUserLoginAct != null">
+        #{operateUserLoginAct,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null">
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null">
+        #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="methodParams != null">
+        #{methodParams,jdbcType=VARCHAR},
+      </if>
+      <if test="returnValue != null">
+        #{returnValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.virginia.pojo.OperateLog">
+    <!--@mbg.generated-->
+    update t_operate_log
+    <set>
+      <if test="operateUser != null">
+        operate_user = #{operateUser,jdbcType=INTEGER},
+      </if>
+      <if test="operateUserLoginAct != null">
+        operate_user_login_act = #{operateUserLoginAct,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null">
+        operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="className != null">
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null">
+        method_name = #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="methodParams != null">
+        method_params = #{methodParams,jdbcType=VARCHAR},
+      </if>
+      <if test="returnValue != null">
+        return_value = #{returnValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.virginia.pojo.OperateLog">
+    <!--@mbg.generated-->
+    update t_operate_log
+    set operate_user = #{operateUser,jdbcType=INTEGER},
+      operate_user_login_act = #{operateUserLoginAct,jdbcType=VARCHAR},
+      operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      class_name = #{className,jdbcType=VARCHAR},
+      method_name = #{methodName,jdbcType=VARCHAR},
+      method_params = #{methodParams,jdbcType=VARCHAR},
+      return_value = #{returnValue,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

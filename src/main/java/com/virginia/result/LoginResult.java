@@ -17,4 +17,5 @@ public class LoginResult {
     private String token;
     private List<String> roleList;
     private List<String> permissionList;
+    private Integer preferredLanguage;
 }

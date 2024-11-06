@@ -9,17 +9,21 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="cost" jdbcType="DECIMAL" property="cost" />
+    <result column="cost_RMB" jdbcType="DECIMAL" property="costRmb" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_by" jdbcType="INTEGER" property="createBy" />
     <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
     <result column="edit_by" jdbcType="INTEGER" property="editBy" />
+    <result column="region" jdbcType="INTEGER" property="region" />
+    <result column="cost_USD" jdbcType="DECIMAL" property="costUsd" />
+    <result column="cost_JPY" jdbcType="DECIMAL" property="costJpy" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, owner_id, `name`, start_time, end_time, cost, description, create_time, create_by, 
-    edit_time, edit_by
+    id, owner_id, `name`, start_time, end_time, cost_RMB, description, create_time, create_by, 
+    edit_time, edit_by, region, cost_USD, cost_JPY, is_deleted
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -36,13 +40,15 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.virginia.pojo.Activity" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into t_activity (owner_id, `name`, start_time, 
-      end_time, cost, description, 
+      end_time, cost_RMB, description, 
       create_time, create_by, edit_time, 
-      edit_by)
+      edit_by, region, cost_USD, 
+      cost_JPY, is_deleted)
     values (#{ownerId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{cost,jdbcType=DECIMAL}, #{description,jdbcType=VARCHAR}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{costRmb,jdbcType=DECIMAL}, #{description,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=INTEGER}, #{editTime,jdbcType=TIMESTAMP}, 
-      #{editBy,jdbcType=INTEGER})
+      #{editBy,jdbcType=INTEGER}, #{region,jdbcType=INTEGER}, #{costUsd,jdbcType=DECIMAL}, 
+      #{costJpy,jdbcType=DECIMAL}, #{isDeleted,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.virginia.pojo.Activity" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -60,8 +66,8 @@
       <if test="endTime != null">
         end_time,
       </if>
-      <if test="cost != null">
-        cost,
+      <if test="costRmb != null">
+        cost_RMB,
       </if>
       <if test="description != null">
         description,
@@ -78,6 +84,18 @@
       <if test="editBy != null">
         edit_by,
       </if>
+      <if test="region != null">
+        region,
+      </if>
+      <if test="costUsd != null">
+        cost_USD,
+      </if>
+      <if test="costJpy != null">
+        cost_JPY,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="ownerId != null">
@@ -92,8 +110,8 @@
       <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="cost != null">
-        #{cost,jdbcType=DECIMAL},
+      <if test="costRmb != null">
+        #{costRmb,jdbcType=DECIMAL},
       </if>
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
@@ -109,6 +127,18 @@
       </if>
       <if test="editBy != null">
         #{editBy,jdbcType=INTEGER},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=INTEGER},
+      </if>
+      <if test="costUsd != null">
+        #{costUsd,jdbcType=DECIMAL},
+      </if>
+      <if test="costJpy != null">
+        #{costJpy,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -128,8 +158,8 @@
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="cost != null">
-        cost = #{cost,jdbcType=DECIMAL},
+      <if test="costRmb != null">
+        cost_RMB = #{costRmb,jdbcType=DECIMAL},
       </if>
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
@@ -146,6 +176,18 @@
       <if test="editBy != null">
         edit_by = #{editBy,jdbcType=INTEGER},
       </if>
+      <if test="region != null">
+        region = #{region,jdbcType=INTEGER},
+      </if>
+      <if test="costUsd != null">
+        cost_USD = #{costUsd,jdbcType=DECIMAL},
+      </if>
+      <if test="costJpy != null">
+        cost_JPY = #{costJpy,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -156,12 +198,16 @@
       `name` = #{name,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
-      cost = #{cost,jdbcType=DECIMAL},
+      cost_RMB = #{costRmb,jdbcType=DECIMAL},
       description = #{description,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_by = #{createBy,jdbcType=INTEGER},
       edit_time = #{editTime,jdbcType=TIMESTAMP},
-      edit_by = #{editBy,jdbcType=INTEGER}
+      edit_by = #{editBy,jdbcType=INTEGER},
+      region = #{region,jdbcType=INTEGER},
+      cost_USD = #{costUsd,jdbcType=DECIMAL},
+      cost_JPY = #{costJpy,jdbcType=DECIMAL},
+      is_deleted = #{isDeleted,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

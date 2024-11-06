@@ -5,63 +5,83 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
-    *Market activity table
-    */
+ *Marketing activity table
+ */
 public class Activity implements Serializable {
     /**
-    *Primary key, automatic growth, activity ID
-    */
+     *Primary key, automatic growth, activity ID
+     */
     private Integer id;
 
     /**
-    *Activity owner ID
-    */
+     *Activity owner ID
+     */
     private Integer ownerId;
 
     /**
-    *Activity name
-    */
+     *Activity name
+     */
     private String name;
 
     /**
-    *Activity start time
-    */
+     *Activity start time
+     */
     private Date startTime;
 
     /**
-    *Event end time
-    */
+     *Activity end time
+     */
     private Date endTime;
 
     /**
-    *Activity budget
-    */
-    private BigDecimal cost;
+     *Activity budget, RMB
+     */
+    private BigDecimal costRmb;
 
     /**
-    *Activity description
-    */
+     *Activity description
+     */
     private String description;
 
     /**
-    *Event creation time
-    */
+     *Activity created time
+     */
     private Date createTime;
 
     /**
-    *Event creator
-    */
+     *Activity creator
+     */
     private Integer createBy;
 
     /**
-    *Event editing time
-    */
+     *Activity edited time
+     */
     private Date editTime;
 
     /**
-    *Event Editor
-    */
+     *Activity Editor
+     */
     private Integer editBy;
+
+    /**
+     *Activity areas, 1 China, 2 Japan, 3 United States, 4 United Kingdom, 5 France, 6 Germany, 7 Singapore, 8 India, 9 Australia, 10 South Korea, 11 others
+     */
+    private Integer region;
+
+    /**
+     *Activity budget, USD
+     */
+    private BigDecimal costUsd;
+
+    /**
+     *Activity budget, Japanese yen
+     */
+    private BigDecimal costJpy;
+
+    /**
+     *Whether the activity has been deleted, 0 not deleted, 1 deleted
+     */
+    private Integer isDeleted;
 
     private static final long serialVersionUID = 1L;
 
@@ -105,12 +125,12 @@ public class Activity implements Serializable {
         this.endTime = endTime;
     }
 
-    public BigDecimal getCost() {
-        return cost;
+    public BigDecimal getCostRmb() {
+        return costRmb;
     }
 
-    public void setCost(BigDecimal cost) {
-        this.cost = cost;
+    public void setCostRmb(BigDecimal costRmb) {
+        this.costRmb = costRmb;
     }
 
     public String getDescription() {
@@ -153,6 +173,38 @@ public class Activity implements Serializable {
         this.editBy = editBy;
     }
 
+    public Integer getRegion() {
+        return region;
+    }
+
+    public void setRegion(Integer region) {
+        this.region = region;
+    }
+
+    public BigDecimal getCostUsd() {
+        return costUsd;
+    }
+
+    public void setCostUsd(BigDecimal costUsd) {
+        this.costUsd = costUsd;
+    }
+
+    public BigDecimal getCostJpy() {
+        return costJpy;
+    }
+
+    public void setCostJpy(BigDecimal costJpy) {
+        this.costJpy = costJpy;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -164,12 +216,16 @@ public class Activity implements Serializable {
         sb.append(", name=").append(name);
         sb.append(", startTime=").append(startTime);
         sb.append(", endTime=").append(endTime);
-        sb.append(", cost=").append(cost);
+        sb.append(", costRmb=").append(costRmb);
         sb.append(", description=").append(description);
         sb.append(", createTime=").append(createTime);
         sb.append(", createBy=").append(createBy);
         sb.append(", editTime=").append(editTime);
         sb.append(", editBy=").append(editBy);
+        sb.append(", region=").append(region);
+        sb.append(", costUsd=").append(costUsd);
+        sb.append(", costJpy=").append(costJpy);
+        sb.append(", isDeleted=").append(isDeleted);
         sb.append("]");
         return sb.toString();
     }
@@ -187,16 +243,20 @@ public class Activity implements Serializable {
         }
         Activity other = (Activity) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getOwnerId() == null ? other.getOwnerId() == null : this.getOwnerId().equals(other.getOwnerId()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
-            && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()))
-            && (this.getCost() == null ? other.getCost() == null : this.getCost().equals(other.getCost()))
-            && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getCreateBy() == null ? other.getCreateBy() == null : this.getCreateBy().equals(other.getCreateBy()))
-            && (this.getEditTime() == null ? other.getEditTime() == null : this.getEditTime().equals(other.getEditTime()))
-            && (this.getEditBy() == null ? other.getEditBy() == null : this.getEditBy().equals(other.getEditBy()));
+                && (this.getOwnerId() == null ? other.getOwnerId() == null : this.getOwnerId().equals(other.getOwnerId()))
+                && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+                && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
+                && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()))
+                && (this.getCostRmb() == null ? other.getCostRmb() == null : this.getCostRmb().equals(other.getCostRmb()))
+                && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
+                && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+                && (this.getCreateBy() == null ? other.getCreateBy() == null : this.getCreateBy().equals(other.getCreateBy()))
+                && (this.getEditTime() == null ? other.getEditTime() == null : this.getEditTime().equals(other.getEditTime()))
+                && (this.getEditBy() == null ? other.getEditBy() == null : this.getEditBy().equals(other.getEditBy()))
+                && (this.getRegion() == null ? other.getRegion() == null : this.getRegion().equals(other.getRegion()))
+                && (this.getCostUsd() == null ? other.getCostUsd() == null : this.getCostUsd().equals(other.getCostUsd()))
+                && (this.getCostJpy() == null ? other.getCostJpy() == null : this.getCostJpy().equals(other.getCostJpy()))
+                && (this.getIsDeleted() == null ? other.getIsDeleted() == null : this.getIsDeleted().equals(other.getIsDeleted()));
     }
 
     @Override
@@ -208,12 +268,16 @@ public class Activity implements Serializable {
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getStartTime() == null) ? 0 : getStartTime().hashCode());
         result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());
-        result = prime * result + ((getCost() == null) ? 0 : getCost().hashCode());
+        result = prime * result + ((getCostRmb() == null) ? 0 : getCostRmb().hashCode());
         result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getCreateBy() == null) ? 0 : getCreateBy().hashCode());
         result = prime * result + ((getEditTime() == null) ? 0 : getEditTime().hashCode());
         result = prime * result + ((getEditBy() == null) ? 0 : getEditBy().hashCode());
+        result = prime * result + ((getRegion() == null) ? 0 : getRegion().hashCode());
+        result = prime * result + ((getCostUsd() == null) ? 0 : getCostUsd().hashCode());
+        result = prime * result + ((getCostJpy() == null) ? 0 : getCostJpy().hashCode());
+        result = prime * result + ((getIsDeleted() == null) ? 0 : getIsDeleted().hashCode());
         return result;
     }
 }
