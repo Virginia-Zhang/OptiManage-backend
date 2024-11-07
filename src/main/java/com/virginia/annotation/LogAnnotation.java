@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * LogAnnotation, add to all add, delete and update methods
+ * LogAnnotation, added to all add, delete and update methods
  * @author Virginia
  */
 @Retention(RetentionPolicy.RUNTIME)
