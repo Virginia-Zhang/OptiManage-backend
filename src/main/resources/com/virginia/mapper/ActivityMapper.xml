@@ -217,6 +217,6 @@
     ta.*, tu.login_act as owner_act
     from t_activity ta left join t_user tu
     on ta.owner_id = tu.id
-    where ta.is_deleted = 0
+    where ta.is_deleted = 0 ${filterSQL}
   </select>
 </mapper>

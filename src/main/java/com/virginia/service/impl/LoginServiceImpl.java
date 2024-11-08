@@ -34,6 +34,8 @@ public class LoginServiceImpl implements LoginService {
 
         UsernamePasswordAuthenticationToken authenticationToken = UsernamePasswordAuthenticationToken.unauthenticated(loginAct, loginPwd);
 
+        // AuthenticationException: Authentication failed
+        AuthenticationException exception = null;
         try {
             // Call the authenticate method of authentication manager to start authentication.
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
@@ -67,8 +69,10 @@ public class LoginServiceImpl implements LoginService {
             }
         } catch (AuthenticationException e) {
             e.printStackTrace();
+            exception = e;
         }
         // Authentication failed, failure data returned
-        return R.FAIL("Login failed!");
+        assert exception != null;
+        return R.FAIL(exception.getLocalizedMessage());
     }
 }

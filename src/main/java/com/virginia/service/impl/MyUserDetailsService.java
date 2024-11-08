@@ -52,6 +52,8 @@ public class MyUserDetailsService implements UserDetailsManager {
         User user = userMapper.selectByLoginAct(username);
         if (user == null) {
             throw new UsernameNotFoundException("user not found");
+        }else if (user.getAccountEnabled() == 0){
+            throw new UsernameNotFoundException("user not enabled");
         }
         // Query the user's role list based on the user ID
         List<Role> roles = roleMapper.selectRoleListByUserId(user.getId());
