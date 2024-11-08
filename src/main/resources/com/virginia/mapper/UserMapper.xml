@@ -256,8 +256,8 @@
     <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
     <result column="region" jdbcType="INTEGER" property="region" />
     <result column="preferred_language" jdbcType="INTEGER" property="preferredLanguage" />
-    <result column="create_by_name" jdbcType="VARCHAR" property="createByName" />
-    <result column="edit_by_name" jdbcType="VARCHAR" property="editByName" />
+    <result column="create_by_act" property="createByAct"/>
+    <result column="edit_by_act" property="editByAct"/>
   </resultMap>
 
   <select id="selectByLoginAct" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -266,9 +266,9 @@
       from t_user
       where login_act = #{username}
   </select>
-<!--Query all users with account_enabled = 1, and including name of the creator and name of the editor-->
+<!--Query all users with account_enabled = 1, and including login_act of the creator and the editor-->
   <select id="selectAll" resultMap="UserDetailsResultMap">
-    select tu.*, tu2.name as create_by_name, tu3.name as edit_by_name from t_user tu
+    select tu.*, tu2.login_act as create_by_act, tu3.login_act as edit_by_act from t_user tu
            left join t_user tu2 on tu.create_by = tu2.id
            left join t_user tu3 on tu.edit_by = tu3.id
     where tu.account_enabled = 1

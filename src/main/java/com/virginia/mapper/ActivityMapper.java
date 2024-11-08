@@ -3,6 +3,8 @@ package com.virginia.mapper;
 import com.virginia.pojo.Activity;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface ActivityMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +18,7 @@ public interface ActivityMapper {
     int updateByPrimaryKeySelective(Activity record);
 
     int updateByPrimaryKey(Activity record);
+
+    // Query all marketing campaigns/activities
+    List<Activity> selectAll();
 }

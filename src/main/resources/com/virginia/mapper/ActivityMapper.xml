@@ -19,6 +19,7 @@
     <result column="cost_USD" jdbcType="DECIMAL" property="costUsd" />
     <result column="cost_JPY" jdbcType="DECIMAL" property="costJpy" />
     <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="owner_act" property="ownerAct"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -210,4 +211,12 @@
       is_deleted = #{isDeleted,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    ta.*, tu.login_act as owner_act
+    from t_activity ta left join t_user tu
+    on ta.owner_id = tu.id
+    where ta.is_deleted = 0
+  </select>
 </mapper>
