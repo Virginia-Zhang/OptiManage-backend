@@ -76,7 +76,7 @@ public class UserController {
 
     /**
      * Delete/Restore users by ids
-     * @param query Delete/Restore users query object, including list of deleted/restored user ids and accountEnabledValue
+     * @param query query object, including list of deleted/restored user ids and accountEnabledValue
      * @return R.success or R.fail
      */
     @PutMapping("/updateUsers")
