@@ -30,6 +30,12 @@
     region, preferred_language
   </sql>
 
+  <sql id="No_Pwd_Column_List">
+    tu.id, tu.login_act, tu.`name`, tu.phone, tu.email, tu.account_no_expired, tu.credentials_no_expired,
+    tu.account_no_locked, tu.account_enabled, tu.create_time, tu.create_by, tu.edit_time, tu.edit_by, tu.last_login_time,
+    tu.region, tu.preferred_language
+  </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select 
@@ -268,18 +274,30 @@
   </select>
 <!--Query all users with account_enabled = 1, and including login_act of the creator and the editor-->
   <select id="selectAll" resultMap="UserDetailsResultMap">
-    select tu.*, tu2.login_act as create_by_act, tu3.login_act as edit_by_act from t_user tu
+    select <include refid="No_Pwd_Column_List" />, tu2.login_act as create_by_act, tu3.login_act as edit_by_act from t_user tu
            left join t_user tu2 on tu.create_by = tu2.id
            left join t_user tu3 on tu.edit_by = tu3.id
     where tu.account_enabled = 1
   </select>
 
-  <!--  Delete users in batches -> set the user's account_enabled field to 0.-->
-  <update id="deleteUsersByIds">
-    update t_user set account_enabled = 0, edit_time = #{editTime}, edit_by = #{editBy}
+  <!--  Remove/Restore users in batches -> set the user's account_enabled field to 0/1.-->
+  <update id="updateUsersByIds">
+    update t_user set account_enabled = #{accountEnabledValue}, edit_time = #{editTime}, edit_by = #{editBy}
     where id in
     <foreach collection="ids" item="id" open="(" separator="," close=")">
       #{id}
     </foreach>
   </update>
+
+  <!-- Get all users with id and login_act only-->
+  <select id="selectOwners" resultMap="BaseResultMap">
+    select id, login_act from t_user
+  </select>
+
+  <!--Query all users with account_enabled = 0, and including login_act of the creator and the editor-->
+  <select id="selectDeletedUsers" resultMap="UserDetailsResultMap">
+    select <include refid="No_Pwd_Column_List" />, tu2.login_act as create_by_act, tu3.login_act as edit_by_act from t_user tu
+        left join t_user tu2 on tu.create_by = tu2.id                            left join t_user tu3 on tu.edit_by = tu3.id
+    where tu.account_enabled = 0
+  </select>
 </mapper>

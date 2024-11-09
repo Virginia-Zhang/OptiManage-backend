@@ -3,6 +3,7 @@ package com.virginia.controller;
 import com.virginia.pojo.MyUserDetails;
 import com.virginia.pojo.PageBean;
 import com.virginia.pojo.User;
+import com.virginia.query.UpdateUsersQuery;
 import com.virginia.result.R;
 import com.virginia.service.impl.UserServiceImpl;
 import jakarta.annotation.Resource;
@@ -25,6 +26,7 @@ public class UserController {
         MyUserDetails userDetails = userServiceImpl.getUserInfo();
         // Delete the user.login pwd field in user details and return it to the front end
         userDetails.getUser().setLoginPwd(null);
+        System.out.println("userDetails.getUser(): "+ userDetails.getUser());
         return R.SUCCESS(userDetails);
     }
 
@@ -73,18 +75,40 @@ public class UserController {
     }
 
     /**
-     * Delete users by ids
-     * @param ids List of deleted user ids
+     * Delete/Restore users by ids
+     * @param query Delete/Restore users query object, including list of deleted/restored user ids and accountEnabledValue
      * @return R.success or R.fail
      */
-    @DeleteMapping("/")
-    public R removeUsersByIds(@RequestBody List<Integer> ids) {
+    @PutMapping("/updateUsers")
+    public R updateUsersByIds(@RequestBody UpdateUsersQuery query) {
         try {
-            Integer result = userServiceImpl.removeUsersByIds(ids);
-            return result == ids.size() ? R.SUCCESS() : R.FAIL("Delete users failed!Please try again!");
+            Integer result = userServiceImpl.updateUsersByIds(query.getIds(), query.getAccountEnabledValue());
+            return result == query.getIds().size() ? R.SUCCESS() : R.FAIL("Delete/Restore users failed!Please try again!");
         } catch (Exception e) {
             e.printStackTrace();
-            return R.FAIL("Delete users failed!Please try again!");
+            return R.FAIL("Delete/Restore users failed!Please try again!");
         }
+    }
+
+    /**
+     *Query deleted users data by page and return
+     * @param page current page number
+     * @param pageSize The number of data items displayed on each page
+     * @return paging data, the format is: {total: 100, rows: [{}, {}, ...]}, encapsulated into R: data
+     */
+    @GetMapping("/deletedList")
+    public R getDeletedUsers(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageBean users = userServiceImpl.getDeletedUsers(page, pageSize);
+        return R.SUCCESS(users);
+    }
+
+    /**
+     * Query all marketing activity owners (users with id and login_act only) for display in the drop-down list
+     * @return List of owners, encapsulated into R: data
+     */
+    @GetMapping("/owners")
+    public R getOwners() {
+        List<User> owners = userServiceImpl.getOwners();
+        return R.SUCCESS(owners);
     }
 }

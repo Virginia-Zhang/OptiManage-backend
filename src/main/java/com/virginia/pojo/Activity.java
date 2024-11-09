@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  *Marketing activity table
@@ -33,12 +33,12 @@ public class Activity implements Serializable {
     /**
      *Activity start time
      */
-    private Date startTime;
+    private LocalDateTime startTime;
 
     /**
      *Activity end time
      */
-    private Date endTime;
+    private LocalDateTime endTime;
 
     /**
      *Activity budget, RMB
@@ -53,7 +53,7 @@ public class Activity implements Serializable {
     /**
      *Activity created time
      */
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      *Activity creator
@@ -63,7 +63,7 @@ public class Activity implements Serializable {
     /**
      *Activity edited time
      */
-    private Date editTime;
+    private LocalDateTime editTime;
 
     /**
      *Activity Editor

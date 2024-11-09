@@ -19,6 +19,12 @@ public interface UserService {
     // Edit user
     Integer editUser(User user);
 
-    // remove users by userIds
-    Integer removeUsersByIds(List<Integer> ids);
+    // Remove/Restore users by userIds
+    Integer updateUsersByIds(List<Integer> ids, Integer accountEnabledValue);
+
+    // Query deleted users data by page and return
+    PageBean getDeletedUsers(Integer page, Integer pageSize);
+
+    // Query all users with id and login_act only
+    List<User> getOwners();
 }

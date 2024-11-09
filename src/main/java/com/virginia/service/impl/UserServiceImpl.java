@@ -109,10 +109,23 @@ public class UserServiceImpl implements UserService {
 
     @LogAnnotation
     @Override
-    public Integer removeUsersByIds(List<Integer> ids) {
+    public Integer updateUsersByIds(List<Integer> ids, Integer accountEnabledValue) {
         // Update edit_time and edit_by at the same time
         MyUserDetails loggedInUserInfo = UserUtils.getLoggedInUserInfo();
         assert loggedInUserInfo != null;
-        return userMapper.deleteUsersByIds(ids, LocalDateTime.now(), loggedInUserInfo.getUser().getId());
+        return userMapper.updateUsersByIds(ids, accountEnabledValue, LocalDateTime.now(), loggedInUserInfo.getUser().getId());
+    }
+
+    @Override
+    public PageBean getDeletedUsers(Integer page, Integer pageSize) {
+        PageHelper.startPage(page, pageSize);
+        List<User> userList = userMapper.selectDeletedUsers();
+        Page<User> pageInfo = (Page<User>) userList;
+        return new PageBean(pageInfo.getTotal(), pageInfo.getResult());
+    }
+
+    @Override
+    public List<User> getOwners() {
+        return userMapper.selectOwners();
     }
 }
