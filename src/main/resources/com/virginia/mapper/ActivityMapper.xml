@@ -217,6 +217,40 @@
     ta.*, tu.login_act as owner_act
     from t_activity ta left join t_user tu
     on ta.owner_id = tu.id
-    where ta.is_deleted = 0 ${filterSQL}
+    where ta.is_deleted = 0
+    <if test="ownerId != null">
+      and ta.owner_id = #{ownerId}
+    </if>
+    <if test="name != null">
+      and ta.name like concat('%',#{name},'%')
+    </if>
+    <if test="startTime != null">
+      and ta.start_time &gt;= #{startTime}
+    </if>
+    <if test="endTime != null">
+      and ta.end_time &lt;= #{endTime}
+    </if>
+    <if test="startCostUSD != null and endCostUSD != null">
+      and ta.cost_USD between #{startCostUSD} and #{endCostUSD}
+    </if>
+    <if test="startCostUSD != null and endCostUSD == null">
+      and ta.cost_USD &gt;= #{startCostUSD}
+    </if>
+    <if test="startCostRMB != null and endCostRMB != null">
+      and ta.cost_RMB between #{startCostRMB} and #{endCostRMB}
+    </if>
+    <if test="startCostRMB != null and endCostRMB == null">
+      and ta.cost_RMB &gt;= #{startCostRMB}
+    </if>
+    <if test="startCostJPY != null and endCostJPY != null">
+      and ta.cost_JPY between #{startCostJPY} and #{endCostJPY}
+    </if>
+    <if test="startCostJPY != null and endCostJPY == null">
+      and ta.cost_JPY &gt;= #{startCostJPY}
+    </if>
+    <if test="region != null">
+      and ta.region = #{region}
+    </if>
+    ${filterSQL}
   </select>
 </mapper>

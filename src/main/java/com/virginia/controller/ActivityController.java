@@ -1,6 +1,7 @@
 package com.virginia.controller;
 
 import com.virginia.pojo.PageBean;
+import com.virginia.query.GetActivitiesQuery;
 import com.virginia.result.R;
 import com.virginia.service.impl.ActivityServiceImpl;
 import jakarta.annotation.Resource;
@@ -16,14 +17,13 @@ public class ActivityController {
     private ActivityServiceImpl activityService;
 
     /**
-     * Query activity data by page and return
-     * @param page current page number
-     * @param pageSize The number of data items displayed on each page
+     * Query activity data by page (with searching params) and return
+     * @param query, encapsulated with searching params and paging params
      * @return paging data, the format is: {total: 100, rows: [{}, {}, ...]}, encapsulated into R: data
      */
     @GetMapping("/list")
-    public R getAllActivities(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize) {
-        PageBean activities = activityService.getAllActivities(page, pageSize);
+    public R getAllActivities(GetActivitiesQuery query) {
+        PageBean activities = activityService.getAllActivities(query);
         return R.SUCCESS(activities);
     }
 }

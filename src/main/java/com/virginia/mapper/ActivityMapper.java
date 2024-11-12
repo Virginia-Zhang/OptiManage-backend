@@ -2,9 +2,8 @@ package com.virginia.mapper;
 
 import com.virginia.annotation.DataFilterAnnotation;
 import com.virginia.pojo.Activity;
-import com.virginia.query.DataFilterQuery;
+import com.virginia.query.GetActivitiesQuery;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,8 +21,8 @@ public interface ActivityMapper {
 
     int updateByPrimaryKey(Activity record);
 
-    // Query all marketing campaigns/activities
-    // The parameters passed in are dynamic query conditions, that is, dynamically spliced ​​SQL statements, used for data permission control.
+    // Query marketing campaigns/activities with searching parameters, data filter SQL and pagination.
+    // The parameters passed in are searching parameters with filterSQL used for data permission control.
     @DataFilterAnnotation(tableAlias = "ta", tableField = "owner_id")
-    List<Activity> selectAll(DataFilterQuery query);
+    List<Activity> selectAll(GetActivitiesQuery query);
 }
