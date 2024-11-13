@@ -218,8 +218,11 @@
     from t_activity ta left join t_user tu
     on ta.owner_id = tu.id
     where ta.is_deleted = 0
-    <if test="ownerId != null">
-      and ta.owner_id = #{ownerId}
+    <if test="ownerIds != null and ownerIds.size() != 0">
+      and ta.owner_id in
+      <foreach item="item" index="index" collection="ownerIds" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
     </if>
     <if test="name != null">
       and ta.name like concat('%',#{name},'%')
@@ -248,8 +251,11 @@
     <if test="startCostJPY != null and endCostJPY == null">
       and ta.cost_JPY &gt;= #{startCostJPY}
     </if>
-    <if test="region != null">
-      and ta.region = #{region}
+    <if test="regions != null and regions.size() != 0">
+      and ta.region in
+      <foreach item="item" index="index" collection="regions" open="(" close=")" separator=",">
+        #{item}
+      </foreach>
     </if>
     ${filterSQL}
   </select>

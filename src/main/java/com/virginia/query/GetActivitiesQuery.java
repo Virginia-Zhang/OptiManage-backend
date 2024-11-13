@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -20,7 +21,7 @@ import java.time.LocalDateTime;
 public class GetActivitiesQuery extends DataFilterQuery {
     private Integer page = 1;
     private Integer pageSize = 10;
-    private Integer ownerId;
+    private List<Integer> ownerIds;
     private String name;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
@@ -32,5 +33,5 @@ public class GetActivitiesQuery extends DataFilterQuery {
     private BigDecimal endCostRMB;
     private BigDecimal startCostJPY;
     private BigDecimal endCostJPY;
-    private Integer region;
+    private List<Integer> regions;
 }

@@ -5,7 +5,6 @@ import com.github.pagehelper.PageHelper;
 import com.virginia.mapper.ActivityMapper;
 import com.virginia.pojo.Activity;
 import com.virginia.pojo.PageBean;
-import com.virginia.query.DataFilterQuery;
 import com.virginia.query.GetActivitiesQuery;
 import com.virginia.service.ActitvityService;
 import jakarta.annotation.Resource;
