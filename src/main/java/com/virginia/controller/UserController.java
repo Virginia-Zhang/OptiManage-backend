@@ -6,7 +6,9 @@ import com.virginia.pojo.User;
 import com.virginia.query.UpdateUsersQuery;
 import com.virginia.result.R;
 import com.virginia.service.impl.UserServiceImpl;
+import com.virginia.validation.ValidationGroups;
 import jakarta.annotation.Resource;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +28,6 @@ public class UserController {
         MyUserDetails userDetails = userServiceImpl.getUserInfo();
         // Delete the user.login pwd field in user details and return it to the front end
         userDetails.getUser().setLoginPwd(null);
-        System.out.println("userDetails.getUser(): "+ userDetails.getUser());
         return R.SUCCESS(userDetails);
     }
 
@@ -48,7 +49,7 @@ public class UserController {
      * @return number of rows affected, encapsulated into R: data
      */
     @PostMapping("/")
-    public R addUser(@RequestBody User user) {
+    public R addUser(@Validated(ValidationGroups.AddUserGroup.class) @RequestBody User user) {
         try {
             Integer result = userServiceImpl.addUser(user);
             return result >= 1 ? R.SUCCESS(result) : R.FAIL("Add user failed!Please try again!");
@@ -64,7 +65,7 @@ public class UserController {
      * @return number of rows affected, encapsulated into R: data
      */
     @PutMapping("/")
-    public R editUser(@RequestBody User user) {
+    public R editUser(@Validated(ValidationGroups.EditUserGroup.class) @RequestBody User user) {
         try {
             Integer result = userServiceImpl.editUser(user);
             return result >= 1 ? R.SUCCESS(result) : R.FAIL("Edit user failed!Please try again!");
