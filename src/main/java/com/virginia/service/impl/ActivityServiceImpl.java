@@ -39,9 +39,16 @@ public class ActivityServiceImpl implements ActitvityService {
         return activityMapper.insertSelective(activity);
     }
 
+    @LogAnnotation
     @Override
     public Integer editActivity(Activity activity) {
-        return 0;
+        // Obtain the ID of the currently logged in user from the security context and assign it to editBy field.
+        MyUserDetails loggedInUserInfo = UserUtils.getLoggedInUserInfo();
+        assert loggedInUserInfo != null;
+        activity.setEditBy(loggedInUserInfo.getUser().getId());
+        // Set editTime
+        activity.setEditTime(LocalDateTime.now());
+        return activityMapper.updateByPrimaryKeySelective(activity);
     }
 
     /**

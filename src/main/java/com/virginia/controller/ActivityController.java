@@ -6,6 +6,7 @@ import com.virginia.query.GetActivitiesQuery;
 import com.virginia.result.R;
 import com.virginia.service.impl.ActivityServiceImpl;
 import com.virginia.utils.UserUtils;
+import com.virginia.validation.ValidationGroups;
 import jakarta.annotation.Resource;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -66,6 +67,35 @@ public class ActivityController {
         } catch (Exception e) {
             e.printStackTrace();
             return R.FAIL("Add marketing activity failed!Please try again!");
+        }
+    }
+
+    /**
+     * Edit marketing activity
+     * @param activity object
+     * @return number of rows affected, encapsulated into R: data
+     */
+    @PutMapping("/")
+    public R editActivity(@Validated(ValidationGroups.EditActivityGroup.class) @RequestBody Activity activity, BindingResult bindingResult) throws MethodArgumentNotValidException {
+        // Perform non-null verification on costRmb/costUsd/costJpy field
+        if(activity.getRegion() == 1 && activity.getCostRmb() == null){
+            bindingResult.addError(new FieldError("activity","costRmb", "Cost in RMB is required!"));
+        }else if (activity.getRegion() == 2 && activity.getCostJpy() == null){
+            bindingResult.addError(new FieldError("activity","costJpy", "Cost in JPY is required!"));
+        }else if (activity.getRegion() != 1 && activity.getRegion() != 2 && activity.getCostUsd() == null){
+            bindingResult.addError(new FieldError("activity","costUsd", "Cost in USD is required!"));
+        }
+
+        if (bindingResult.hasErrors()) {
+            throw new MethodArgumentNotValidException(null, bindingResult);
+        }
+
+        try {
+            Integer result = activityService.editActivity(activity);
+            return result >= 1 ? R.SUCCESS(result) : R.FAIL("Edit marketing activity failed!Please try again!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.FAIL("Edit marketing activity failed!Please try again!");
         }
     }
 }

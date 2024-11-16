@@ -1,10 +1,8 @@
 package com.virginia.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.virginia.validation.ValidCost;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import com.virginia.validation.ValidationGroups;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,18 +20,22 @@ import java.time.LocalDateTime;
 public class Activity implements Serializable {
     /**
      *Primary key, automatic growth, activity ID
+     * Verify that the field is not empty when editing.
      */
+    @NotNull(groups = {ValidationGroups.EditActivityGroup.class}, message = "Marketing activity ID is required!")
     private Integer id;
 
     /**
-     *Activity owner ID
+     *  Activity owner ID
+     *  Verify that the field is not empty when editing.
      */
+    @NotNull(groups = {ValidationGroups.EditActivityGroup.class}, message = "Owner ID is required!")
     private Integer ownerId;
 
     /**
      *Activity name
      */
-    @NotEmpty(message = "Name is required!")
+    @NotBlank(message = "Name is required!")
     @Size(max = 128, message = "Name cannot exceed 128 characters!")
     private String name;
 
@@ -53,16 +55,17 @@ public class Activity implements Serializable {
 
     /**
      *  Activity budget, RMB
-     *  Verify the data type, which must be an integer or two decimal places or less.
+     *  Verify the data type, which must be a positive number less than 2 decimal places.
      *  The non-empty verification logic of this field is relatively complex and is placed in the controller.
      */
-    @ValidCost
+    @Digits(integer = 10, fraction = 2, message = "Cost must be a positive number with at most two decimal places!")
+    @DecimalMin(value="0.01", message = "Cost must be a positive number with at most two decimal places!")
     private BigDecimal costRmb;
 
     /**
      *Activity description
      */
-    @NotEmpty(message = "Description is required!")
+    @NotBlank(message = "Description is required!")
     @Size(max = 1024, message = "Description cannot exceed 1024 characters!")
     private String description;
 
@@ -94,18 +97,20 @@ public class Activity implements Serializable {
 
     /**
      *  Activity budget, USD
-     *  Verify the data type, which must be an integer or two decimal places or less.
+     *  Verify the data type, which must be a positive number less than 2 decimal places.
      *  The non-empty verification logic of this field is relatively complex and is placed in the controller.
      */
-    @ValidCost
+    @Digits(integer = 10, fraction = 2, message = "Cost must be a positive number with at most two decimal places!")
+    @DecimalMin(value="0.01", message = "Cost must be a positive number with at most two decimal places!")
     private BigDecimal costUsd;
 
     /**
      *  Activity budget, Japanese yen
-     *  Verify the data type, which must be an integer or two decimal places or less.
+     *  Verify the data type, which must be a positive number less than 2 decimal places.
      *  The non-empty verification logic of this field is relatively complex and is placed in the controller.
      */
-    @ValidCost
+    @Digits(integer = 10, fraction = 2, message = "Cost must be a positive number with at most two decimal places!")
+    @DecimalMin(value="0.01", message = "Cost must be a positive number with at most two decimal places!")
     private BigDecimal costJpy;
 
     /**

@@ -159,9 +159,7 @@
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="costRmb != null">
         cost_RMB = #{costRmb,jdbcType=DECIMAL},
-      </if>
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
       </if>
@@ -180,12 +178,8 @@
       <if test="region != null">
         region = #{region,jdbcType=INTEGER},
       </if>
-      <if test="costUsd != null">
         cost_USD = #{costUsd,jdbcType=DECIMAL},
-      </if>
-      <if test="costJpy != null">
         cost_JPY = #{costJpy,jdbcType=DECIMAL},
-      </if>
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=INTEGER},
       </if>

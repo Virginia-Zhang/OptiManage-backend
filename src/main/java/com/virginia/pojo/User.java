@@ -2,7 +2,7 @@ package com.virginia.pojo;
 
 import com.virginia.validation.ValidationGroups;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -22,7 +22,7 @@ public class User implements Serializable {
     /**
      *Login account
      */
-    @NotEmpty(groups = {ValidationGroups.AddUserGroup.class, ValidationGroups.EditUserGroup.class}, message = "Login account is required!")
+    @NotBlank(groups = {ValidationGroups.AddUserGroup.class, ValidationGroups.EditUserGroup.class}, message = "Login account is required!")
     private String loginAct;
 
     /**
@@ -33,19 +33,19 @@ public class User implements Serializable {
     /**
      *User name
      */
-    @NotEmpty(groups = {ValidationGroups.AddUserGroup.class, ValidationGroups.EditUserGroup.class}, message = "Name is required!")
+    @NotBlank(groups = {ValidationGroups.AddUserGroup.class, ValidationGroups.EditUserGroup.class}, message = "Name is required!")
     private String name;
 
     /**
      *User mobile phone
      */
-    @NotEmpty(groups = {ValidationGroups.AddUserGroup.class, ValidationGroups.EditUserGroup.class}, message = "Phone number is required!")
+    @NotBlank(groups = {ValidationGroups.AddUserGroup.class, ValidationGroups.EditUserGroup.class}, message = "Phone number is required!")
     private String phone;
 
     /**
      *User email
      */
-    @NotEmpty(groups = {ValidationGroups.AddUserGroup.class, ValidationGroups.EditUserGroup.class}, message = "Email is required!")
+    @NotBlank(groups = {ValidationGroups.AddUserGroup.class, ValidationGroups.EditUserGroup.class}, message = "Email is required!")
     @Email(groups = {ValidationGroups.AddUserGroup.class, ValidationGroups.EditUserGroup.class}, message = "Invalid email format!")
     private String email;
 
