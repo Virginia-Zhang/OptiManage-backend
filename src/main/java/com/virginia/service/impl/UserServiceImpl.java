@@ -60,21 +60,12 @@ public class UserServiceImpl implements UserService {
     public Integer addUser(User user) {
         // Generate a random password
         String password = PasswordUtils.generateRandomPassword();
-        // Set preferred language according to region
-        String preferredLanguage;
-        // If region is China, set preferred language to Chinese
-        if (user.getRegion() == 1) {
-            preferredLanguage = "zh";
-            user.setPreferredLanguage(2);
-        } else if (user.getRegion() == 2) {
-            // If region is Japan, set preferred language to Japanese
-            preferredLanguage = "ja";
-            user.setPreferredLanguage(3);
-        } else {
-            // If region is others, set preferred language to English
-            preferredLanguage = "en";
-            user.setPreferredLanguage(1);
-        }
+        // Set preferredLanguage according to user.getPreferredLanguage()
+        String preferredLanguage = switch (user.getPreferredLanguage()) {
+            case 2 -> "zh";
+            case 3 -> "ja";
+            default -> "en";
+        };
         // Send loginAct and password to the new user by email
         emailUtils.sendLocalizedTemplateEmail(user.getEmail(), user.getLoginAct(), password, preferredLanguage);
 

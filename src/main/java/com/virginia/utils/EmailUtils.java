@@ -3,6 +3,8 @@ package com.virginia.utils;
 import jakarta.annotation.Resource;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -14,7 +16,7 @@ import org.thymeleaf.context.Context;
 import java.util.Locale;
 
 // Send emails using qq mailbox
-
+@Slf4j
 @Component
 public class EmailUtils {
     @Resource
@@ -38,19 +40,11 @@ public class EmailUtils {
     public void sendLocalizedTemplateEmail(String to, String loginAct, String password, String preferredLanguage) {
         try {
             // Select locale based on language preference
-            Locale locale;
-            switch (preferredLanguage.toLowerCase()) {
-                case "zh":
-                    locale = Locale.SIMPLIFIED_CHINESE;
-                    break;
-                case "ja":
-                    locale = Locale.JAPANESE;
-                    break;
-                case "en":
-                default:
-                    locale = Locale.ENGLISH;
-                    break;
-            }
+            Locale locale = switch (preferredLanguage.toLowerCase()) {
+                case "zh" -> Locale.SIMPLIFIED_CHINESE;
+                case "ja" -> Locale.JAPANESE;
+                default -> Locale.ENGLISH;
+            };
 
             // Create thymeleaf context
             Context context = new Context(locale);
@@ -75,10 +69,10 @@ public class EmailUtils {
 
             // Send email
             mailSender.send(mimeMessage);
-            System.out.println("Localized template email sent successfully");
+            log.info("Localized template email sent successfully");
         } catch (MessagingException e) {
             e.printStackTrace();
-            System.out.println("Failed to send localized template email");
+            log.info("Failed to send localized template email");
         }
     }
 }

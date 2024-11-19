@@ -98,7 +98,7 @@ public class User implements Serializable {
     private LocalDateTime lastLoginTime;
 
     /**
-     *Country and region, 1 China, 2 Japan, 3 United States, 4 United Kingdom, 5 France, 6 Germany, 7 Singapore, 8 India, 9 Australia, 10 South Korea, 11 others
+     *Country and region, 1 China, 2 Japan, 3 United States, 4 Others
      */
     @NotNull(groups = {ValidationGroups.AddUserGroup.class, ValidationGroups.EditUserGroup.class}, message = "Region is required!")
     private Integer region;
@@ -106,6 +106,7 @@ public class User implements Serializable {
     /**
      *Preferred language, 1 English, 2 Chinese, 3 Japanese
      */
+    @NotNull(groups = {ValidationGroups.AddUserGroup.class}, message = "Preferred language is required!")
     private Integer preferredLanguage;
 
     /**

@@ -9,22 +9,23 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="cost_RMB" jdbcType="DECIMAL" property="costRmb" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_by" jdbcType="INTEGER" property="createBy" />
     <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
     <result column="edit_by" jdbcType="INTEGER" property="editBy" />
     <result column="region" jdbcType="INTEGER" property="region" />
-    <result column="cost_USD" jdbcType="DECIMAL" property="costUsd" />
-    <result column="cost_JPY" jdbcType="DECIMAL" property="costJpy" />
     <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="cost" jdbcType="DECIMAL" property="cost" />
+    <result column="currency_unit" jdbcType="OTHER" property="currencyUnit" />
+    <result column="create_by_act" property="createByAct"/>
+    <result column="edit_by_act" property="editByAct"/>
     <result column="owner_act" property="ownerAct"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, owner_id, `name`, start_time, end_time, cost_RMB, description, create_time, create_by, 
-    edit_time, edit_by, region, cost_USD, cost_JPY, is_deleted
+    id, owner_id, `name`, start_time, end_time, description, create_time, create_by, 
+    edit_time, edit_by, region, is_deleted, cost, currency_unit
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -41,15 +42,15 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.virginia.pojo.Activity" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into t_activity (owner_id, `name`, start_time, 
-      end_time, cost_RMB, description, 
-      create_time, create_by, edit_time, 
-      edit_by, region, cost_USD, 
-      cost_JPY, is_deleted)
+      end_time, description, create_time, 
+      create_by, edit_time, edit_by, 
+      region, is_deleted, cost, 
+      currency_unit)
     values (#{ownerId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{costRmb,jdbcType=DECIMAL}, #{description,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=INTEGER}, #{editTime,jdbcType=TIMESTAMP}, 
-      #{editBy,jdbcType=INTEGER}, #{region,jdbcType=INTEGER}, #{costUsd,jdbcType=DECIMAL}, 
-      #{costJpy,jdbcType=DECIMAL}, #{isDeleted,jdbcType=INTEGER})
+      #{endTime,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=INTEGER}, #{editTime,jdbcType=TIMESTAMP}, #{editBy,jdbcType=INTEGER}, 
+      #{region,jdbcType=INTEGER}, #{isDeleted,jdbcType=INTEGER}, #{cost,jdbcType=DECIMAL}, 
+      #{currencyUnit,jdbcType=OTHER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.virginia.pojo.Activity" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -66,9 +67,6 @@
       </if>
       <if test="endTime != null">
         end_time,
-      </if>
-      <if test="costRmb != null">
-        cost_RMB,
       </if>
       <if test="description != null">
         description,
@@ -88,14 +86,14 @@
       <if test="region != null">
         region,
       </if>
-      <if test="costUsd != null">
-        cost_USD,
-      </if>
-      <if test="costJpy != null">
-        cost_JPY,
-      </if>
       <if test="isDeleted != null">
         is_deleted,
+      </if>
+      <if test="cost != null">
+        cost,
+      </if>
+      <if test="currencyUnit != null">
+        currency_unit,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -110,9 +108,6 @@
       </if>
       <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="costRmb != null">
-        #{costRmb,jdbcType=DECIMAL},
       </if>
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
@@ -132,14 +127,14 @@
       <if test="region != null">
         #{region,jdbcType=INTEGER},
       </if>
-      <if test="costUsd != null">
-        #{costUsd,jdbcType=DECIMAL},
-      </if>
-      <if test="costJpy != null">
-        #{costJpy,jdbcType=DECIMAL},
-      </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null">
+        #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="currencyUnit != null">
+        #{currencyUnit,jdbcType=OTHER},
       </if>
     </trim>
   </insert>
@@ -159,7 +154,6 @@
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
-        cost_RMB = #{costRmb,jdbcType=DECIMAL},
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
       </if>
@@ -178,10 +172,14 @@
       <if test="region != null">
         region = #{region,jdbcType=INTEGER},
       </if>
-        cost_USD = #{costUsd,jdbcType=DECIMAL},
-        cost_JPY = #{costJpy,jdbcType=DECIMAL},
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null">
+        cost = #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="currencyUnit != null">
+        currency_unit = #{currencyUnit,jdbcType=OTHER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -193,28 +191,29 @@
       `name` = #{name,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
-      cost_RMB = #{costRmb,jdbcType=DECIMAL},
       description = #{description,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_by = #{createBy,jdbcType=INTEGER},
       edit_time = #{editTime,jdbcType=TIMESTAMP},
       edit_by = #{editBy,jdbcType=INTEGER},
       region = #{region,jdbcType=INTEGER},
-      cost_USD = #{costUsd,jdbcType=DECIMAL},
-      cost_JPY = #{costJpy,jdbcType=DECIMAL},
-      is_deleted = #{isDeleted,jdbcType=INTEGER}
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      cost = #{cost,jdbcType=DECIMAL},
+      currency_unit = #{currencyUnit,jdbcType=OTHER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
   <select id="selectAll" resultMap="BaseResultMap">
     select
-    ta.*, tu.login_act as owner_act
-    from t_activity ta left join t_user tu
-    on ta.owner_id = tu.id
+    ta.*, tu1.login_act as owner_act, tu2.login_act as create_by_act, tu3.login_act as edit_by_act
+    from t_activity ta
+    left join t_user tu1 on ta.owner_id = tu1.id
+    left join t_user tu2 on ta.create_by = tu2.id
+    left join t_user tu3 on ta.edit_by = tu3.id
     where ta.is_deleted = 0
     <if test="ownerIds != null and ownerIds.size() != 0">
       and ta.owner_id in
-      <foreach item="item" index="index" collection="ownerIds" open="(" close=")" separator=",">
+      <foreach close=")" collection="ownerIds" index="index" item="item" open="(" separator=",">
         #{item}
       </foreach>
     </if>
@@ -227,27 +226,18 @@
     <if test="endTime != null">
       and ta.end_time &lt;= #{endTime}
     </if>
-    <if test="startCostUSD != null and endCostUSD != null">
-      and ta.cost_USD between #{startCostUSD} and #{endCostUSD}
+    <if test="startCost != null and endCost != null">
+      and ta.cost between #{startCost} and #{endCost}
     </if>
-    <if test="startCostUSD != null and endCostUSD == null">
-      and ta.cost_USD &gt;= #{startCostUSD}
+    <if test="startCost != null and endCost == null">
+      and ta.cost &gt;= #{startCost}
     </if>
-    <if test="startCostRMB != null and endCostRMB != null">
-      and ta.cost_RMB between #{startCostRMB} and #{endCostRMB}
-    </if>
-    <if test="startCostRMB != null and endCostRMB == null">
-      and ta.cost_RMB &gt;= #{startCostRMB}
-    </if>
-    <if test="startCostJPY != null and endCostJPY != null">
-      and ta.cost_JPY between #{startCostJPY} and #{endCostJPY}
-    </if>
-    <if test="startCostJPY != null and endCostJPY == null">
-      and ta.cost_JPY &gt;= #{startCostJPY}
+    <if test="currencyUnit != null and currencyUnit != ''">
+      and ta.currency_unit = #{currencyUnit}
     </if>
     <if test="regions != null and regions.size() != 0">
       and ta.region in
-      <foreach item="item" index="index" collection="regions" open="(" close=")" separator=",">
+      <foreach close=")" collection="regions" index="index" item="item" open="(" separator=",">
         #{item}
       </foreach>
     </if>

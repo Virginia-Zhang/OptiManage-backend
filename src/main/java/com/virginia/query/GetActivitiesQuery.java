@@ -1,5 +1,8 @@
 package com.virginia.query;
 
+import com.virginia.validation.ValidationGroups;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,11 +30,11 @@ public class GetActivitiesQuery extends DataFilterQuery {
     private LocalDateTime startTime;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
-    private BigDecimal startCostUSD;
-    private BigDecimal endCostUSD;
-    private BigDecimal startCostRMB;
-    private BigDecimal endCostRMB;
-    private BigDecimal startCostJPY;
-    private BigDecimal endCostJPY;
+    @Digits(groups = {ValidationGroups.SelectActivitiesGroup.class}, integer = 11, fraction = 2, message = "StartCost must be a number with at most two decimal places!")
+    private BigDecimal startCost;
+    @Digits(groups = {ValidationGroups.SelectActivitiesGroup.class}, integer = 11, fraction = 2, message = "EndCost must be a number with at most two decimal places!")
+    private BigDecimal endCost;
+    @Pattern(groups = {ValidationGroups.SelectActivitiesGroup.class}, regexp = "^(USD|RMB|JPY)$", message = "Currency unit must be USD, RMB or JPY!")
+    private String currencyUnit;
     private List<Integer> regions;
 }

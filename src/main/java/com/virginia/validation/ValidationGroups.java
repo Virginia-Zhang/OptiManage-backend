@@ -8,5 +8,7 @@ public class ValidationGroups {
     public interface AddUserGroup{}
     public interface EditUserGroup{}
     public interface EditActivityGroup{}
+    public interface AddActivityGroup{}
+    public interface SelectActivitiesGroup{}
 }
 

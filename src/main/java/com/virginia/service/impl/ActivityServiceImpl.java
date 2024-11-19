@@ -8,7 +8,7 @@ import com.virginia.pojo.Activity;
 import com.virginia.pojo.MyUserDetails;
 import com.virginia.pojo.PageBean;
 import com.virginia.query.GetActivitiesQuery;
-import com.virginia.service.ActitvityService;
+import com.virginia.service.ActivityService;
 import com.virginia.utils.UserUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ActivityServiceImpl implements ActitvityService {
+public class ActivityServiceImpl implements ActivityService {
     @Resource
     private ActivityMapper activityMapper;
 
@@ -59,7 +59,7 @@ public class ActivityServiceImpl implements ActitvityService {
     @Override
     public PageBean getAllActivities(GetActivitiesQuery query) {
         PageHelper.startPage(query.getPage(), query.getPageSize());
-        // Pass the object of GetActivitiesQuery, a subclass of DataFilterQuery. This object contains filterSQL, paging and conditional query parameters.
+        // Pass in the object of GetActivitiesQuery, a subclass of DataFilterQuery. This object contains filterSQL, paging and conditional query parameters.
         // filterSQL is used for data permission control. Except for admin, only the market activities that the current user is responsible for are queried.
         List<Activity> activityList = activityMapper.selectAll(query);
         Page<Activity> pageInfo = (Page<Activity>) activityList;
