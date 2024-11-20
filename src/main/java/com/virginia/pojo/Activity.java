@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Marketing activity table
+ * Marketing activity entity
  */
 @Data
 @AllArgsConstructor
