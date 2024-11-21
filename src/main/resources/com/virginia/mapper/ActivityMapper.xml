@@ -243,4 +243,14 @@
     </if>
     ${filterSQL}
   </select>
+
+  <!--  Remove/Restore activities in batches -> set the is_deleted field to 1/0.-->
+  <update id="updateActivitiesByIds">
+    update t_activity
+    set is_deleted = #{isDeletedValue}, edit_time = #{editTime}, edit_by = #{editBy}
+    where id in
+    <foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+  </update>
 </mapper>

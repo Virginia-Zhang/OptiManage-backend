@@ -62,4 +62,11 @@ public class ActivityRemark implements Serializable {
     private Integer isDeleted;
 
     private static final long serialVersionUID = 1L;
+    /**
+     * Non-database fields
+     */
+    // Activity creator's login account
+    private String createByAct;
+    // Activity editor's login account
+    private String editByAct;
 }

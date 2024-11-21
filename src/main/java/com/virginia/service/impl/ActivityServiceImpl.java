@@ -65,4 +65,20 @@ public class ActivityServiceImpl implements ActivityService {
         Page<Activity> pageInfo = (Page<Activity>) activityList;
         return new PageBean(pageInfo.getTotal(), pageInfo.getResult());
     }
+
+
+    @LogAnnotation
+    @Override
+    /**
+     * Delete/Restore activities by IDs
+     * @param ids: IDs of the activities to be deleted or restored
+     * @param isDeletedValue: 1 for delete, 0 for restore
+     * @return: Number of rows affected
+     */
+    public Integer updateActivitiesByIds(List<Integer> ids, Integer isDeletedValue) {
+        // Update edit_time and edit_by at the same time
+        MyUserDetails loggedInUserInfo = UserUtils.getLoggedInUserInfo();
+        assert loggedInUserInfo != null;
+        return activityMapper.updateActivitiesByIds(ids, isDeletedValue, LocalDateTime.now(), loggedInUserInfo.getUser().getId());
+    }
 }

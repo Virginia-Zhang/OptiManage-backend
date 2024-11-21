@@ -3,7 +3,7 @@ package com.virginia.controller;
 import com.virginia.pojo.MyUserDetails;
 import com.virginia.pojo.PageBean;
 import com.virginia.pojo.User;
-import com.virginia.query.UpdateUsersQuery;
+import com.virginia.query.BatchUpdateQuery;
 import com.virginia.result.R;
 import com.virginia.service.impl.UserServiceImpl;
 import com.virginia.validation.ValidationGroups;
@@ -81,9 +81,9 @@ public class UserController {
      * @return R.success or R.fail
      */
     @PutMapping("/updateUsers")
-    public R updateUsersByIds(@RequestBody UpdateUsersQuery query) {
+    public R updateUsersByIds(@RequestBody BatchUpdateQuery query) {
         try {
-            Integer result = userServiceImpl.updateUsersByIds(query.getIds(), query.getAccountEnabledValue());
+            Integer result = userServiceImpl.updateUsersByIds(query.getIds(), query.getIsDeletedValue());
             return result == query.getIds().size() ? R.SUCCESS() : R.FAIL("Delete/Restore users failed!Please try again!");
         } catch (Exception e) {
             e.printStackTrace();

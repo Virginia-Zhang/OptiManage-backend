@@ -1,16 +1,15 @@
 package com.virginia.service;
 
 import com.virginia.pojo.ActivityRemark;
-
-import java.util.List;
+import com.virginia.pojo.PageBean;
 
 /**
- * Service interface for marketing activity remark
+ * Service interface for marketing activity remark feature
  * @author Virginia
  */
 public interface ActivityRemarkService {
     Integer addActivityRemark(ActivityRemark activityRemark);
     Integer deleteActivityRemarkById(Integer id);
     Integer editActivityRemarkById(ActivityRemark activityRemark);
-    List<ActivityRemark> getAllActivityRemarks(Integer activityId);
+    PageBean getAllActivityRemarks(Integer activityId, Integer page, Integer pageSize);
 }

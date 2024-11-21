@@ -12,6 +12,8 @@
     <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
     <result column="edit_by" jdbcType="INTEGER" property="editBy" />
     <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="create_by_act" property="createByAct"/>
+    <result column="edit_by_act" property="editByAct"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -128,4 +130,13 @@
       is_deleted = #{isDeleted,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select tar.*,
+    tu1.login_act as create_by_act, tu2.login_act as edit_by_act
+    from t_activity_remark tar
+    left join t_user tu1 on tar.create_by = tu1.id
+    left join t_user tu2 on tar.edit_by = tu2.id
+    where tar.activity_id = #{activityId} and tar.is_deleted = 0
+  </select>
 </mapper>

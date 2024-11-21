@@ -2,6 +2,7 @@ package com.virginia.controller;
 
 import com.virginia.pojo.Activity;
 import com.virginia.pojo.PageBean;
+import com.virginia.query.BatchUpdateQuery;
 import com.virginia.query.GetActivitiesQuery;
 import com.virginia.result.R;
 import com.virginia.service.impl.ActivityServiceImpl;
@@ -83,6 +84,22 @@ public class ActivityController {
         } catch (Exception e) {
             e.printStackTrace();
             return R.FAIL("Edit marketing activity failed!Please try again!");
+        }
+    }
+
+    /**
+     * Delete/Restore activities by ids
+     * @param query query object, including list of deleted/restored ids and isDeletedValue
+     * @return R.success or R.fail
+     */
+    @PutMapping("/updateActivities")
+    public R updateActivitiesByIds(@Validated @RequestBody BatchUpdateQuery query) {
+        try {
+            Integer result = activityService.updateActivitiesByIds(query.getIds(), query.getIsDeletedValue());
+            return result == query.getIds().size() ? R.SUCCESS() : R.FAIL("Delete/Restore users failed!Please try again!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.FAIL("Delete/Restore users failed!Please try again!");
         }
     }
 }
