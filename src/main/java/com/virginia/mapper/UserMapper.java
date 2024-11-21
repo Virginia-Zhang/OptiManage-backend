@@ -23,14 +23,11 @@ public interface UserMapper {
 
     User selectByLoginAct(String username);
 
-    // Get all users with account_enabled = 1
-    List<User> selectAll();
+    // Get all deleted/undeleted users
+    List<User> selectAll(Integer isDeleted);
 
     // Remove/Restore users in batches
     int updateUsersByIds(@Param("ids") List<Integer> ids, @Param("accountEnabledValue") Integer accountEnabledValue, @Param("editTime") LocalDateTime editTime, @Param("editBy") Integer editBy);
-
-    // Get all users with account_enabled = 0
-    List<User> selectDeletedUsers();
 
     // Get all users with id and login_act only
     List<User> selectOwners();

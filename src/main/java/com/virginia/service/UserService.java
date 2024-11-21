@@ -11,7 +11,7 @@ public interface UserService {
     MyUserDetails getUserInfo();
 
     // Query user data by page and return
-    PageBean getAllUsers(Integer page, Integer pageSize);
+    PageBean getAllUsers(Integer page, Integer pageSize, Integer isDeleted);
 
     // Add new user
     Integer addUser(User user);
@@ -21,9 +21,6 @@ public interface UserService {
 
     // Remove/Restore users by userIds
     Integer updateUsersByIds(List<Integer> ids, Integer accountEnabledValue);
-
-    // Query deleted users data by page and return
-    PageBean getDeletedUsers(Integer page, Integer pageSize);
 
     // Query all users with id and login_act only
     List<User> getOwners();

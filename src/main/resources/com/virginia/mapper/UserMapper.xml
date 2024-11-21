@@ -277,7 +277,7 @@
     select <include refid="No_Pwd_Column_List" />, tu2.login_act as create_by_act, tu3.login_act as edit_by_act from t_user tu
            left join t_user tu2 on tu.create_by = tu2.id
            left join t_user tu3 on tu.edit_by = tu3.id
-    where tu.account_enabled = 1
+    where tu.account_enabled = #{isDeleted}
   </select>
 
   <!--  Remove/Restore users in batches -> set the user's account_enabled field to 0/1.-->
@@ -292,12 +292,5 @@
   <!-- Get all users with id and login_act only-->
   <select id="selectOwners" resultMap="BaseResultMap">
     select id, login_act from t_user
-  </select>
-
-  <!--Query all users with account_enabled = 0, and including login_act of the creator and the editor-->
-  <select id="selectDeletedUsers" resultMap="UserDetailsResultMap">
-    select <include refid="No_Pwd_Column_List" />, tu2.login_act as create_by_act, tu3.login_act as edit_by_act from t_user tu
-        left join t_user tu2 on tu.create_by = tu2.id                            left join t_user tu3 on tu.edit_by = tu3.id
-    where tu.account_enabled = 0
   </select>
 </mapper>

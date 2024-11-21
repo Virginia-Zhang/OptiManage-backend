@@ -45,12 +45,13 @@ public class UserServiceImpl implements UserService {
      *Query user data by page and return
      * @param page current page number
      * @param pageSize How many pieces of data to display on each page
+     * @param isDeleted Whether to display deleted data
      * @return pageBean, contains the total number of records and current page data
      */
     @Override
-    public PageBean getAllUsers(Integer page, Integer pageSize) {
+    public PageBean getAllUsers(Integer page, Integer pageSize, Integer isDeleted) {
         PageHelper.startPage(page, pageSize);
-        List<User> userList = userMapper.selectAll();
+        List<User> userList = userMapper.selectAll(isDeleted);
         Page<User> pageInfo = (Page<User>) userList;
         return new PageBean(pageInfo.getTotal(), pageInfo.getResult());
     }
@@ -105,14 +106,6 @@ public class UserServiceImpl implements UserService {
         MyUserDetails loggedInUserInfo = UserUtils.getLoggedInUserInfo();
         assert loggedInUserInfo != null;
         return userMapper.updateUsersByIds(ids, accountEnabledValue, LocalDateTime.now(), loggedInUserInfo.getUser().getId());
-    }
-
-    @Override
-    public PageBean getDeletedUsers(Integer page, Integer pageSize) {
-        PageHelper.startPage(page, pageSize);
-        List<User> userList = userMapper.selectDeletedUsers();
-        Page<User> pageInfo = (Page<User>) userList;
-        return new PageBean(pageInfo.getTotal(), pageInfo.getResult());
     }
 
     @Override

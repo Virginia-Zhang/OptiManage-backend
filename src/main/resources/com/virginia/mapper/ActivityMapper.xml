@@ -210,7 +210,7 @@
     left join t_user tu1 on ta.owner_id = tu1.id
     left join t_user tu2 on ta.create_by = tu2.id
     left join t_user tu3 on ta.edit_by = tu3.id
-    where ta.is_deleted = 0
+    where ta.is_deleted = #{isDeleted}
     <if test="ownerIds != null and ownerIds.size() != 0">
       and ta.owner_id in
       <foreach close=")" collection="ownerIds" index="index" item="item" open="(" separator=",">

@@ -21,9 +21,7 @@ import java.util.List;
  * Encapsulation of querying parameters. Inherit DataFilterQuery class, used to add data filtering SQL to implement permission control
  * @author Virginia
  */
-public class GetActivitiesQuery extends DataFilterQuery {
-    private Integer page = 1;
-    private Integer pageSize = 10;
+public class GetActivitiesQuery extends SelectAllQuery {
     private List<Integer> ownerIds;
     private String name;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

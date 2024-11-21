@@ -4,6 +4,7 @@ import com.virginia.pojo.MyUserDetails;
 import com.virginia.pojo.PageBean;
 import com.virginia.pojo.User;
 import com.virginia.query.BatchUpdateQuery;
+import com.virginia.query.SelectAllQuery;
 import com.virginia.result.R;
 import com.virginia.service.impl.UserServiceImpl;
 import com.virginia.validation.ValidationGroups;
@@ -33,13 +34,12 @@ public class UserController {
 
     /**
      *Query user data by page and return
-     * @param page current page number
-     * @param pageSize The number of data items displayed on each page
+     * @param query query object
      * @return paging data, the format is: {total: 100, rows: [{}, {}, ...]}, encapsulated into R: data
      */
     @GetMapping("/list")
-    public R getAllUsers(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize) {
-        PageBean users = userServiceImpl.getAllUsers(page, pageSize);
+    public R getAllUsers(SelectAllQuery query) {
+        PageBean users = userServiceImpl.getAllUsers(query.getPage(), query.getPageSize(), query.getIsDeleted());
         return R.SUCCESS(users);
     }
 
@@ -89,18 +89,6 @@ public class UserController {
             e.printStackTrace();
             return R.FAIL("Delete/Restore users failed!Please try again!");
         }
-    }
-
-    /**
-     *Query deleted users data by page and return
-     * @param page current page number
-     * @param pageSize The number of data items displayed on each page
-     * @return paging data, the format is: {total: 100, rows: [{}, {}, ...]}, encapsulated into R: data
-     */
-    @GetMapping("/deletedList")
-    public R getDeletedUsers(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize) {
-        PageBean users = userServiceImpl.getDeletedUsers(page, pageSize);
-        return R.SUCCESS(users);
     }
 
     /**
