@@ -102,4 +102,9 @@ public class ActivityController {
             return R.FAIL("Delete/Restore users failed!Please try again!");
         }
     }
+
+    @GetMapping("/activities")
+    public R getActivities() {
+        return R.SUCCESS(activityService.getActivities());
+    }
 }

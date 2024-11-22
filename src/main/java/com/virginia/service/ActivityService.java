@@ -12,4 +12,6 @@ public interface ActivityService {
     PageBean getAllActivities(GetActivitiesQuery query);
     // Remove/Restore activities by ids
     Integer updateActivitiesByIds(List<Integer> ids, Integer isDeletedValue);
+    // Get all activities with id and name only
+    List<Activity> getActivities();
 }

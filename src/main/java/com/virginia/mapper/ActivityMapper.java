@@ -30,4 +30,7 @@ public interface ActivityMapper {
 
     // Remove/Restore activities in batches
     int updateActivitiesByIds(@Param("ids") List<Integer> ids, @Param("isDeletedValue") Integer isDeletedValue, @Param("editTime") LocalDateTime editTime, @Param("editBy") Integer editBy);
+
+    // Get all activities with id and name only
+    List<Activity> selectAllActivities();
 }

@@ -153,4 +153,9 @@
       edit_by = #{editBy,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--Get all products with id and name only-->
+  <select id="selectAllProducts" resultType="com.virginia.pojo.Product">
+    select id, name from t_product
+  </select>
 </mapper>

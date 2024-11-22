@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 /**
- * Encapsulation of querying parameters. Inherit DataFilterQuery class, used to add data filtering SQL to implement permission control
+ * Encapsulation of querying parameters
  * @author Virginia
  */
 public class GetActivitiesQuery extends SelectAllQuery {

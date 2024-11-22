@@ -253,4 +253,9 @@
       #{item}
     </foreach>
   </update>
+
+  <!-- Get all activities with id and name only -->
+  <select id="selectAllActivities" resultType="com.virginia.pojo.Activity">
+    select id, name from t_activity
+  </select>
 </mapper>

@@ -81,4 +81,10 @@ public class ActivityServiceImpl implements ActivityService {
         assert loggedInUserInfo != null;
         return activityMapper.updateActivitiesByIds(ids, isDeletedValue, LocalDateTime.now(), loggedInUserInfo.getUser().getId());
     }
+
+    // Get all activities with id and name only
+    @Override
+    public List<Activity> getActivities() {
+        return activityMapper.selectAllActivities();
+    }
 }
