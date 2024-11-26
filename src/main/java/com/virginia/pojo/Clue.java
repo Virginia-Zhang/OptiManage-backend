@@ -1,5 +1,7 @@
 package com.virginia.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.virginia.validation.ValidationGroups;
 import jakarta.validation.constraints.*;
 
 import java.io.Serializable;
@@ -19,12 +21,12 @@ public class Clue implements Serializable {
     /**
      *Primary key, automatic growth, lead ID
      */
+    @NotNull(groups = {ValidationGroups.EditClueGroup.class}, message = "ID is required!")
     private Integer id;
 
     /**
      *ID of the clue owner
      */
-    @NotNull(message = "Clue owner id is required!")
     private Integer ownerId;
 
     /**
@@ -35,40 +37,34 @@ public class Clue implements Serializable {
     /**
      * Client's name
      */
-    @Size(max = 64, message = "Full name cannot exceed 64 characters!")
+    @Size(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, max = 64, message = "Full name cannot exceed 64 characters!")
     private String fullName;
 
     /**
      * Client's gender, 1 male, 2 female
      */
-    @Min(value = 1, message = "Gender must be 1 or 2!")
-    @Max(value = 2, message = "Gender must be 1 or 2!")
+    @Min(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, value = 1, message = "Gender must be 1 or 2!")
+    @Max(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, value = 2, message = "Gender must be 1 or 2!")
     private Integer gender;
 
     /**
      *Phone number
      */
-    @Size(max = 30, message = "Phone cannot exceed 30 characters!")
+    @Size(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, max = 30, message = "Phone cannot exceed 30 characters!")
     private String phone;
-
-    /**
-     *WeChat ID
-     */
-    @Size(max = 128, message = "Weixin cannot exceed 128 characters!")
-    private String weixin;
-
-    /**
-     *QQ number
-     */
-    @Size(max = 20, message = "QQ cannot exceed 20 characters!")
-    private String qq;
 
     /**
      *Mail
      */
-    @Size(max = 128, message = "Email cannot exceed 20 characters!")
-    @Email(message = "Invalid email format")
+    @Size(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, max = 128, message = "Email cannot exceed 128 characters!")
+    @Email(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, message = "Invalid email format")
     private String email;
+
+    /**
+     *Other contact details, including QQ, WeChat, Line, What's App, etc.
+     */
+    @Size(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, max = 500, message = "OtherContactDetails cannot exceed 500 characters!")
+    private String OtherContactDetails;
 
     /**
      *age
@@ -78,7 +74,7 @@ public class Clue implements Serializable {
     /**
      *Profession
      */
-    @Size(max = 64, message = "Job cannot exceed 64 characters!")
+    @Size(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, max = 64, message = "Job cannot exceed 64 characters!")
     private String job;
 
     /**
@@ -87,23 +83,30 @@ public class Clue implements Serializable {
     private BigDecimal yearIncome;
 
     /**
+     * Currency unit for annual income
+     */
+    @NotNull(groups = {ValidationGroups.AddClueGroup.class}, message = "Currency unit is required!")
+    @Pattern(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, regexp = "^(万元|万円|thousand USD)$", message = "Currency unit must be 万元, 万円 or thousand USD!")
+    private String currencyUnit;
+
+    /**
      *address
      */
-    @Size(max = 128, message = "Address cannot exceed 128 characters!")
+    @Size(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, max = 128, message = "Address cannot exceed 128 characters!")
     private String address;
 
     /**
      *Whether the client needs a loan (0 not required, 1 required)
      */
-    @Min(value = 0, message = "NeedLoan value must be 0 or 1!")
-    @Max(value = 1, message = "NeedLoan value must be 0 or 1!")
+    @Min(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, value = 0, message = "NeedLoan value must be 0 or 1!")
+    @Max(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, value = 1, message = "NeedLoan value must be 0 or 1!")
     private Integer needLoan;
 
     /**
-     * Client's intention on buying products, 0 no intention, 1 has intention, 2 intention unknown 
+     * Client's intention on buying products, 0 no intention, 1 has intention, 2 intention unknown
      */
-    @Min(value = 0, message = "intentionState must be between 0 and 2!")
-    @Max(value = 2, message = "intentionState must be between 0 and 2!")
+    @Min(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, value = 0, message = "intentionState must be between 0 and 2!")
+    @Max(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, value = 2, message = "intentionState must be between 0 and 2!")
     private Integer intentionState;
 
     /**
@@ -113,47 +116,26 @@ public class Clue implements Serializable {
 
     /**
      * Clue/Lead status
-     *{ name: "Transferred customer", id: 1 },
-     *{ name: "False clue", id: 2 },
-     *{ name: "Required conditions", id: 3 },
-     *{ name: "Contact me in the future", id: 4 },
-     *{ name: "Lost Clue", id: 5 },
-     *{ name: "Attempt to contact", id: 6 },
-     *{ name: "Not contacted", id: 7 },
-     *{ name: "Contacted", id: 8 },
      */
-    @Min(value = 1, message = "intentionState must be between 1 and 8!")
-    @Max(value = 8, message = "intentionState must be between 1 and 8!")
+    @Min(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, value = 1, message = "intentionState must be between 1 and 8!")
+    @Max(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, value = 8, message = "intentionState must be between 1 and 8!")
     private Integer state;
 
     /**
      * Source of clues
-     *{ name: "Bitauto.com", id: 1 },
-     *{ name: "Employee Introduction", id: 2 },
-     *{ name: "Official website", id: 3 },
-     *{ name: "Official account", id: 4 },
-     *{ name: "Store Visit", id: 5 },
-     *{ name: "Understanding Car Emperor", id: 6 },
-     *{ name: "Friends Circle", id: 7 },
-     *{ name: "Partner", id: 8 },
-     *{ name: "map", id: 9 },
-     *{ name: "Live video", id: 10 },
-     *{ name: "Online Advertising", id: 11 },
-     *{ name: "Autohome", id: 12 },
-     *{ name: "Auto Show", id: 13 },
-     *{ name: "Zhihu", id: 14 },
      */
     private Integer source;
 
     /**
      *Clue description
      */
-    @Size(max = 255, message = "Description cannot exceed 255 characters!")
+    @Size(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, max = 1024, message = "Description cannot exceed 1024 characters!")
     private String description;
 
     /**
      *Next contact time
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime nextContactTime;
 
     /**
@@ -179,7 +161,7 @@ public class Clue implements Serializable {
     /**
      *Region, 1 China, 2 Japan, 3 United States, 4 others
      */
-    @NotNull(message = "Region is required!")
+    @NotNull(groups = {ValidationGroups.AddClueGroup.class}, message = "Region is required!")
     private Integer region;
 
     /**

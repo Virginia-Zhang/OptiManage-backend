@@ -2,15 +2,18 @@ package com.virginia.service.impl;
 
 import com.virginia.mapper.ClueMapper;
 import com.virginia.pojo.Clue;
+import com.virginia.pojo.MyUserDetails;
 import com.virginia.pojo.PageBean;
 import com.virginia.query.GetCluesQuery;
 import com.virginia.service.ClueService;
+import com.virginia.utils.UserUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.virginia.annotation.LogAnnotation;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -21,7 +24,17 @@ public class ClueServiceImpl implements ClueService {
     @LogAnnotation
     @Override
     public int addClue(Clue clue) {
-        return 0;
+        // Get the current logged in user data from security context
+        MyUserDetails loggedInUserInfo = UserUtils.getLoggedInUserInfo();
+        assert loggedInUserInfo != null;
+        clue.setCreateBy(loggedInUserInfo.getUser().getId());
+        clue.setCreateTime(LocalDateTime.now());
+
+        // Determine whether the current user is an administrator. If not, set owner id to the current logged in user id.
+        if(!loggedInUserInfo.getRoleList().contains("admin")){
+            clue.setOwnerId(loggedInUserInfo.getUser().getId());
+        }
+        return clueMapper.insertSelective(clue);
     }
 
     @LogAnnotation

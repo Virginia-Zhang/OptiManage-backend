@@ -12,5 +12,7 @@ public class ValidationGroups {
     public interface SelectActivitiesGroup{}
     public interface AddActivityRemarkGroup{}
     public interface EditActivityRemarkGroup{}
+    public interface AddClueGroup{}
+    public interface EditClueGroup{}
 }
 

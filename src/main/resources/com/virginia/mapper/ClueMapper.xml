@@ -10,12 +10,12 @@
     <result column="full_name" jdbcType="VARCHAR" property="fullName" />
     <result column="gender" jdbcType="INTEGER" property="gender" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="weixin" jdbcType="VARCHAR" property="weixin" />
-    <result column="qq" jdbcType="VARCHAR" property="qq" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="other_contact_details" jdbcType="VARCHAR" property="otherContactDetails" />
     <result column="age" jdbcType="INTEGER" property="age" />
     <result column="job" jdbcType="VARCHAR" property="job" />
     <result column="year_income" jdbcType="DECIMAL" property="yearIncome" />
+    <result column="currency_unit" jdbcType="VARCHAR" property="currencyUnit" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="need_loan" jdbcType="INTEGER" property="needLoan" />
     <result column="intention_state" jdbcType="INTEGER" property="intentionState" />
@@ -38,10 +38,10 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, owner_id, activity_id, full_name, gender, phone, weixin, qq, email, age, job, 
-    year_income, address, need_loan, intention_state, intention_product, `state`, `source`, 
-    description, next_contact_time, create_time, create_by, edit_time, edit_by, region, 
-    is_deleted
+    id, owner_id, activity_id, full_name, gender, phone, email, other_contact_details, 
+    age, job, year_income, currency_unit, address, need_loan, intention_state, intention_product, 
+    `state`, `source`, description, next_contact_time, create_time, create_by, edit_time, 
+    edit_by, region, is_deleted
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -58,23 +58,23 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.virginia.pojo.Clue" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into t_clue (owner_id, activity_id, full_name, 
-      gender, phone, weixin, 
-      qq, email, age, job, 
-      year_income, address, need_loan, 
-      intention_state, intention_product, `state`, 
-      `source`, description, next_contact_time, 
-      create_time, create_by, edit_time, 
-      edit_by, region, is_deleted
-      )
+      gender, phone, email, 
+      other_contact_details, age, job, 
+      year_income, currency_unit, address, 
+      need_loan, intention_state, intention_product, 
+      `state`, `source`, description, 
+      next_contact_time, create_time, create_by, 
+      edit_time, edit_by, region, 
+      is_deleted)
     values (#{ownerId,jdbcType=INTEGER}, #{activityId,jdbcType=INTEGER}, #{fullName,jdbcType=VARCHAR}, 
-      #{gender,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR}, 
-      #{qq,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{job,jdbcType=VARCHAR}, 
-      #{yearIncome,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, #{needLoan,jdbcType=INTEGER}, 
-      #{intentionState,jdbcType=INTEGER}, #{intentionProduct,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
-      #{source,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{nextContactTime,jdbcType=TIMESTAMP}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=INTEGER}, #{editTime,jdbcType=TIMESTAMP}, 
-      #{editBy,jdbcType=INTEGER}, #{region,jdbcType=INTEGER}, #{isDeleted,jdbcType=INTEGER}
-      )
+      #{gender,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{otherContactDetails,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{job,jdbcType=VARCHAR}, 
+      #{yearIncome,jdbcType=DECIMAL}, #{currencyUnit,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{needLoan,jdbcType=INTEGER}, #{intentionState,jdbcType=INTEGER}, #{intentionProduct,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER}, #{source,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, 
+      #{nextContactTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=INTEGER}, 
+      #{editTime,jdbcType=TIMESTAMP}, #{editBy,jdbcType=INTEGER}, #{region,jdbcType=INTEGER}, 
+      #{isDeleted,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.virginia.pojo.Clue" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -95,14 +95,11 @@
       <if test="phone != null">
         phone,
       </if>
-      <if test="weixin != null">
-        weixin,
-      </if>
-      <if test="qq != null">
-        qq,
-      </if>
       <if test="email != null">
         email,
+      </if>
+      <if test="otherContactDetails != null">
+        other_contact_details,
       </if>
       <if test="age != null">
         age,
@@ -112,6 +109,9 @@
       </if>
       <if test="yearIncome != null">
         year_income,
+      </if>
+      <if test="currencyUnit != null">
+        currency_unit,
       </if>
       <if test="address != null">
         address,
@@ -172,14 +172,11 @@
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="weixin != null">
-        #{weixin,jdbcType=VARCHAR},
-      </if>
-      <if test="qq != null">
-        #{qq,jdbcType=VARCHAR},
-      </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="otherContactDetails != null">
+        #{otherContactDetails,jdbcType=VARCHAR},
       </if>
       <if test="age != null">
         #{age,jdbcType=INTEGER},
@@ -189,6 +186,9 @@
       </if>
       <if test="yearIncome != null">
         #{yearIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="currencyUnit != null">
+        #{currencyUnit,jdbcType=VARCHAR},
       </if>
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
@@ -253,14 +253,11 @@
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="weixin != null">
-        weixin = #{weixin,jdbcType=VARCHAR},
-      </if>
-      <if test="qq != null">
-        qq = #{qq,jdbcType=VARCHAR},
-      </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="otherContactDetails != null">
+        other_contact_details = #{otherContactDetails,jdbcType=VARCHAR},
       </if>
       <if test="age != null">
         age = #{age,jdbcType=INTEGER},
@@ -270,6 +267,9 @@
       </if>
       <if test="yearIncome != null">
         year_income = #{yearIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="currencyUnit != null">
+        currency_unit = #{currencyUnit,jdbcType=VARCHAR},
       </if>
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
@@ -324,12 +324,12 @@
       full_name = #{fullName,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},
-      weixin = #{weixin,jdbcType=VARCHAR},
-      qq = #{qq,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
+      other_contact_details = #{otherContactDetails,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER},
       job = #{job,jdbcType=VARCHAR},
       year_income = #{yearIncome,jdbcType=DECIMAL},
+      currency_unit = #{currencyUnit,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       need_loan = #{needLoan,jdbcType=INTEGER},
       intention_state = #{intentionState,jdbcType=INTEGER},

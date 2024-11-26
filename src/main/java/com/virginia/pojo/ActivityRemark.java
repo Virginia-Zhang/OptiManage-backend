@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- *Marketing Activity Remarks Entity
+ *Marketing Activity Remark Entity
  */
 @Data
 @AllArgsConstructor
