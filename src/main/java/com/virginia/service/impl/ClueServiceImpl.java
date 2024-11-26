@@ -40,7 +40,12 @@ public class ClueServiceImpl implements ClueService {
     @LogAnnotation
     @Override
     public Integer editClue(Clue clue) {
-        return 0;
+        clue.setEditTime(LocalDateTime.now());
+        MyUserDetails loggedInUserInfo = UserUtils.getLoggedInUserInfo();
+        if (loggedInUserInfo != null) {
+            clue.setEditBy(loggedInUserInfo.getUser().getId());
+        }
+        return clueMapper.updateByPrimaryKeySelective(clue);
     }
 
     /**
@@ -59,6 +64,8 @@ public class ClueServiceImpl implements ClueService {
     @LogAnnotation
     @Override
     public Integer updateCluesByIds(List<Integer> ids, Integer isDeletedValue) {
-        return 0;
+        MyUserDetails loggedInUserInfo = UserUtils.getLoggedInUserInfo();
+        assert loggedInUserInfo != null;
+        return clueMapper.updateCluesByIds(ids, isDeletedValue, LocalDateTime.now(), loggedInUserInfo.getUser().getId());
     }
 }

@@ -407,4 +407,13 @@
     </if>
     ${filterSQL}
   </select>
+
+  <update id="updateCluesByIds">
+    update t_clue
+    set is_deleted = #{isDeletedValue}, edit_time = #{editTime}, edit_by = #{editBy}
+    where id in
+    <foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+  </update>
 </mapper>

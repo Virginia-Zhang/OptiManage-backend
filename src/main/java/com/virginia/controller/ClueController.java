@@ -2,6 +2,7 @@ package com.virginia.controller;
 
 import com.virginia.pojo.Clue;
 import com.virginia.pojo.PageBean;
+import com.virginia.query.BatchUpdateQuery;
 import com.virginia.query.GetCluesQuery;
 import com.virginia.result.R;
 import com.virginia.service.ClueService;
@@ -50,12 +51,32 @@ public class ClueController {
             return R.FAIL("Add clue failed!Please try again!");
         }
     }
-//
-//    public R editClue(Clue clue) {
-//        return clueService.editClue(clue);
-//    }
-//
-//    public R updateCluesByIds(Integer[] ids, Integer isDeletedValue) {
-//        return clueService.updateCluesByIds(ids, isDeletedValue);
-//    }
+
+    @PutMapping("/")
+    public R editClue(@Validated(ValidationGroups.EditClueGroup.class) @RequestBody Clue clue) {
+        try {
+            int result = clueService.editClue(clue);
+            return result >= 1 ? R.SUCCESS(result) : R.FAIL("Edit clue failed!Please try again!");
+        }catch (Exception e){
+            e.printStackTrace();
+            return R.FAIL("Edit clue failed!Please try again!");
+        }
+    }
+
+    /**
+     * Batch remove/restore clues by IDs
+     * @param query BatchUpdateQuery object, including IDs and isDeletedValue
+     * @return R.success or R.fail
+     */
+    @PutMapping("/updateClues")
+    public R updateCluesByIds(@Validated @RequestBody BatchUpdateQuery query) {
+        try {
+            int result = clueService.updateCluesByIds(query.getIds(), query.getIsDeletedValue());
+            return result == query.getIds().size() ? R.SUCCESS() : R.FAIL("Delete/Restore clues failed!Please try again!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.FAIL("Delete/Restore clues failed!Please try again!");
+        }
+
+    }
 }
