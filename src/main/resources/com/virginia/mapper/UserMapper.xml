@@ -289,8 +289,8 @@
     </foreach>
   </update>
 
-  <!-- Get all users with id and login_act only-->
+  <!-- Get all users with id, login_act and region only, sorting by region -->
   <select id="selectOwners" resultMap="BaseResultMap">
-    select id, login_act from t_user
+    select id, login_act, region from t_user order by region
   </select>
 </mapper>

@@ -11,5 +11,5 @@ public interface ActivityRemarkService {
     Integer addActivityRemark(ActivityRemark activityRemark);
     Integer deleteActivityRemarkById(Integer id);
     Integer editActivityRemarkById(ActivityRemark activityRemark);
-    PageBean getAllActivityRemarks(Integer activityId, Integer page, Integer pageSize);
+    PageBean getAllActivityRemarks(Integer activityId, Integer page, Integer pageSize, Integer isDeletedValue);
 }

@@ -1,186 +1,86 @@
 package com.virginia.pojo;
 
+import com.virginia.validation.ValidationGroups;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
-    *Lead tracking record sheet
-    */
+ * Marketing lead/clue tracking record entity
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClueRemark implements Serializable {
     /**
-    *Primary key, automatic growth, clue note ID
-    */
+     *Primary key, automatic growth, clue remark ID
+     */
+    @NotNull(groups = {ValidationGroups.EditClueGroup.class}, message = "Id is required!")
     private Integer id;
 
     /**
-    *Lead ID
-    */
+     *Lead ID
+     */
+    @NotNull(groups = {ValidationGroups.AddClueGroup.class}, message = "ClueId is required!")
     private Integer clueId;
 
     /**
-    *Tracking method
-    */
-    private Integer noteWay;
+     *Tracking method
+     *{ name: "Phone", value: 1 },
+     *{ name: "SMS", value: 2 },
+     *{ name: "Social Media", value: 3 },
+     *{ name: "Mail", value: 4 },
+     *{ name: "Other", value: 5 },
+     */
+    @NotNull(groups = {ValidationGroups.AddClueGroup.class}, message = "ContactMethod is required!")
+    private Integer contactMethod;
 
     /**
-    *Track content
-    */
+     *Tracking content
+     */
+    @NotBlank(groups = {ValidationGroups.AddClueGroup.class}, message = "NoteContent is required!")
+    @Size(groups = {ValidationGroups.AddClueGroup.class, ValidationGroups.EditClueGroup.class}, max = 5000, message = "NoteContent cannot exceed 5000 characters!")
     private String noteContent;
 
     /**
-    *Track time
-    */
-    private Date createTime;
+     *Tracking time
+     */
+    private LocalDateTime createTime;
 
     /**
-    *Stalking people
-    */
+     * creator's id
+     */
     private Integer createBy;
 
     /**
-    *Editing time
-    */
-    private Date editTime;
+     *Editing time
+     */
+    private LocalDateTime editTime;
 
     /**
-    *Editor
-    */
+     *Editor's id
+     */
     private Integer editBy;
 
     /**
-    *Deletion status (0 normal, 1 deleted)
-    */
-    private Integer deleted;
+     *Deletion status (0 normal, 1 deleted)
+     */
+    private Integer isDeleted;
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
-        return id;
-    }
+    /**
+     *Non-database fields
+     */
+    // creator's login account
+    private String createByAct;
+    // editor's login account
+    private String editByAct;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getClueId() {
-        return clueId;
-    }
-
-    public void setClueId(Integer clueId) {
-        this.clueId = clueId;
-    }
-
-    public Integer getNoteWay() {
-        return noteWay;
-    }
-
-    public void setNoteWay(Integer noteWay) {
-        this.noteWay = noteWay;
-    }
-
-    public String getNoteContent() {
-        return noteContent;
-    }
-
-    public void setNoteContent(String noteContent) {
-        this.noteContent = noteContent == null ? null : noteContent.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(Integer createBy) {
-        this.createBy = createBy;
-    }
-
-    public Date getEditTime() {
-        return editTime;
-    }
-
-    public void setEditTime(Date editTime) {
-        this.editTime = editTime;
-    }
-
-    public Integer getEditBy() {
-        return editBy;
-    }
-
-    public void setEditBy(Integer editBy) {
-        this.editBy = editBy;
-    }
-
-    public Integer getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Integer deleted) {
-        this.deleted = deleted;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", clueId=").append(clueId);
-        sb.append(", noteWay=").append(noteWay);
-        sb.append(", noteContent=").append(noteContent);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", createBy=").append(createBy);
-        sb.append(", editTime=").append(editTime);
-        sb.append(", editBy=").append(editBy);
-        sb.append(", deleted=").append(deleted);
-        sb.append("]");
-        return sb.toString();
-    }
-
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        ClueRemark other = (ClueRemark) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getClueId() == null ? other.getClueId() == null : this.getClueId().equals(other.getClueId()))
-            && (this.getNoteWay() == null ? other.getNoteWay() == null : this.getNoteWay().equals(other.getNoteWay()))
-            && (this.getNoteContent() == null ? other.getNoteContent() == null : this.getNoteContent().equals(other.getNoteContent()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getCreateBy() == null ? other.getCreateBy() == null : this.getCreateBy().equals(other.getCreateBy()))
-            && (this.getEditTime() == null ? other.getEditTime() == null : this.getEditTime().equals(other.getEditTime()))
-            && (this.getEditBy() == null ? other.getEditBy() == null : this.getEditBy().equals(other.getEditBy()))
-            && (this.getDeleted() == null ? other.getDeleted() == null : this.getDeleted().equals(other.getDeleted()));
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getClueId() == null) ? 0 : getClueId().hashCode());
-        result = prime * result + ((getNoteWay() == null) ? 0 : getNoteWay().hashCode());
-        result = prime * result + ((getNoteContent() == null) ? 0 : getNoteContent().hashCode());
-        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
-        result = prime * result + ((getCreateBy() == null) ? 0 : getCreateBy().hashCode());
-        result = prime * result + ((getEditTime() == null) ? 0 : getEditTime().hashCode());
-        result = prime * result + ((getEditBy() == null) ? 0 : getEditBy().hashCode());
-        result = prime * result + ((getDeleted() == null) ? 0 : getDeleted().hashCode());
-        return result;
-    }
 }

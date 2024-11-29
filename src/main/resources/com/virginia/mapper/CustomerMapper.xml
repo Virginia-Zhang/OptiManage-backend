@@ -13,11 +13,13 @@
     <result column="create_by" jdbcType="INTEGER" property="createBy" />
     <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
     <result column="edit_by" jdbcType="INTEGER" property="editBy" />
+    <result column="region" jdbcType="INTEGER" property="region" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, clue_id, product, description, next_contact_time, create_time, create_by, edit_time, 
-    edit_by
+    edit_by, region, is_deleted
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -35,10 +37,12 @@
     <!--@mbg.generated-->
     insert into t_customer (clue_id, product, description, 
       next_contact_time, create_time, create_by, 
-      edit_time, edit_by)
+      edit_time, edit_by, region, 
+      is_deleted)
     values (#{clueId,jdbcType=INTEGER}, #{product,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, 
       #{nextContactTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=INTEGER}, 
-      #{editTime,jdbcType=TIMESTAMP}, #{editBy,jdbcType=INTEGER})
+      #{editTime,jdbcType=TIMESTAMP}, #{editBy,jdbcType=INTEGER}, #{region,jdbcType=INTEGER}, 
+      #{isDeleted,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.virginia.pojo.Customer" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -68,6 +72,12 @@
       <if test="editBy != null">
         edit_by,
       </if>
+      <if test="region != null">
+        region,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="clueId != null">
@@ -93,6 +103,12 @@
       </if>
       <if test="editBy != null">
         #{editBy,jdbcType=INTEGER},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -124,6 +140,12 @@
       <if test="editBy != null">
         edit_by = #{editBy,jdbcType=INTEGER},
       </if>
+      <if test="region != null">
+        region = #{region,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -137,7 +159,9 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_by = #{createBy,jdbcType=INTEGER},
       edit_time = #{editTime,jdbcType=TIMESTAMP},
-      edit_by = #{editBy,jdbcType=INTEGER}
+      edit_by = #{editBy,jdbcType=INTEGER},
+      region = #{region,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

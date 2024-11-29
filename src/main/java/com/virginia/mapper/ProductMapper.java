@@ -19,6 +19,6 @@ public interface ProductMapper {
 
     int updateByPrimaryKey(Product record);
 
-    // Get all products with id and name only
+    // Get all products with id, name and region only
     List<Product> selectAllProducts();
 }

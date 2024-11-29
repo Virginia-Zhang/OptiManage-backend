@@ -254,8 +254,8 @@
     </foreach>
   </update>
 
-  <!-- Get all activities with id and name only -->
+  <!-- Get all activities with id and name only, sorting by region -->
   <select id="selectAllActivities" resultType="com.virginia.pojo.Activity">
-    select id, name from t_activity
+    select id, name, region from t_activity order by region
   </select>
 </mapper>

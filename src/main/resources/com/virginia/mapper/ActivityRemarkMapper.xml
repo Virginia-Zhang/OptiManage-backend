@@ -137,6 +137,6 @@
     from t_activity_remark tar
     left join t_user tu1 on tar.create_by = tu1.id
     left join t_user tu2 on tar.edit_by = tu2.id
-    where tar.activity_id = #{activityId} and tar.is_deleted = 0
+    where tar.activity_id = #{activityId} and tar.is_deleted = #{isDeletedValue}
   </select>
 </mapper>

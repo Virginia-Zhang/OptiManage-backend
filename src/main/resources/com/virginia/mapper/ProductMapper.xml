@@ -14,11 +14,13 @@
     <result column="create_by" jdbcType="INTEGER" property="createBy" />
     <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
     <result column="edit_by" jdbcType="INTEGER" property="editBy" />
+    <result column="currency_unit" jdbcType="OTHER" property="currencyUnit" />
+    <result column="region" jdbcType="INTEGER" property="region" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, `name`, guide_price_s, guide_price_e, quotation, `state`, create_time, create_by, 
-    edit_time, edit_by
+    edit_time, edit_by, currency_unit, region
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -36,12 +38,12 @@
     <!--@mbg.generated-->
     insert into t_product (`name`, guide_price_s, guide_price_e, 
       quotation, `state`, create_time, 
-      create_by, edit_time, edit_by
-      )
+      create_by, edit_time, edit_by, 
+      currency_unit, region)
     values (#{name,jdbcType=VARCHAR}, #{guidePriceS,jdbcType=DECIMAL}, #{guidePriceE,jdbcType=DECIMAL}, 
       #{quotation,jdbcType=DECIMAL}, #{state,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createBy,jdbcType=INTEGER}, #{editTime,jdbcType=TIMESTAMP}, #{editBy,jdbcType=INTEGER}
-      )
+      #{createBy,jdbcType=INTEGER}, #{editTime,jdbcType=TIMESTAMP}, #{editBy,jdbcType=INTEGER}, 
+      #{currencyUnit,jdbcType=OTHER}, #{region,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.virginia.pojo.Product" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -74,6 +76,12 @@
       <if test="editBy != null">
         edit_by,
       </if>
+      <if test="currencyUnit != null">
+        currency_unit,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="name != null">
@@ -102,6 +110,12 @@
       </if>
       <if test="editBy != null">
         #{editBy,jdbcType=INTEGER},
+      </if>
+      <if test="currencyUnit != null">
+        #{currencyUnit,jdbcType=OTHER},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -136,6 +150,12 @@
       <if test="editBy != null">
         edit_by = #{editBy,jdbcType=INTEGER},
       </if>
+      <if test="currencyUnit != null">
+        currency_unit = #{currencyUnit,jdbcType=OTHER},
+      </if>
+      <if test="region != null">
+        region = #{region,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -150,12 +170,14 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_by = #{createBy,jdbcType=INTEGER},
       edit_time = #{editTime,jdbcType=TIMESTAMP},
-      edit_by = #{editBy,jdbcType=INTEGER}
+      edit_by = #{editBy,jdbcType=INTEGER},
+      currency_unit = #{currencyUnit,jdbcType=OTHER},
+      region = #{region,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <!--Get all products with id and name only-->
+  <!--Get all products with id, name and region only-->
   <select id="selectAllProducts" resultType="com.virginia.pojo.Product">
-    select id, name from t_product
+    select id, name, region from t_product order by region
   </select>
 </mapper>

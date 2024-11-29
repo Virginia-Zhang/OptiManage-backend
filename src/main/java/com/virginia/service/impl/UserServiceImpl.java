@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -56,6 +57,7 @@ public class UserServiceImpl implements UserService {
         return new PageBean(pageInfo.getTotal(), pageInfo.getResult());
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @LogAnnotation
     @Override
     public Integer addUser(User user) {
@@ -87,6 +89,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.insertSelective(user);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @LogAnnotation
     @Override
     public Integer editUser(User user) {
@@ -99,6 +102,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.updateByPrimaryKeySelective(user);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @LogAnnotation
     @Override
     public Integer updateUsersByIds(List<Integer> ids, Integer accountEnabledValue) {

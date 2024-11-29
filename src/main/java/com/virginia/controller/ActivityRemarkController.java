@@ -1,6 +1,7 @@
 package com.virginia.controller;
 
 import com.virginia.pojo.ActivityRemark;
+import com.virginia.query.GetActivityRemarksQuery;
 import com.virginia.result.R;
 import com.virginia.service.ActivityRemarkService;
 import com.virginia.validation.ValidationGroups;
@@ -27,8 +28,8 @@ public class ActivityRemarkController {
     }
 
     @GetMapping("/list")
-    public R getAllActivityRemarks(@NotNull Integer activityId, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "5") Integer pageSize) {
-        return R.SUCCESS(activityRemarkService.getAllActivityRemarks(activityId, page, pageSize));
+    public R getAllActivityRemarks(@Validated GetActivityRemarksQuery query) {
+        return R.SUCCESS(activityRemarkService.getAllActivityRemarks(query.getActivityId(), query.getPage(), query.getPageSize(), query.getIsDeleted()));
     }
 
     @PutMapping("/")

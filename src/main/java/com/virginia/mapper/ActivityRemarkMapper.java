@@ -2,6 +2,7 @@ package com.virginia.mapper;
 
 import com.virginia.pojo.ActivityRemark;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,6 +20,6 @@ public interface ActivityRemarkMapper {
 
     int updateByPrimaryKey(ActivityRemark record);
 
-    // According to the activity ID, query all undeleted notes under the current activity.
-    List<ActivityRemark> selectAll(Integer activityId);
+    // According to the activity ID, query all undeleted/deleted notes under the current activity.
+    List<ActivityRemark> selectAll(@Param("activityId") Integer activityId, @Param("isDeletedValue") Integer isDeletedValue);
 }

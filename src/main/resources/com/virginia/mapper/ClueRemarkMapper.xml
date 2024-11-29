@@ -6,18 +6,20 @@
     <!--@Table t_clue_remark-->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="clue_id" jdbcType="INTEGER" property="clueId" />
-    <result column="note_way" jdbcType="INTEGER" property="noteWay" />
+    <result column="contact_method" jdbcType="INTEGER" property="contactMethod" />
     <result column="note_content" jdbcType="VARCHAR" property="noteContent" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_by" jdbcType="INTEGER" property="createBy" />
     <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
     <result column="edit_by" jdbcType="INTEGER" property="editBy" />
-    <result column="deleted" jdbcType="INTEGER" property="deleted" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="create_by_act" property="createByAct"/>
+    <result column="edit_by_act" property="editByAct"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, clue_id, note_way, note_content, create_time, create_by, edit_time, edit_by, 
-    deleted
+    id, clue_id, contact_method, note_content, create_time, create_by, edit_time, edit_by, 
+    is_deleted
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -33,12 +35,12 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.virginia.pojo.ClueRemark" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into t_clue_remark (clue_id, note_way, note_content, 
+    insert into t_clue_remark (clue_id, contact_method, note_content, 
       create_time, create_by, edit_time, 
-      edit_by, deleted)
-    values (#{clueId,jdbcType=INTEGER}, #{noteWay,jdbcType=INTEGER}, #{noteContent,jdbcType=VARCHAR}, 
+      edit_by, is_deleted)
+    values (#{clueId,jdbcType=INTEGER}, #{contactMethod,jdbcType=INTEGER}, #{noteContent,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=INTEGER}, #{editTime,jdbcType=TIMESTAMP}, 
-      #{editBy,jdbcType=INTEGER}, #{deleted,jdbcType=INTEGER})
+      #{editBy,jdbcType=INTEGER}, #{isDeleted,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.virginia.pojo.ClueRemark" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -47,8 +49,8 @@
       <if test="clueId != null">
         clue_id,
       </if>
-      <if test="noteWay != null">
-        note_way,
+      <if test="contactMethod != null">
+        contact_method,
       </if>
       <if test="noteContent != null">
         note_content,
@@ -65,16 +67,16 @@
       <if test="editBy != null">
         edit_by,
       </if>
-      <if test="deleted != null">
-        deleted,
+      <if test="isDeleted != null">
+        is_deleted,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="clueId != null">
         #{clueId,jdbcType=INTEGER},
       </if>
-      <if test="noteWay != null">
-        #{noteWay,jdbcType=INTEGER},
+      <if test="contactMethod != null">
+        #{contactMethod,jdbcType=INTEGER},
       </if>
       <if test="noteContent != null">
         #{noteContent,jdbcType=VARCHAR},
@@ -91,8 +93,8 @@
       <if test="editBy != null">
         #{editBy,jdbcType=INTEGER},
       </if>
-      <if test="deleted != null">
-        #{deleted,jdbcType=INTEGER},
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -103,8 +105,8 @@
       <if test="clueId != null">
         clue_id = #{clueId,jdbcType=INTEGER},
       </if>
-      <if test="noteWay != null">
-        note_way = #{noteWay,jdbcType=INTEGER},
+      <if test="contactMethod != null">
+        contact_method = #{contactMethod,jdbcType=INTEGER},
       </if>
       <if test="noteContent != null">
         note_content = #{noteContent,jdbcType=VARCHAR},
@@ -121,8 +123,8 @@
       <if test="editBy != null">
         edit_by = #{editBy,jdbcType=INTEGER},
       </if>
-      <if test="deleted != null">
-        deleted = #{deleted,jdbcType=INTEGER},
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -131,13 +133,22 @@
     <!--@mbg.generated-->
     update t_clue_remark
     set clue_id = #{clueId,jdbcType=INTEGER},
-      note_way = #{noteWay,jdbcType=INTEGER},
+      contact_method = #{contactMethod,jdbcType=INTEGER},
       note_content = #{noteContent,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_by = #{createBy,jdbcType=INTEGER},
       edit_time = #{editTime,jdbcType=TIMESTAMP},
       edit_by = #{editBy,jdbcType=INTEGER},
-      deleted = #{deleted,jdbcType=INTEGER}
+      is_deleted = #{isDeleted,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select tcr.*,
+    tu1.login_act as create_by_act, tu2.login_act as edit_by_act
+    from t_clue_remark tcr
+    left join t_user tu1 on tcr.create_by = tu1.id
+    left join t_user tu2 on tcr.edit_by = tu2.id
+    where tcr.clue_id = #{clueId} and tcr.is_deleted = #{isDeletedValue}
+  </select>
 </mapper>

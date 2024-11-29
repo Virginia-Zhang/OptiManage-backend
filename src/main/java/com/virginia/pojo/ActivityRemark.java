@@ -32,8 +32,8 @@ public class ActivityRemark implements Serializable {
     /**
      *Remark content
      */
-    @Size(max = 5000, message = "Note content cannot exceed 5000 characters!")
-    @NotBlank(groups = {ValidationGroups.AddActivityRemarkGroup.class}, message = "Note content is required!")
+    @Size(groups = {ValidationGroups.AddActivityRemarkGroup.class, ValidationGroups.EditActivityGroup.class}, max = 5000, message = "Note content cannot exceed 5000 characters!")
+    @NotBlank(groups = {ValidationGroups.AddActivityRemarkGroup.class, ValidationGroups.EditActivityGroup.class}, message = "Note content is required!")
     private String noteContent;
 
     /**

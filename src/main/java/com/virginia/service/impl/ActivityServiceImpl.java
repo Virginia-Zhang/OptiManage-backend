@@ -12,6 +12,7 @@ import com.virginia.service.ActivityService;
 import com.virginia.utils.UserUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,6 +22,7 @@ public class ActivityServiceImpl implements ActivityService {
     @Resource
     private ActivityMapper activityMapper;
 
+    @Transactional(rollbackFor = Exception.class)
     @LogAnnotation
     @Override
     public Integer addActivity(Activity activity) {
@@ -39,6 +41,7 @@ public class ActivityServiceImpl implements ActivityService {
         return activityMapper.insertSelective(activity);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @LogAnnotation
     @Override
     public Integer editActivity(Activity activity) {
@@ -67,6 +70,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
 
+    @Transactional(rollbackFor = Exception.class)
     @LogAnnotation
     @Override
     /**

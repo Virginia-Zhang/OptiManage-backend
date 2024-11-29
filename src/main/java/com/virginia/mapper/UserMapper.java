@@ -29,6 +29,6 @@ public interface UserMapper {
     // Remove/Restore users in batches
     int updateUsersByIds(@Param("ids") List<Integer> ids, @Param("accountEnabledValue") Integer accountEnabledValue, @Param("editTime") LocalDateTime editTime, @Param("editBy") Integer editBy);
 
-    // Get all users with id and login_act only
+    // Get all users with id, login_act and region only
     List<User> selectOwners();
 }

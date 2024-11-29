@@ -11,6 +11,7 @@ import com.virginia.service.ActivityRemarkService;
 import com.virginia.utils.UserUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +21,7 @@ public class ActivityRemarkServiceImpl implements ActivityRemarkService {
     @Resource
     private ActivityRemarkMapper activityRemarkMapper;
 
+    @Transactional(rollbackFor = Exception.class)
     @LogAnnotation
     @Override
     public Integer addActivityRemark(ActivityRemark activityRemark) {
@@ -32,6 +34,7 @@ public class ActivityRemarkServiceImpl implements ActivityRemarkService {
         return activityRemarkMapper.insertSelective(activityRemark);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @LogAnnotation
     @Override
     public Integer deleteActivityRemarkById(Integer id) {
@@ -45,6 +48,7 @@ public class ActivityRemarkServiceImpl implements ActivityRemarkService {
         return activityRemarkMapper.updateByPrimaryKeySelective(activityRemark);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @LogAnnotation
     @Override
     public Integer editActivityRemarkById(ActivityRemark activityRemark) {
@@ -65,9 +69,9 @@ public class ActivityRemarkServiceImpl implements ActivityRemarkService {
      * @return list of activity remarks
      */
     @Override
-    public PageBean getAllActivityRemarks(Integer activityId, Integer page, Integer pageSize) {
+    public PageBean getAllActivityRemarks(Integer activityId, Integer page, Integer pageSize, Integer isDeletedValue) {
         PageHelper.startPage(page, pageSize);
-        List<ActivityRemark> activityRemarks = activityRemarkMapper.selectAll(activityId);
+        List<ActivityRemark> activityRemarks = activityRemarkMapper.selectAll(activityId, isDeletedValue);
         Page<ActivityRemark> pageInfo = (Page<ActivityRemark>) activityRemarks;
         return new PageBean(pageInfo.getTotal(), pageInfo.getResult());
     }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.virginia.annotation.LogAnnotation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,6 +22,7 @@ public class ClueServiceImpl implements ClueService {
     @Resource
     private ClueMapper clueMapper;
 
+    @Transactional(rollbackFor = Exception.class)
     @LogAnnotation
     @Override
     public int addClue(Clue clue) {
@@ -37,6 +39,7 @@ public class ClueServiceImpl implements ClueService {
         return clueMapper.insertSelective(clue);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @LogAnnotation
     @Override
     public Integer editClue(Clue clue) {
@@ -61,6 +64,7 @@ public class ClueServiceImpl implements ClueService {
         return new PageBean(pageInfo.getTotal(), pageInfo.getResult());
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @LogAnnotation
     @Override
     public Integer updateCluesByIds(List<Integer> ids, Integer isDeletedValue) {
