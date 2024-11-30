@@ -40,7 +40,7 @@ public class Customer implements Serializable {
      *Customer description
      */
     @NotBlank(groups = {ValidationGroups.AddCustomerGroup.class, ValidationGroups.EditCustomerGroup.class}, message = "Description is required!")
-    @Size(groups = {ValidationGroups.AddCustomerGroup.class, ValidationGroups.EditCustomerGroup.class}, max = 1000, message = "Description cannot exceed 1000 characters!")
+    @Size(groups = {ValidationGroups.AddCustomerGroup.class, ValidationGroups.EditCustomerGroup.class}, max = 1024, message = "Description cannot exceed 1024 characters!")
     private String description;
 
     /**
@@ -80,6 +80,26 @@ public class Customer implements Serializable {
      *0-Not deleted, 1-Deleted
      */
     private Integer isDeleted;
+
+    /**
+     * Non-database fields
+     */
+    // Login account of the customer's owner
+    private String ownerAct;
+    // Customer's full name
+    private String fullName;
+    // Customer's gender
+    private Integer gender;
+    // Customer's phone number
+    private String phone;
+    // Customer's email
+    private String email;
+    // Customer's loan needs, 0-No, 1-Yes
+    private Integer needLoan;
+    // Customer's source, where did the customer come from
+    private Integer source;
+    // Product name that the customer wants to buy
+    private String intentionProductName;
 
     private static final long serialVersionUID = 1L;
 }

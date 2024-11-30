@@ -54,7 +54,10 @@ public class CustomerManager {
         }
         int result2 = clueMapper.updateByPrimaryKeySelective(newClue);
 
-        // If both 2 and 3 are successful, 1 will be returned, otherwise 0 will be returned.
-        return result1 + result2 == 2 ? 1 : 0;
+        // If both 2 and 3 are successful, 1 will be returned, otherwise throw exception.
+        if(result1 != result2){
+            throw new RuntimeException("线索转客户失败！请稍后再试！");
+        }
+        return 1;
     }
 }

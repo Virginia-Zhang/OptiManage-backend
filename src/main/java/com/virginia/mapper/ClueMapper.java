@@ -4,6 +4,7 @@ import com.virginia.annotation.DataFilterAnnotation;
 import com.virginia.pojo.Clue;
 import com.virginia.query.GetCluesQuery;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,8 @@ public interface ClueMapper {
 
     int insert(Clue record);
 
+    // Get the auto-increment primary key of the clue
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     int insertSelective(Clue record);
 
     Clue selectByPrimaryKey(Integer id);

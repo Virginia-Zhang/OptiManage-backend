@@ -1,15 +1,13 @@
 package com.virginia.controller;
 
 import com.virginia.pojo.Customer;
+import com.virginia.query.GetCustomersQuery;
 import com.virginia.result.R;
 import com.virginia.service.CustomerService;
 import com.virginia.validation.ValidationGroups;
 import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/customer")
@@ -35,5 +33,15 @@ public class CustomerController {
             e.printStackTrace();
             return R.FAIL("Convert customer failed!Please try again!");
         }
+    }
+
+    /**
+     * Get all undeleted/deleted customers with pagination and optional searching params
+     * @param query GetCustomersQuery object, including searching params(optional)
+     * @return Clue list, encapsulated into R: data
+     */
+    @GetMapping("/list")
+    public R getAllCustomers(@Validated GetCustomersQuery query) {
+        return R.SUCCESS(customerService.getAllCustomers(query));
     }
 }

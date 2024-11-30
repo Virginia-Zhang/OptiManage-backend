@@ -24,6 +24,11 @@ public class ClueController {
     @Resource
     private ClueService clueService;
 
+    /**
+     * Get all undeleted/deleted clues with pagination and optional searching params
+     * @param query GetCluesQuery object, including searching params(optional)
+     * @return Clue list, encapsulated into R: data
+     */
     @GetMapping("/list")
     public R getAllClues(@Validated GetCluesQuery query) {
         PageBean clues = clueService.getAllClues(query);
@@ -77,6 +82,5 @@ public class ClueController {
             e.printStackTrace();
             return R.FAIL("Delete/Restore clues failed!Please try again!");
         }
-
     }
 }

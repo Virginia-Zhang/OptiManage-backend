@@ -15,6 +15,14 @@
     <result column="edit_by" jdbcType="INTEGER" property="editBy" />
     <result column="region" jdbcType="INTEGER" property="region" />
     <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="email" property="email"/>
+    <result column="full_name" property="fullName"/>
+    <result column="gender" property="gender"/>
+    <result column="intention_product_name" property="intentionProductName"/>
+    <result column="need_loan" property="needLoan"/>
+    <result column="owner_act" property="ownerAct"/>
+    <result column="phone" property="phone"/>
+    <result column="source" property="source"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -164,4 +172,63 @@
       is_deleted = #{isDeleted,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select tcu.*, tu.login_act as owner_act, tc.full_name as full_name,
+           tc.gender as gender, tc.phone as phone, tc.email as email, tc.need_loan as need_loan, tc.source as source, tp.name as intention_product_name
+    from t_customer tcu
+    left join t_clue tc on tcu.clue_id = tc.id
+    left join t_user tu on tc.owner_id = tu.id
+    left join t_product tp on tcu.product = tp.id
+    where tcu.is_deleted = #{isDeleted}
+    <if test="owners != null and owners.size() != 0">
+      and tc.owner_id in
+      <foreach close=")" collection="owners" index="index" item="item" open="(" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    <if test="fullName != null">
+      and tc.full_name like concat('%',#{fullName},'%')
+    </if>
+    <if test="gender != null">
+      and tc.gender = #{gender}
+    </if>
+    <if test="needLoan != null">
+      and tc.need_loan = #{needLoan}
+    </if>
+    <if test="sources != null and sources.size() != 0">
+      and tc.source in
+      <foreach close=")" collection="sources" index="index" item="item" open="(" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    <if test="intentionProducts != null and intentionProducts.size() != 0">
+      and tcu.product in
+      <foreach close=")" collection="intentionProducts" index="index" item="item" open="(" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    <if test="regions != null and regions.size() != 0">
+      and tc.region in
+      <foreach close=")" collection="regions" index="index" item="item" open="(" separator=",">
+        #{item}
+      </foreach>
+    </if>
+    ${filterSQL}
+  </select>
+
+  <update id="updateCustomersByClueIds">
+    update t_customer
+    set is_deleted = #{isDeletedValue}, edit_time = #{editTime}, edit_by = #{editBy}
+    where clue_id in
+    <foreach close=")" collection="clueIds" index="index" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+  </update>
+
+  <select id="selectCustomerCountByClueId" resultType="int">
+    select count(0)
+    from t_customer
+    where clue_id = #{clueId}
+  </select>
 </mapper>

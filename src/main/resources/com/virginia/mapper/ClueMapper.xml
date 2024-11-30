@@ -241,60 +241,23 @@
       <if test="ownerId != null">
         owner_id = #{ownerId,jdbcType=INTEGER},
       </if>
-      <if test="activityId != null">
         activity_id = #{activityId,jdbcType=INTEGER},
-      </if>
-      <if test="fullName != null">
         full_name = #{fullName,jdbcType=VARCHAR},
-      </if>
-      <if test="gender != null">
         gender = #{gender,jdbcType=INTEGER},
-      </if>
-      <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="otherContactDetails != null">
         other_contact_details = #{otherContactDetails,jdbcType=VARCHAR},
-      </if>
-      <if test="age != null">
         age = #{age,jdbcType=INTEGER},
-      </if>
-      <if test="job != null">
         job = #{job,jdbcType=VARCHAR},
-      </if>
-      <if test="yearIncome != null">
         year_income = #{yearIncome,jdbcType=DECIMAL},
-      </if>
-      <if test="currencyUnit != null">
         currency_unit = #{currencyUnit,jdbcType=VARCHAR},
-      </if>
-      <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="needLoan != null">
         need_loan = #{needLoan,jdbcType=INTEGER},
-      </if>
-      <if test="intentionState != null">
         intention_state = #{intentionState,jdbcType=INTEGER},
-      </if>
-      <if test="intentionProduct != null">
         intention_product = #{intentionProduct,jdbcType=INTEGER},
-      </if>
-      <if test="state != null">
         `state` = #{state,jdbcType=INTEGER},
-      </if>
-      <if test="source != null">
         `source` = #{source,jdbcType=INTEGER},
-      </if>
-      <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="nextContactTime != null">
         next_contact_time = #{nextContactTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
