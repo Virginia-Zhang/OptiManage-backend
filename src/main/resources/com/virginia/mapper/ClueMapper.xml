@@ -245,11 +245,14 @@
         full_name = #{fullName,jdbcType=VARCHAR},
         gender = #{gender,jdbcType=INTEGER},
         phone = #{phone,jdbcType=VARCHAR},
+        email = #{email,jdbcType=VARCHAR},
         other_contact_details = #{otherContactDetails,jdbcType=VARCHAR},
         age = #{age,jdbcType=INTEGER},
         job = #{job,jdbcType=VARCHAR},
         year_income = #{yearIncome,jdbcType=DECIMAL},
-        currency_unit = #{currencyUnit,jdbcType=VARCHAR},
+        <if test="currencyUnit != null and currencyUnit != ''">
+          currency_unit = #{currencyUnit,jdbcType=VARCHAR},
+        </if>
         address = #{address,jdbcType=VARCHAR},
         need_loan = #{needLoan,jdbcType=INTEGER},
         intention_state = #{intentionState,jdbcType=INTEGER},

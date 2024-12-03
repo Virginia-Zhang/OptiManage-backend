@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -100,6 +101,18 @@ public class Customer implements Serializable {
     private Integer source;
     // Product name that the customer wants to buy
     private String intentionProductName;
+    // Customer's address
+    private String address;
+    // Customer's age
+    private Integer age;
+    // Customer's job
+    private String job;
+    // Customer's annual income
+    private BigDecimal yearIncome;
+    // Currency unit of the customer's income
+    private String currencyUnit;
+    // Customer's other contact details
+    private String otherContactDetails;
 
     private static final long serialVersionUID = 1L;
 }

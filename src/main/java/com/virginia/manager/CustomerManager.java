@@ -33,7 +33,7 @@ public class CustomerManager {
         // 1. Verify whether the clue has been transferred to the customer. If the clue state corresponding to clue_id is 1, it means that the clue has been transferred to the customer and an exception will be thrown.
         Clue clue = clueMapper.selectByPrimaryKey(customer.getClueId());
         if (clue.getState() == 1) {
-            throw new RuntimeException("该线索已转客户，请勿重复操作！");
+            throw new RuntimeException("This lead has been forwarded to customer, please do not repeat the operation!");
         }
 
         // 2. Insert customer data into t_customer table
@@ -45,18 +45,16 @@ public class CustomerManager {
         int result1 = customerMapper.insertSelective(customer);
 
         // 3. Change the lead/clue state to 1, that is, the lead has been transferred to customer
-        Clue newClue = new Clue();
-        newClue.setId(customer.getClueId());
-        newClue.setState(1);
-        newClue.setEditTime(LocalDateTime.now());
+        clue.setState(1);
+        clue.setEditTime(LocalDateTime.now());
         if(loggedInUserInfo.getUser() != null){
-            newClue.setEditBy(loggedInUserInfo.getUser().getId());
+            clue.setEditBy(loggedInUserInfo.getUser().getId());
         }
-        int result2 = clueMapper.updateByPrimaryKeySelective(newClue);
+        int result2 = clueMapper.updateByPrimaryKeySelective(clue);
 
         // If both 2 and 3 are successful, 1 will be returned, otherwise throw exception.
         if(result1 != result2){
-            throw new RuntimeException("线索转客户失败！请稍后再试！");
+            throw new RuntimeException("Failed to convert the lead to customer! Please try again later!");
         }
         return 1;
     }

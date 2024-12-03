@@ -38,9 +38,19 @@ public class CustomerController {
     /**
      * Get all undeleted/deleted customers with pagination and optional searching params
      * @param query GetCustomersQuery object, including searching params(optional)
-     * @return Clue list, encapsulated into R: data
+     * @return Customer list, encapsulated into R: data
      */
     @GetMapping("/list")
+    public R getAllCustomersByPage(@Validated GetCustomersQuery query) {
+        return R.SUCCESS(customerService.getAllCustomersByPage(query));
+    }
+
+    /**
+     * Get all undeleted customers without pagination and optional searching params
+     * @param query GetCustomersQuery object, actually no params
+     * @return Customer list without pagination, encapsulated into R: data
+     */
+    @GetMapping("/all")
     public R getAllCustomers(@Validated GetCustomersQuery query) {
         return R.SUCCESS(customerService.getAllCustomers(query));
     }

@@ -22,9 +22,9 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerMapper customerMapper;
 
     /**
-     * 将线索转换为客户，调用manager的convertCustomer方法
-     * @param customer 客户数据
-     * @return 插入数据库的条数，若为1，则表示插入成功，否则为0
+     * Convert a lead into a customer, call convertToCustomer() in CustomerManager
+     * @param customer Customer data
+     * @return The number of entries inserted into the database. If it is 1, the insertion is successful, otherwise an exception will be thrown.
      */
     @Override
     public Integer convertToCustomer(Customer customer) {
@@ -37,10 +37,19 @@ public class CustomerServiceImpl implements CustomerService {
      * @return PageBean, containing the total number of records and the current page records
      */
     @Override
-    public PageBean getAllCustomers(GetCustomersQuery query) {
+    public PageBean getAllCustomersByPage(GetCustomersQuery query) {
         PageHelper.startPage(query.getPage(), query.getPageSize());
         List<Customer> customerList = customerMapper.selectAll(query);
         Page<Customer> pageInfo = (Page<Customer>) customerList;
         return new PageBean(pageInfo.getTotal(), pageInfo.getResult());
+    }
+
+    /**
+     * Get all customers without pagination
+     * @return List of customers, without pagination
+     */
+    @Override
+    public List<Customer> getAllCustomers(GetCustomersQuery query) {
+        return customerMapper.selectAll(query);
     }
 }

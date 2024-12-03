@@ -23,6 +23,12 @@
     <result column="owner_act" property="ownerAct"/>
     <result column="phone" property="phone"/>
     <result column="source" property="source"/>
+    <result column="address" property="address"/>
+    <result column="age" property="age"/>
+    <result column="job" property="job"/>
+    <result column="other_contact_details" property="otherContactDetails"/>
+    <result column="year_income" property="yearIncome"/>
+    <result column="currency_unit" property="currencyUnit"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -175,7 +181,7 @@
 
   <select id="selectAll" resultMap="BaseResultMap">
     select tcu.*, tu.login_act as owner_act, tc.full_name as full_name,
-           tc.gender as gender, tc.phone as phone, tc.email as email, tc.need_loan as need_loan, tc.source as source, tp.name as intention_product_name
+           tc.gender as gender, tc.phone as phone, tc.email as email, tc.other_contact_details as other_contact_details, tc.age as age, tc.job as job, tc.year_income as year_income, tc.currency_unit as currency_unit, tc.address as address, tc.need_loan as need_loan, tc.source as source, tp.name as intention_product_name
     from t_customer tcu
     left join t_clue tc on tcu.clue_id = tc.id
     left join t_user tu on tc.owner_id = tu.id

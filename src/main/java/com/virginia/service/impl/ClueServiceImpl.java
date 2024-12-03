@@ -9,7 +9,6 @@ import com.virginia.pojo.PageBean;
 import com.virginia.query.GetCluesQuery;
 import com.virginia.service.ClueService;
 import com.virginia.utils.UserUtils;
-import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
@@ -44,16 +43,16 @@ public class ClueServiceImpl implements ClueService {
         }
         int result = clueMapper.insertSelective(clue);
 
-        // 若clue的state为1，即已转客户，则要同时往客户表里插入客户数据
+        // If the clue's state is 1, indicating it has been converted to a customer, then insert the customer data into the customer table simultaneously.
         if(clue.getState() == 1){
             convertClueToCustomer(clue, loggedInUserInfo);
         }
         return result;
     }
 
-    // 将状态为已转客户的线索数据转换成客户数据
+    // Convert clues with status of "Transferred to customer" to customer data
     public void convertClueToCustomer(Clue clue, MyUserDetails loggedInUserInfo){
-        // 创建客户数据
+        // Create customer data
         Customer customer = new Customer();
         customer.setClueId(clue.getId());
         customer.setProduct(clue.getIntentionProduct());
@@ -62,7 +61,7 @@ public class ClueServiceImpl implements ClueService {
         customer.setRegion(clue.getRegion());
         customer.setCreateTime(LocalDateTime.now());
         customer.setCreateBy(loggedInUserInfo.getUser().getId());
-        // 插入客户数据
+        // Insert customer data
         customerMapper.insertSelective(customer);
     }
 
@@ -76,7 +75,7 @@ public class ClueServiceImpl implements ClueService {
             clue.setEditBy(loggedInUserInfo.getUser().getId());
         }
         int result = clueMapper.updateByPrimaryKeySelective(clue);
-        // 如果clue的state为1，即已转客户，且该线索还未被添加到客户表中，则往客户表中插入客户数据
+        // If the clue's state is 1, indicating it has been converted to a customer, and this clue has not yet been added to the customer table, then insert the customer data into the customer table.
         int i = customerMapper.selectCustomerCountByClueId(clue.getId());
         if(clue.getState() == 1 && i == 0){
             assert loggedInUserInfo != null;
@@ -104,23 +103,23 @@ public class ClueServiceImpl implements ClueService {
     public Integer updateCluesByIds(List<Integer> ids, Integer isDeletedValue) {
         MyUserDetails loggedInUserInfo = UserUtils.getLoggedInUserInfo();
         assert loggedInUserInfo != null;
-        // 待删除/恢复的客户数据id集合
+        // The list of customer data IDs to be deleted or restored.
         List<Integer> customerIds;
-        // 对传入的ids集合作遍历，检查每个线索的state是否为1-已转客户，是的话把id放入customerIds中，否则不做处理
+        // Iterate over ids, check if the state of each clue is 1 - converted to customer. If so, add the id to customerIds; otherwise, do nothing.
         customerIds = ids.stream().filter(id -> {
             Clue clue = clueMapper.selectByPrimaryKey(id);
             return clue.getState() == 1;
         }).toList();
-        // 批量删除/恢复已转客户线索对应的客户数据，传入customerIds
+        // Batch delete or restore customer data corresponding to converted customer clues, passing in customerIds.
         int result1 = customerMapper.updateCustomersByClueIds(customerIds, isDeletedValue, LocalDateTime.now(), loggedInUserInfo.getUser().getId());
         if(result1 != customerIds.size()){
-            throw new RuntimeException("删除/恢复已转客户线索对应的客户数据失败！请检查后再试！");
+            throw new RuntimeException("Deletion/restoration of customer data corresponding to converted customer leads failed! Please check and try again!");
         }
-        // 批量删除/恢复线索数据
+        // Batch delete or restore clue data
         int result2 = clueMapper.updateCluesByIds(ids, isDeletedValue, LocalDateTime.now(), loggedInUserInfo.getUser().getId());
-        // 比较result1是否等于result2，如果相等则返回result1，否则抛出异常
+        // Compare result1 with result2. If they are equal, return result1; otherwise, throw an exception.
         if(result1 != result2){
-            throw new RuntimeException("删除/恢复线索数据失败！请稍后再试！");
+            throw new RuntimeException("Deletion/restoration of lead data failed! Please try again later!");
         }
         return result1;
     }
