@@ -18,5 +18,7 @@ public class ValidationGroups {
     public interface EditClueRemarkGroup{}
     public interface AddCustomerGroup{}
     public interface EditCustomerGroup{}
+    public interface AddCustomerRemarkGroup{}
+    public interface EditCustomerRemarkGroup{}
 }
 

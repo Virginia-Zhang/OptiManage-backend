@@ -94,7 +94,7 @@ public class Activity implements Serializable {
      *  Activity budget
      *  Verify the data type, which must be a positive number less than 2 decimal places.
      */
-    @Digits(groups = {ValidationGroups.AddActivityGroup.class, ValidationGroups.EditActivityGroup.class}, integer = 11, fraction = 2, message = "Cost must be a positive number with at most two decimal places!")
+    @Digits(groups = {ValidationGroups.AddActivityGroup.class, ValidationGroups.EditActivityGroup.class}, integer = 15, fraction = 2, message = "Cost must be a positive number with at most two decimal places!")
     @DecimalMin(groups = {ValidationGroups.AddActivityGroup.class, ValidationGroups.EditActivityGroup.class}, value="0.01", message = "Cost must be a positive number with at most two decimal places!")
     @NotNull(groups = {ValidationGroups.AddActivityGroup.class}, message = "Cost is required!")
     private BigDecimal cost;

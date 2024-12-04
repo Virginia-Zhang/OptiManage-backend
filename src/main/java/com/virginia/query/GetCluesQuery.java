@@ -19,6 +19,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetCluesQuery extends SelectAllQuery{
+    // Clue id
+    private Integer id;
     // Clue owners' ids
     private List<Integer> owners;
     // Activity ids which clue belongs to

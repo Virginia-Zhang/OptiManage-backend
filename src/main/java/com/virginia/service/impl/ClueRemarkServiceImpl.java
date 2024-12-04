@@ -44,7 +44,7 @@ public class ClueRemarkServiceImpl implements ClueRemarkService {
     }
 
     /**
-     * 根据clueId获取该线索的所有未删除的/已删除的备注，分页
+     * Query all non-deleted/deleted remarks for a clue based on the clueId, with pagination
      * @param clueId id of the marketing clue
      * @param page page number
      * @param pageSize page size

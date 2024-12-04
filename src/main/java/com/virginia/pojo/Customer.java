@@ -113,6 +113,10 @@ public class Customer implements Serializable {
     private String currencyUnit;
     // Customer's other contact details
     private String otherContactDetails;
+    // Login account of the creator
+    private String createByAct;
+    // Login account of the editor
+    private String editByAct;
 
     private static final long serialVersionUID = 1L;
 }

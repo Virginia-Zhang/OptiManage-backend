@@ -19,6 +19,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetCustomersQuery extends SelectAllQuery{
+    // Client id
+    private Integer id;
     // Client owners' ids
     private List<Integer> owners;
     // Client's full name

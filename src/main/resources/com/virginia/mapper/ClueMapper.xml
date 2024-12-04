@@ -323,6 +323,9 @@
     left join t_user tu2 on tc.create_by = tu2.id
     left join t_user tu3 on tc.edit_by = tu3.id
     where tc.is_deleted = #{isDeleted}
+    <if test="id != null">
+      and tc.id = #{id}
+    </if>
     <if test="owners != null and owners.size() != 0">
       and tc.owner_id in
       <foreach close=")" collection="owners" index="index" item="item" open="(" separator=",">

@@ -29,6 +29,8 @@
     <result column="other_contact_details" property="otherContactDetails"/>
     <result column="year_income" property="yearIncome"/>
     <result column="currency_unit" property="currencyUnit"/>
+    <result column="create_by_act" property="createByAct"/>
+    <result column="edit_by_act" property="editByAct"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -181,12 +183,17 @@
 
   <select id="selectAll" resultMap="BaseResultMap">
     select tcu.*, tu.login_act as owner_act, tc.full_name as full_name,
-           tc.gender as gender, tc.phone as phone, tc.email as email, tc.other_contact_details as other_contact_details, tc.age as age, tc.job as job, tc.year_income as year_income, tc.currency_unit as currency_unit, tc.address as address, tc.need_loan as need_loan, tc.source as source, tp.name as intention_product_name
+           tc.gender as gender, tc.phone as phone, tc.email as email, tc.other_contact_details as other_contact_details, tc.age as age, tc.job as job, tc.year_income as year_income, tc.currency_unit as currency_unit, tc.address as address, tc.need_loan as need_loan, tc.source as source, tp.name as intention_product_name, tu1.login_act as create_by_act, tu2.login_act as edit_by_act
     from t_customer tcu
     left join t_clue tc on tcu.clue_id = tc.id
     left join t_user tu on tc.owner_id = tu.id
     left join t_product tp on tcu.product = tp.id
+    left join t_user tu1 on tcu.create_by = tu1.id
+    left join t_user tu2 on tcu.edit_by = tu2.id
     where tcu.is_deleted = #{isDeleted}
+    <if test="id != null">
+      and tcu.id = #{id}
+    </if>
     <if test="owners != null and owners.size() != 0">
       and tc.owner_id in
       <foreach close=")" collection="owners" index="index" item="item" open="(" separator=",">
@@ -215,7 +222,7 @@
       </foreach>
     </if>
     <if test="regions != null and regions.size() != 0">
-      and tc.region in
+      and tcu.region in
       <foreach close=")" collection="regions" index="index" item="item" open="(" separator=",">
         #{item}
       </foreach>
