@@ -83,4 +83,15 @@ public class ClueController {
             return R.FAIL("Delete/Restore clues failed!Please try again!");
         }
     }
+
+    /**
+     * Get all clues without pagination and optional searching params
+     * @param query GetCluesQuery object
+     * @return List of clues, without pagination, encapsulated into R: data
+     */
+    @GetMapping("/all")
+    public R getAllCluesWithoutPagination(GetCluesQuery query) {
+        List<Clue> clues = clueService.getAllCluesWithoutPagination(query);
+        return R.SUCCESS(clues);
+    }
 }

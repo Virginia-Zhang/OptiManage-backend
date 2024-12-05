@@ -123,4 +123,9 @@ public class ClueServiceImpl implements ClueService {
         }
         return result1;
     }
+
+    @Override
+    public List<Clue> getAllCluesWithoutPagination(GetCluesQuery query) {
+        return clueMapper.selectAll(query);
+    }
 }

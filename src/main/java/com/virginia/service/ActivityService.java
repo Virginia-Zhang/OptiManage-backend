@@ -14,4 +14,6 @@ public interface ActivityService {
     Integer updateActivitiesByIds(List<Integer> ids, Integer isDeletedValue);
     // Get all activities with id and name only
     List<Activity> getActivities();
+    // Get all activities without pagination
+    List<Activity> getAllActivitiesWithoutPagination(GetActivitiesQuery query);
 }

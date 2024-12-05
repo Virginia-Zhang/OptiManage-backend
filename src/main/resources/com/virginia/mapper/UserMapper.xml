@@ -272,12 +272,24 @@
       from t_user
       where login_act = #{username}
   </select>
-<!--Query all users with account_enabled = 1, and including login_act of the creator and the editor-->
+
   <select id="selectAll" resultMap="UserDetailsResultMap">
     select <include refid="No_Pwd_Column_List" />, tu2.login_act as create_by_act, tu3.login_act as edit_by_act from t_user tu
            left join t_user tu2 on tu.create_by = tu2.id
            left join t_user tu3 on tu.edit_by = tu3.id
     where tu.account_enabled = #{isDeleted}
+    <if test="loginAct != null">
+      and tu.login_act like concat('%',#{loginAct},'%')
+    </if>
+    <if test="name != null">
+      and tu.name like concat('%',#{name},'%')
+    </if>
+    <if test="regions != null and regions.size() != 0">
+      and tu.region in
+      <foreach close=")" collection="regions" index="index" item="item" open="(" separator=",">
+        #{item}
+      </foreach>
+    </if>
   </select>
 
   <!--  Remove/Restore users in batches -> set the user's account_enabled field to 0/1.-->

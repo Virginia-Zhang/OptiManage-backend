@@ -3,6 +3,7 @@ package com.virginia.service;
 import com.virginia.pojo.MyUserDetails;
 import com.virginia.pojo.PageBean;
 import com.virginia.pojo.User;
+import com.virginia.query.GetUsersQuery;
 
 import java.util.List;
 
@@ -10,8 +11,8 @@ public interface UserService {
     // Get user information
     MyUserDetails getUserInfo();
 
-    // Query user data by page and return
-    PageBean getAllUsers(Integer page, Integer pageSize, Integer isDeleted);
+    // Query user data by page, with searching parameters(optional)
+    PageBean getAllUsers(GetUsersQuery query);
 
     // Add new user
     Integer addUser(User user);

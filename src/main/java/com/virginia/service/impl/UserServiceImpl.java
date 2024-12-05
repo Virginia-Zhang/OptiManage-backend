@@ -7,6 +7,7 @@ import com.virginia.mapper.UserMapper;
 import com.virginia.pojo.MyUserDetails;
 import com.virginia.pojo.PageBean;
 import com.virginia.pojo.User;
+import com.virginia.query.GetUsersQuery;
 import com.virginia.service.UserService;
 import com.virginia.utils.EmailUtils;
 import com.virginia.utils.PasswordUtils;
@@ -43,16 +44,14 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     *Query user data by page and return
-     * @param page current page number
-     * @param pageSize How many pieces of data to display on each page
-     * @param isDeleted Whether to display deleted data
-     * @return pageBean, contains the total number of records and current page data
+     *  Query user data by page, with searching parameters(optional)
+     *  @param query query object
+     *  @return pageBean, contains the total number of records and current page data
      */
     @Override
-    public PageBean getAllUsers(Integer page, Integer pageSize, Integer isDeleted) {
-        PageHelper.startPage(page, pageSize);
-        List<User> userList = userMapper.selectAll(isDeleted);
+    public PageBean getAllUsers(GetUsersQuery query) {
+        PageHelper.startPage(query.getPage(), query.getPageSize());
+        List<User> userList = userMapper.selectAll(query);
         Page<User> pageInfo = (Page<User>) userList;
         return new PageBean(pageInfo.getTotal(), pageInfo.getResult());
     }

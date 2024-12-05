@@ -103,8 +103,22 @@ public class ActivityController {
         }
     }
 
+    /**
+     * Get activities with id, name and region only
+     * @return List of activities, encapsulated into R: data
+     */
     @GetMapping("/activities")
     public R getActivities() {
         return R.SUCCESS(activityService.getActivities());
+    }
+
+    /**
+     * Get all activities without pagination
+     * @param query query object
+     * @return List of all activities without pagination, encapsulated into R: data
+     */
+    @GetMapping("/all")
+    public R getAllActivitiesWithoutPagination(GetActivitiesQuery query) {
+        return R.SUCCESS(activityService.getAllActivitiesWithoutPagination(query));
     }
 }

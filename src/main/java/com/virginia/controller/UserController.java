@@ -4,6 +4,7 @@ import com.virginia.pojo.MyUserDetails;
 import com.virginia.pojo.PageBean;
 import com.virginia.pojo.User;
 import com.virginia.query.BatchUpdateQuery;
+import com.virginia.query.GetUsersQuery;
 import com.virginia.query.SelectAllQuery;
 import com.virginia.result.R;
 import com.virginia.service.impl.UserServiceImpl;
@@ -33,13 +34,13 @@ public class UserController {
     }
 
     /**
-     *Query user data by page and return
+     *Query user data by page, with searching parameters(optional)
      * @param query query object
      * @return paging data, the format is: {total: 100, rows: [{}, {}, ...]}, encapsulated into R: data
      */
     @GetMapping("/list")
-    public R getAllUsers(SelectAllQuery query) {
-        PageBean users = userServiceImpl.getAllUsers(query.getPage(), query.getPageSize(), query.getIsDeleted());
+    public R getAllUsers(GetUsersQuery query) {
+        PageBean users = userServiceImpl.getAllUsers(query);
         return R.SUCCESS(users);
     }
 

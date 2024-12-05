@@ -16,4 +16,5 @@ public interface ClueService {
     PageBean getAllClues(GetCluesQuery query);
     // Remove/Restore activities by ids
     Integer updateCluesByIds(List<Integer> ids, Integer isDeletedValue);
+    List<Clue> getAllCluesWithoutPagination(GetCluesQuery query);
 }

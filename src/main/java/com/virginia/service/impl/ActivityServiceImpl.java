@@ -91,4 +91,10 @@ public class ActivityServiceImpl implements ActivityService {
     public List<Activity> getActivities() {
         return activityMapper.selectAllActivities();
     }
+
+    // Get all activities without pagination
+    @Override
+    public List<Activity> getAllActivitiesWithoutPagination(GetActivitiesQuery query) {
+        return activityMapper.selectAll(query);
+    }
 }
