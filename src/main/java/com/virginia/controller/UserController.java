@@ -1,11 +1,9 @@
 package com.virginia.controller;
 
-import com.virginia.pojo.MyUserDetails;
 import com.virginia.pojo.PageBean;
 import com.virginia.pojo.User;
 import com.virginia.query.BatchUpdateQuery;
 import com.virginia.query.GetUsersQuery;
-import com.virginia.query.SelectAllQuery;
 import com.virginia.result.R;
 import com.virginia.service.impl.UserServiceImpl;
 import com.virginia.validation.ValidationGroups;
@@ -20,18 +18,6 @@ import java.util.List;
 public class UserController {
     @Resource
     private UserServiceImpl userServiceImpl;
-
-    /**
-     * Get logged-in user information
-     * @return user details, encapsulated into R: data
-     */
-    @GetMapping("/info")
-    public R getLoggedInUserInfo() {
-        MyUserDetails userDetails = userServiceImpl.getUserInfo();
-        // Delete the user.login pwd field in user details and return it to the front end
-        userDetails.getUser().setLoginPwd(null);
-        return R.SUCCESS(userDetails);
-    }
 
     /**
      *Query user data by page, with searching parameters(optional)

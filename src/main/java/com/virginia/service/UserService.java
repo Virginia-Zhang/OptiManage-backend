@@ -8,9 +8,6 @@ import com.virginia.query.GetUsersQuery;
 import java.util.List;
 
 public interface UserService {
-    // Get user information
-    MyUserDetails getUserInfo();
-
     // Query user data by page, with searching parameters(optional)
     PageBean getAllUsers(GetUsersQuery query);
 

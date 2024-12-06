@@ -1,5 +1,6 @@
 package com.virginia.result;
 
+import com.virginia.pojo.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,5 @@ public class LoginResult {
     private String token;
     private List<String> roleList;
     private List<String> permissionList;
-    private Integer preferredLanguage;
+    private User userInfo;
 }

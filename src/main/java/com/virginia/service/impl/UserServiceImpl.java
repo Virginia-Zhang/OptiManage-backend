@@ -13,8 +13,6 @@ import com.virginia.utils.EmailUtils;
 import com.virginia.utils.PasswordUtils;
 import com.virginia.utils.UserUtils;
 import jakarta.annotation.Resource;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,16 +30,6 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private EmailUtils emailUtils;
-
-    @Override
-    public MyUserDetails getUserInfo() {
-        // Get user information from security context and return
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof MyUserDetails) {
-            return (MyUserDetails) authentication.getPrincipal();
-        }
-        return null;
-    }
 
     /**
      *  Query user data by page, with searching parameters(optional)

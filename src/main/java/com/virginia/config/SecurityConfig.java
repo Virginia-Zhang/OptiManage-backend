@@ -30,12 +30,10 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager() {
         // Create a new DaoAuthenticationProvider object, specifying userDetailsService and passwordEncoder
-
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(myUserDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
         // Create a new ProviderManager object, passing in the provider.
-
         return new ProviderManager(provider);
     }
 
@@ -48,8 +46,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        // Do not check /api/login interface, and only allow admin to access user-related interfaces
         http.authorizeHttpRequests(auth->auth
                         .requestMatchers("/api/login").permitAll()
+                        .requestMatchers("/api/user/**").hasAuthority("admin")
                 .anyRequest().authenticated())
                 .formLogin(form->form.disable())
                 // Put the jwt authentication filter before the last filter, authorization filter.

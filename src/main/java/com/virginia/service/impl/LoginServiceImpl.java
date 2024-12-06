@@ -63,9 +63,10 @@ public class LoginServiceImpl implements LoginService {
                 RedisUtils.setValue(Constants.REDIS_JWT_KEY + userId, token);
                 // Set expiration time for redis
                 RedisUtils.expire(Constants.REDIS_JWT_KEY + userId, rememberMe ? Constants.EXPIRE_TIME : Constants.DEFAULT_EXPIRE_TIME, TimeUnit.MILLISECONDS);
-
+                // Clear the login password before sending userInfo to the front end
+                userDetails.getUser().setLoginPwd(null);
                 // Return loginResult to the front end
-                return R.SUCCESS(new LoginResult(token, userDetails.getRoleList(), userDetails.getPermissionList(), userDetails.getUser().getPreferredLanguage()));
+                return R.SUCCESS(new LoginResult(token, userDetails.getRoleList(), userDetails.getPermissionList(), userDetails.getUser()));
             }
         } catch (AuthenticationException e) {
             e.printStackTrace();
