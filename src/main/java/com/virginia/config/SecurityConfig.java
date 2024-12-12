@@ -46,10 +46,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // Do not check /api/login interface, and only allow admin to access user-related interfaces
+        // Do not check /api/login interface
         http.authorizeHttpRequests(auth->auth
                         .requestMatchers("/api/login").permitAll()
-                        .requestMatchers("/api/user/**").hasAuthority("admin")
                 .anyRequest().authenticated())
                 .formLogin(form->form.disable())
                 // Put the jwt authentication filter before the last filter, authorization filter.

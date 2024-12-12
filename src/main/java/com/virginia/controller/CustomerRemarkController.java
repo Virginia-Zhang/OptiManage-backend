@@ -7,6 +7,7 @@ import com.virginia.result.R;
 import com.virginia.service.CustomerRemarkService;
 import com.virginia.validation.ValidationGroups;
 import jakarta.annotation.Resource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ public class CustomerRemarkController {
    @Resource
    private CustomerRemarkService customerRemarkService;
 
+   @PreAuthorize("hasAuthority('customerRemark:add')")
    @PostMapping("/")
    public R addCustomerRemark(@Validated(ValidationGroups.AddCustomerRemarkGroup.class) @RequestBody CustomerRemark customerRemark) {
        try {
@@ -27,11 +29,13 @@ public class CustomerRemarkController {
        }
    }
 
+   @PreAuthorize("hasAuthority('customerRemark:list')")
     @GetMapping("/list")
     public R getAllCustomerRemarks(@Validated GetCustomerRemarksQuery query) {
         return R.SUCCESS(customerRemarkService.getAllCustomerRemarks(query.getCustomerId(), query.getPage(), query.getPageSize(), query.getIsDeleted()));
     }
 
+    @PreAuthorize("hasAuthority('customerRemark:edit')")
     @PutMapping("/")
     public R editCustomerRemark(@Validated(ValidationGroups.EditCustomerRemarkGroup.class) @RequestBody CustomerRemark customerRemark) {
         try {
@@ -43,6 +47,7 @@ public class CustomerRemarkController {
        }
     }
 
+    @PreAuthorize("hasAuthority('customerRemark:delete')")
     @DeleteMapping("/{id}")
     public R deleteCustomerRemarkById(@PathVariable Integer id) {
         try {

@@ -2,6 +2,7 @@ package com.virginia.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.virginia.constants.Constants;
+import com.virginia.mapper.UserMapper;
 import com.virginia.pojo.MyUserDetails;
 import com.virginia.query.LoginQuery;
 import com.virginia.result.LoginResult;
@@ -17,6 +18,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -25,6 +27,9 @@ import java.util.concurrent.TimeUnit;
 public class LoginServiceImpl implements LoginService {
     @Resource
     private AuthenticationManager authenticationManager;
+
+    @Resource
+    private UserMapper userMapper;
 
     @Override
     public R checkLogin(LoginQuery loginQuery) {
@@ -63,6 +68,9 @@ public class LoginServiceImpl implements LoginService {
                 RedisUtils.setValue(Constants.REDIS_JWT_KEY + userId, token);
                 // Set expiration time for redis
                 RedisUtils.expire(Constants.REDIS_JWT_KEY + userId, rememberMe ? Constants.EXPIRE_TIME : Constants.DEFAULT_EXPIRE_TIME, TimeUnit.MILLISECONDS);
+                // Set lastLoginTime
+                userDetails.getUser().setLastLoginTime(LocalDateTime.now());
+                userMapper.updateByPrimaryKeySelective(userDetails.getUser());
                 // Clear the login password before sending userInfo to the front end
                 userDetails.getUser().setLoginPwd(null);
                 // Return loginResult to the front end

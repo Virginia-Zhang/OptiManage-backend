@@ -69,4 +69,9 @@
       role_id = #{roleId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <delete id="deleteByUserIdAndRoleId">
+    delete from t_user_role
+    where user_id = #{userId,jdbcType=INTEGER} and role_id = #{roleId,jdbcType=INTEGER}
+  </delete>
 </mapper>

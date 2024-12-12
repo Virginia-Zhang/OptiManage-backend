@@ -6,7 +6,7 @@ import com.virginia.result.R;
 import com.virginia.service.ActivityRemarkService;
 import com.virginia.validation.ValidationGroups;
 import jakarta.annotation.Resource;
-import jakarta.validation.constraints.NotNull;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +16,7 @@ public class ActivityRemarkController {
     @Resource
     private ActivityRemarkService activityRemarkService;
 
+    @PreAuthorize("hasAuthority('activityRemark:add')")
     @PostMapping("/")
     public R addActivityRemark(@Validated(ValidationGroups.AddActivityRemarkGroup.class) @RequestBody ActivityRemark activityRemark) {
         try {
@@ -27,11 +28,13 @@ public class ActivityRemarkController {
         }
     }
 
+    @PreAuthorize("hasAuthority('activityRemark:list')")
     @GetMapping("/list")
     public R getAllActivityRemarks(@Validated GetActivityRemarksQuery query) {
         return R.SUCCESS(activityRemarkService.getAllActivityRemarks(query.getActivityId(), query.getPage(), query.getPageSize(), query.getIsDeleted()));
     }
 
+    @PreAuthorize("hasAuthority('activityRemark:edit')")
     @PutMapping("/")
     public R editActivityRemarkById(@Validated(ValidationGroups.EditActivityRemarkGroup.class) @RequestBody ActivityRemark activityRemark) {
         try {
@@ -43,6 +46,7 @@ public class ActivityRemarkController {
         }
     }
 
+    @PreAuthorize("hasAuthority('activityRemark:delete')")
     @DeleteMapping("/{id}")
     public R deleteActivityRemarkById(@PathVariable Integer id) {
         try {

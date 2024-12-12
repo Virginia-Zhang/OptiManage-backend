@@ -10,6 +10,7 @@ import com.virginia.utils.UserUtils;
 import com.virginia.validation.ValidationGroups;
 import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.Resource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -31,6 +32,7 @@ public class ActivityController {
      * @return paging data, the format is: {total: 100, rows: [{}, {}, ...]}, encapsulated into R: data
      */
     @GetMapping("/list")
+    @PreAuthorize("hasAuthority('activity:list')")
     public R getAllActivities(@Validated(ValidationGroups.SelectActivitiesGroup.class) GetActivitiesQuery query, BindingResult bindingResult) throws MethodArgumentNotValidException {
         // The activity budget range (startCost) and activity budget currency unit (currencyUnit) must exist at the same time. If one does not exist and the other does exist, MethodArgumentNotValidException will be thrown.
         if ((query.getStartCost() != null && StringUtils.isBlank(query.getCurrencyUnit())) || (query.getStartCost() == null && StringUtils.isNotBlank(query.getCurrencyUnit()))) {
@@ -49,6 +51,7 @@ public class ActivityController {
      * @param activity object
      * @return number of rows affected, encapsulated into R: data
      */
+    @PreAuthorize("hasAuthority('activity:add')")
     @PostMapping("/")
     public R addActivity(@Validated(ValidationGroups.AddActivityGroup.class) @RequestBody Activity activity, BindingResult bindingResult) throws MethodArgumentNotValidException {
         // Perform non-empty verification on the ownerId field. When the logged-in user's roleList includes admin and the ownerId is empty, the verification fails and an error message is prompted.
@@ -76,6 +79,7 @@ public class ActivityController {
      * @param activity object
      * @return number of rows affected, encapsulated into R: data
      */
+    @PreAuthorize("hasAuthority('activity:edit')")
     @PutMapping("/")
     public R editActivity(@Validated(ValidationGroups.EditActivityGroup.class) @RequestBody Activity activity) {
         try {
@@ -92,6 +96,7 @@ public class ActivityController {
      * @param query query object, including list of deleted/restored ids and isDeletedValue
      * @return R.success or R.fail
      */
+    @PreAuthorize("hasAuthority('activity:delete')")
     @PutMapping("/updateActivities")
     public R updateActivitiesByIds(@Validated @RequestBody BatchUpdateQuery query) {
         try {

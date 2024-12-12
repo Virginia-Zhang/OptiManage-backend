@@ -31,8 +31,8 @@ public class DataFilterAspect {
         List<String> roleList = userInfo.getRoleList();
         // Get filter sql
         String filterSQL = getFilterSQL(joinPoint, userId);
-        // Determine whether the user is admin, if not, assemble the data filtering sql statement
-        if (!roleList.contains("admin")) {
+        // Determine whether the user has the role of admin or financing, if not, assemble the data filtering sql statement and assign it to the filterSQL property of the query object.
+        if (!roleList.contains("admin") && !roleList.contains("financing")) {
             // Get the target method parameters, which is DataFilterQuery object
             DataFilterQuery query = (DataFilterQuery) joinPoint.getArgs()[0];
             // Assign the value of filterSQL to filterSQL property of the query object.

@@ -128,4 +128,10 @@
       icon = #{icon,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectPermissionListByUserId" resultMap="BaseResultMap">
+    select distinct p.* from t_permission p left join t_role_permission rp on p.id = rp.permission_id
+    left join t_user_role ur on rp.role_id = ur.role_id
+    where ur.user_id = #{userId} and p.type = 'button'
+  </select>
 </mapper>

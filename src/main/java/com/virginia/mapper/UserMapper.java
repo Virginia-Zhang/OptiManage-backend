@@ -3,6 +3,7 @@ package com.virginia.mapper;
 import com.virginia.pojo.User;
 import com.virginia.query.GetUsersQuery;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public interface UserMapper {
 
     int insert(User record);
 
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     int insertSelective(User record);
 
     User selectByPrimaryKey(Integer id);

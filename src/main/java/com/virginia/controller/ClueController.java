@@ -9,6 +9,7 @@ import com.virginia.service.ClueService;
 import com.virginia.utils.UserUtils;
 import com.virginia.validation.ValidationGroups;
 import jakarta.annotation.Resource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -29,12 +30,14 @@ public class ClueController {
      * @param query GetCluesQuery object, including searching params(optional)
      * @return Clue list, encapsulated into R: data
      */
+    @PreAuthorize("hasAuthority('clue:list')")
     @GetMapping("/list")
     public R getAllClues(@Validated GetCluesQuery query) {
         PageBean clues = clueService.getAllClues(query);
         return R.SUCCESS(clues);
     }
 
+    @PreAuthorize("hasAuthority('clue:add')")
     @PostMapping("/")
     public R addClue(@Validated(ValidationGroups.AddClueGroup.class) @RequestBody Clue clue, BindingResult bindingResult) throws MethodArgumentNotValidException {
         // Perform non-empty verification on the ownerId field. When the logged-in user's roleList includes admin and the ownerId is empty, the verification fails and an error message is prompted.
@@ -57,6 +60,7 @@ public class ClueController {
         }
     }
 
+    @PreAuthorize("hasAuthority('clue:edit')")
     @PutMapping("/")
     public R editClue(@Validated(ValidationGroups.EditClueGroup.class) @RequestBody Clue clue) {
         try {
@@ -68,11 +72,13 @@ public class ClueController {
         }
     }
 
+
     /**
      * Batch remove/restore clues by IDs
      * @param query BatchUpdateQuery object, including IDs and isDeletedValue
      * @return R.success or R.fail
      */
+    @PreAuthorize("hasAuthority('clue:delete')")
     @PutMapping("/updateClues")
     public R updateCluesByIds(@Validated @RequestBody BatchUpdateQuery query) {
         try {

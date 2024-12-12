@@ -3,11 +3,13 @@ package com.virginia.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.virginia.annotation.LogAnnotation;
+import com.virginia.manager.UserRoleManager;
 import com.virginia.mapper.UserMapper;
 import com.virginia.pojo.MyUserDetails;
 import com.virginia.pojo.PageBean;
 import com.virginia.pojo.User;
 import com.virginia.query.GetUsersQuery;
+import com.virginia.query.UserRoleQuery;
 import com.virginia.service.UserService;
 import com.virginia.utils.EmailUtils;
 import com.virginia.utils.PasswordUtils;
@@ -31,6 +33,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     private EmailUtils emailUtils;
 
+    @Resource
+    private UserRoleManager userRoleManager;
+
     /**
      *  Query user data by page, with searching parameters(optional)
      *  @param query query object
@@ -47,46 +52,15 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     @LogAnnotation
     @Override
-    public Integer addUser(User user) {
-        // Generate a random password
-        String password = PasswordUtils.generateRandomPassword();
-        // Set preferredLanguage according to user.getPreferredLanguage()
-        String preferredLanguage = switch (user.getPreferredLanguage()) {
-            case 2 -> "zh";
-            case 3 -> "ja";
-            default -> "en";
-        };
-        // Send loginAct and password to the new user by email
-        emailUtils.sendLocalizedTemplateEmail(user.getEmail(), user.getLoginAct(), password, preferredLanguage);
-
-        // Encrypt the password
-        user.setLoginPwd(passwordEncoder.encode(password));
-        // Set accountNoExpired, credentialsNoExpired, accountNoLocked, and accountEnabled to 1
-        user.setAccountNoExpired(1);
-        user.setCredentialsNoExpired(1);
-        user.setAccountNoLocked(1);
-        user.setAccountEnabled(1);
-        // Set createTime
-        user.setCreateTime(LocalDateTime.now());
-        // Get the current logged-in user id from SecurityContextHolder and set createBy
-        MyUserDetails loggedInUserInfo = UserUtils.getLoggedInUserInfo();
-        assert loggedInUserInfo != null;
-        user.setCreateBy(loggedInUserInfo.getUser().getId());
-        // Insert data
-        return userMapper.insertSelective(user);
+    public Integer addUser(UserRoleQuery query) {
+        return userRoleManager.addUserAndRole(query);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @LogAnnotation
     @Override
-    public Integer editUser(User user) {
-        // Set editTime
-        user.setEditTime(LocalDateTime.now());
-        // Get the current logged-in user id from SecurityContextHolder and set editBy
-        MyUserDetails loggedInUserInfo = UserUtils.getLoggedInUserInfo();
-        assert loggedInUserInfo != null;
-        user.setEditBy(loggedInUserInfo.getUser().getId());
-        return userMapper.updateByPrimaryKeySelective(user);
+    public Integer editUser(UserRoleQuery query) {
+        return userRoleManager.editUserAndRole(query);
     }
 
     @Transactional(rollbackFor = Exception.class)

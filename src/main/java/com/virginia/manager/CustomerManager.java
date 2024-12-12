@@ -53,7 +53,7 @@ public class CustomerManager {
         int result2 = clueMapper.updateByPrimaryKeySelective(clue);
 
         // If both 2 and 3 are successful, 1 will be returned, otherwise throw exception.
-        if(result1 != result2){
+        if(result1 != 1 || result2 != 1){
             throw new RuntimeException("Failed to convert the lead to customer! Please try again later!");
         }
         return 1;

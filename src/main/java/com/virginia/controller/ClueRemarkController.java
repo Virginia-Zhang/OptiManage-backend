@@ -6,6 +6,7 @@ import com.virginia.result.R;
 import com.virginia.service.ClueRemarkService;
 import com.virginia.validation.ValidationGroups;
 import jakarta.annotation.Resource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ public class ClueRemarkController {
     @Resource
     private ClueRemarkService clueRemarkService;
 
+    @PreAuthorize("hasAuthority('clueRemark:add')")
     @PostMapping("/")
     public R addClueRemark(@Validated(ValidationGroups.AddClueRemarkGroup.class) @RequestBody ClueRemark clueRemark) {
         try {
@@ -26,11 +28,13 @@ public class ClueRemarkController {
         }
     }
 
+    @PreAuthorize("hasAuthority('clueRemark:list')")
     @GetMapping("/list")
     public R getAllClueRemarks(@Validated GetClueRemarksQuery query) {
         return R.SUCCESS(clueRemarkService.getAllClueRemarks(query.getClueId(), query.getPage(), query.getPageSize(), query.getIsDeleted()));
     }
 
+    @PreAuthorize("hasAuthority('clueRemark:edit')")
     @PutMapping("/")
     public R editClueRemark(@Validated(ValidationGroups.EditClueRemarkGroup.class) @RequestBody ClueRemark clueRemark) {
         try {
@@ -42,6 +46,7 @@ public class ClueRemarkController {
         }
     }
 
+    @PreAuthorize("hasAuthority('clueRemark:delete')")
     @DeleteMapping("/{id}")
     public R deleteClueRemarkById(@PathVariable Integer id) {
         try {

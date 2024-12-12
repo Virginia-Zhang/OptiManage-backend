@@ -4,6 +4,7 @@ import com.virginia.pojo.MyUserDetails;
 import com.virginia.pojo.PageBean;
 import com.virginia.pojo.User;
 import com.virginia.query.GetUsersQuery;
+import com.virginia.query.UserRoleQuery;
 
 import java.util.List;
 
@@ -12,10 +13,10 @@ public interface UserService {
     PageBean getAllUsers(GetUsersQuery query);
 
     // Add new user
-    Integer addUser(User user);
+    Integer addUser(UserRoleQuery query);
 
     // Edit user
-    Integer editUser(User user);
+    Integer editUser(UserRoleQuery query);
 
     // Remove/Restore users by userIds
     Integer updateUsersByIds(List<Integer> ids, Integer accountEnabledValue);

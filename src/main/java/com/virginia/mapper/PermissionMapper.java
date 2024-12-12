@@ -3,6 +3,8 @@ package com.virginia.mapper;
 import com.virginia.pojo.Permission;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface PermissionMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +18,6 @@ public interface PermissionMapper {
     int updateByPrimaryKeySelective(Permission record);
 
     int updateByPrimaryKey(Permission record);
+
+    List<Permission> selectPermissionListByUserId(Integer userId);
 }

@@ -3,6 +3,7 @@ package com.virginia.handler;
 import com.virginia.result.CodeEnum;
 import com.virginia.result.R;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -46,7 +47,7 @@ public class GlobalExceptionHandler {
 
 
         log.error("Validation failed: {}", errorMessages);
-        // Return the spliced ​​error message
+        // Return the spliced error message
         return R.FAIL(errorMessages); // Error message returned to the front end (in string form, encapsulated into R.msg)
 
     }
@@ -56,6 +57,7 @@ public class GlobalExceptionHandler {
      * @param e Insufficient permission exception
      *return R.FAIL(CodeEnum.ACCESS_DENIED)
      */
+    @ExceptionHandler(AccessDeniedException.class)
     public R handleAccessDeniedException(Exception e) {
         e.printStackTrace();
         return R.FAIL(CodeEnum.ACCESS_DENIED);

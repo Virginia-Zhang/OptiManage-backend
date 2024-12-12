@@ -4,6 +4,7 @@ import com.virginia.pojo.Tran;
 import com.virginia.result.R;
 import com.virginia.service.TranService;
 import jakarta.annotation.Resource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ public class TranController {
     @Resource
     private TranService tranService;
 
+    @PreAuthorize("hasAuthority('tran:add')")
     @PostMapping("/")
     public R addTran(@Validated @RequestBody Tran tran) {
         try {
