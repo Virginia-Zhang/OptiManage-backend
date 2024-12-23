@@ -1,9 +1,8 @@
 package com.virginia.mapper;
 
-import com.virginia.annotation.DataFilterAnnotation;
-import com.virginia.pojo.Clue;
+import com.virginia.annotation.DataFilterByRegionAnnotation;
+import com.virginia.annotation.DataFilterByUserAnnotation;
 import com.virginia.pojo.Customer;
-import com.virginia.query.GetCluesQuery;
 import com.virginia.query.GetCustomersQuery;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -27,7 +26,8 @@ public interface CustomerMapper {
 
     // Query customers/clients with searching parameters, data filter SQL and pagination.
     // The parameters passed in are searching parameters with filterSQL used for data permission control.
-    @DataFilterAnnotation(tableAlias = "tc", tableField = "owner_id")
+    @DataFilterByUserAnnotation(tableAlias = "tc", tableField = "owner_id")
+    @DataFilterByRegionAnnotation(tableAlias = "tc", tableField = "region")
     List<Customer> selectAll(GetCustomersQuery query);
 
     // Remove/Restore customers in batches

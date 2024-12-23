@@ -116,6 +116,8 @@ public class User implements Serializable {
     private String createByAct;
     // Editor's login_act
     private String editByAct;
+    // User's roles, including roleId only
+    private String roles;
 
     private static final long serialVersionUID = 1L;
 }

@@ -2,6 +2,7 @@ package com.virginia.service.impl;
 
 import com.virginia.mapper.ProductMapper;
 import com.virginia.pojo.Product;
+import com.virginia.query.DataFilterQuery;
 import com.virginia.service.ProductService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        return productMapper.selectAllProducts();
+        return productMapper.selectAllProducts(DataFilterQuery.builder().build());
     }
 }

@@ -6,12 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *Custom annotations for data filtering/data permission control
+ *Custom annotations for data filtering by region
  * @author Virginia
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface DataFilterAnnotation {
+public @interface DataFilterByRegionAnnotation {
     // table alias
     String tableAlias();
     // field in table

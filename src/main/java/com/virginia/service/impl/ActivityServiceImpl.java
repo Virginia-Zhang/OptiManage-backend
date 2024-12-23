@@ -7,6 +7,7 @@ import com.virginia.mapper.ActivityMapper;
 import com.virginia.pojo.Activity;
 import com.virginia.pojo.MyUserDetails;
 import com.virginia.pojo.PageBean;
+import com.virginia.query.DataFilterQuery;
 import com.virginia.query.GetActivitiesQuery;
 import com.virginia.service.ActivityService;
 import com.virginia.utils.UserUtils;
@@ -89,7 +90,7 @@ public class ActivityServiceImpl implements ActivityService {
     // Get all activities with id and name only
     @Override
     public List<Activity> getActivities() {
-        return activityMapper.selectAllActivities();
+        return activityMapper.selectAllActivities(DataFilterQuery.builder().build());
     }
 
     // Get all activities without pagination

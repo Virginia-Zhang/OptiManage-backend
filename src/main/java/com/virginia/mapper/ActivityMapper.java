@@ -1,7 +1,9 @@
 package com.virginia.mapper;
 
-import com.virginia.annotation.DataFilterAnnotation;
+import com.virginia.annotation.DataFilterByRegionAnnotation;
+import com.virginia.annotation.DataFilterByUserAnnotation;
 import com.virginia.pojo.Activity;
+import com.virginia.query.DataFilterQuery;
 import com.virginia.query.GetActivitiesQuery;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -25,12 +27,14 @@ public interface ActivityMapper {
 
     // Query marketing campaigns/activities with searching parameters, data filter SQL and pagination.
     // The parameters passed in are searching parameters with filterSQL used for data permission control.
-    @DataFilterAnnotation(tableAlias = "ta", tableField = "owner_id")
+    @DataFilterByUserAnnotation(tableAlias = "ta", tableField = "owner_id")
+    @DataFilterByRegionAnnotation(tableAlias = "ta", tableField = "region")
     List<Activity> selectAll(GetActivitiesQuery query);
 
     // Remove/Restore activities in batches
     int updateActivitiesByIds(@Param("ids") List<Integer> ids, @Param("isDeletedValue") Integer isDeletedValue, @Param("editTime") LocalDateTime editTime, @Param("editBy") Integer editBy);
 
     // Get all activities with id, name and region only
-    List<Activity> selectAllActivities();
+    @DataFilterByRegionAnnotation(tableAlias = "ta", tableField = "region")
+    List<Activity> selectAllActivities(DataFilterQuery query);
 }

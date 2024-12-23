@@ -19,5 +19,7 @@ public class UserRole implements Serializable {
 
     private Integer roleId;
 
+    private Integer isDeleted;
+
     private static final long serialVersionUID = 1L;
 }

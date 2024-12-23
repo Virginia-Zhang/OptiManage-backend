@@ -247,7 +247,6 @@
   <resultMap id="UserDetailsResultMap" type="com.virginia.pojo.User">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="login_act" jdbcType="VARCHAR" property="loginAct" />
-    <result column="login_pwd" jdbcType="VARCHAR" property="loginPwd" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
@@ -264,6 +263,7 @@
     <result column="preferred_language" jdbcType="INTEGER" property="preferredLanguage" />
     <result column="create_by_act" property="createByAct"/>
     <result column="edit_by_act" property="editByAct"/>
+    <result column="roles" property="roles"/>
   </resultMap>
 
   <select id="selectByLoginAct" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -274,9 +274,10 @@
   </select>
 
   <select id="selectAll" resultMap="UserDetailsResultMap">
-    select <include refid="No_Pwd_Column_List" />, tu2.login_act as create_by_act, tu3.login_act as edit_by_act from t_user tu
+    select <include refid="No_Pwd_Column_List" />, tu2.login_act as create_by_act, tu3.login_act as edit_by_act, JSON_ARRAYAGG(tur.role_id) as roles from t_user tu
            left join t_user tu2 on tu.create_by = tu2.id
            left join t_user tu3 on tu.edit_by = tu3.id
+            left join t_user_role tur on tu.id = tur.user_id
     where tu.account_enabled = #{isDeleted}
     <if test="loginAct != null">
       and tu.login_act like concat('%',#{loginAct},'%')
@@ -290,6 +291,8 @@
         #{item}
       </foreach>
     </if>
+    ${filterSQL}
+    group by tu.id
   </select>
 
   <!--  Remove/Restore users in batches -> set the user's account_enabled field to 0/1.-->
@@ -302,7 +305,13 @@
   </update>
 
   <!-- Get all users with id, login_act and region only, sorting by region -->
-  <select id="selectOwners" resultMap="BaseResultMap">
-    select id, login_act, region from t_user order by region
+  <select id="selectOwners" resultMap="UserDetailsResultMap">
+    select tu.id, tu.login_act, tu.region from t_user tu
+    <where>
+        <if test="filterSQL != null">
+            ${filterSQL}
+        </if>
+    </where>
+    order by region
   </select>
 </mapper>

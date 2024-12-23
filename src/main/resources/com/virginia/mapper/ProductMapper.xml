@@ -178,6 +178,12 @@
 
   <!--Get all products with id, name and region only-->
   <select id="selectAllProducts" resultType="com.virginia.pojo.Product">
-    select id, name, region from t_product order by region
+    select tp.id, tp.name, tp.region from t_product tp
+    <where>
+      <if test="filterSQL != null">
+        ${filterSQL}
+      </if>
+    </where>
+    order by region
   </select>
 </mapper>

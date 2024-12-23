@@ -1,6 +1,8 @@
 package com.virginia.mapper;
 
+import com.virginia.annotation.DataFilterByRegionAnnotation;
 import com.virginia.pojo.User;
+import com.virginia.query.DataFilterQuery;
 import com.virginia.query.GetUsersQuery;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -27,11 +29,14 @@ public interface UserMapper {
     User selectByLoginAct(String username);
 
     // Query users with searching parameters and pagination.
+    // If the user is not a super admin or super financing staff, only users in the same region will be returned.
+    @DataFilterByRegionAnnotation(tableAlias = "tu", tableField = "region")
     List<User> selectAll(GetUsersQuery query);
 
     // Remove/Restore users in batches
     int updateUsersByIds(@Param("ids") List<Integer> ids, @Param("accountEnabledValue") Integer accountEnabledValue, @Param("editTime") LocalDateTime editTime, @Param("editBy") Integer editBy);
 
     // Get all users with id, login_act and region only
-    List<User> selectOwners();
+    @DataFilterByRegionAnnotation(tableAlias = "tu", tableField = "region")
+    List<User> selectOwners(DataFilterQuery query);
 }

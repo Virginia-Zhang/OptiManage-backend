@@ -68,7 +68,7 @@ public class UserController {
     }
 
     /**
-     * Delete/Restore users by ids
+     * Delete/Restore users and users' roles by ids
      * @param query query object, including list of deleted/restored user ids and accountEnabledValue
      * @return R.success or R.fail
      */

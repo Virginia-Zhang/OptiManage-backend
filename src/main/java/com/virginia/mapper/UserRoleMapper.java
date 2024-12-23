@@ -19,4 +19,7 @@ public interface UserRoleMapper {
     int updateByPrimaryKey(UserRole record);
 
     int deleteByUserIdAndRoleId(@Param("userId") Integer userId, @Param("roleId") Integer roleId);
+
+    // Remove/Restore User-Roles by User ID
+    int updateUserRolesByUserId(@Param("userId") Integer userId, @Param("isDeletedValue") Integer isDeletedValue);
 }

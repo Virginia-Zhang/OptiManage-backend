@@ -151,4 +151,39 @@ public class UserRoleManager {
         user.setEditBy(loggedInUserInfo.getUser().getId());
         return userMapper.updateByPrimaryKeySelective(user);
     }
+
+    /**
+     * Remove/Restore users and users' roles in batch
+     * @param ids users' ids
+     * @param accountEnabledValue 0 for remove user, 1 for restore user
+     * @return rows affected
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @LogAnnotation
+    public Integer updateUsersAndRoles(List<Integer> ids, Integer accountEnabledValue){
+        // 1. Delete/restore UserRole based on ids and accountEnabledValue (change the is_deleted field of UserRole to 1 or 0)
+        // Because the value of accountEnabledValue is actually opposite to the is_deleted field, when accountEnabledValue is 1, is_deleted is 0, and when it is 0, is_deleted is 1.
+        Integer isDeleteValue = accountEnabledValue == 1 ? 0 : 1;
+        if(!ids.isEmpty()){
+            ids.forEach(id -> {
+                int i = userRoleMapper.updateUserRolesByUserId(id, isDeleteValue);
+                // Query the role list of the user
+                List<Role> roleList = roleMapper.selectRoleListByUserId(id);
+                // Determine whether i equals to roleList.size(). If so, the user role is updated successfully, otherwise an exception is thrown.
+                if (i != roleList.size()){
+                    throw new RuntimeException("Failed to update user and role! Please try again later!");
+                }
+            });
+        }
+        // 2. The userRole is deleted/restored successfully, and then delete/restore the user data.
+       return updateUsersByIds(ids, accountEnabledValue);
+    }
+
+
+    public Integer updateUsersByIds(List<Integer> ids, Integer accountEnabledValue) {
+        // Update edit_time and edit_by at the same time
+        MyUserDetails loggedInUserInfo = UserUtils.getLoggedInUserInfo();
+        assert loggedInUserInfo != null;
+        return userMapper.updateUsersByIds(ids, accountEnabledValue, LocalDateTime.now(), loggedInUserInfo.getUser().getId());
+    }
 }
