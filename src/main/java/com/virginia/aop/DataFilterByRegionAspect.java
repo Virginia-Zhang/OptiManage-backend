@@ -29,8 +29,8 @@ public class DataFilterByRegionAspect {
         List<String> roleList = userInfo.getRoleList();
         // Get filter sql, which is used to filter the data by region
         String filterSQLByRegion = FilterSQLUtils.getFilterSQL(joinPoint, userRegion, "DataFilterByRegionAnnotation");
-        // Determine whether the user is a regular admin or financing staff, if so, assemble the data filtering sql statement and assign it to the filterSQL property of the query object.
-        if (roleList.contains("admin") || roleList.contains("financing")) {
+        // Determine whether the user is neither a super admin nor a super financing staff, if so, assemble the data filtering sql statement and assign it to the filterSQL property of the query object.
+        if (!roleList.contains("super admin") && !roleList.contains("super financing")) {
             // Get the target method parameters, which is DataFilterQuery object
             DataFilterQuery query = (DataFilterQuery) joinPoint.getArgs()[0];
             // Assign the value of filterSQL to filterSQL property of the query object.
