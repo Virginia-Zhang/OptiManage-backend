@@ -19,4 +19,6 @@ public class GetUsersQuery extends SelectAllQuery{
     // Regions that the users belong to
     // 1 China, 2 Japan, 3 USA, 4 Others
     private List<Integer> regions;
+    // User's roles
+    private List<Integer> roleList;
 }

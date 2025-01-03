@@ -291,6 +291,12 @@
         #{item}
       </foreach>
     </if>
+    <if test="roleList != null and roleList.size() != 0">
+      and tur.role_id in
+      <foreach close=")" collection="roleList" index="index" item="item" open="(" separator=",">
+        #{item}
+      </foreach>
+    </if>
     ${filterSQL}
     group by tu.id
   </select>
